@@ -2,8 +2,7 @@ package main
 
 import (
 	"github.com/alhamsya/boilerplate-go/app"
-
-	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/grpc/handler"
+	"github.com/alhamsya/boilerplate-go/service/inter/grpc/handler"
 )
 
 func main()  {

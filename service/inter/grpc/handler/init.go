@@ -2,9 +2,9 @@ package grpcHandler
 
 import (
 	"fmt"
+	"github.com/alhamsya/boilerplate-go/service/inter/grpc/routers"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
-	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/grpc/routers"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/grace"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health/grpc_health_v1"
