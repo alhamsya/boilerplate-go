@@ -15,6 +15,8 @@ require (
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/lib/pq v1.10.3
 	github.com/prometheus/client_golang v1.11.0 // indirect
+	github.com/rubenv/sql-migrate v0.0.0-20210614095031-55d5740dbbcc // indirect
+	github.com/stretchr/testify v1.7.0
 	github.com/valyala/fasthttp v1.30.0 // indirect
 	github.com/volatiletech/inflect v0.0.1 // indirect
 	github.com/volatiletech/null v8.0.0+incompatible
