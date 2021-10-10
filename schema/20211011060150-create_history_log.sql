@@ -1,3 +1,5 @@
+-- +migrate Down
+DROP TABLE IF EXISTS `hst_log`;
 
 -- +migrate Up
 CREATE TABLE IF NOT EXISTS `hst_log` (
@@ -9,7 +11,4 @@ CREATE TABLE IF NOT EXISTS `hst_log` (
     `created_at` datetime NOT NULL,
     `created_by` varchar(255) NOT NULL,
     PRIMARY KEY (`id`)
-    )ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
-
--- +migrate Down
-DROP TABLE `hst_log`;
+)ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;

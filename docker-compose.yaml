@@ -4,7 +4,7 @@ services:
     ### Database ################################################
     database:
         container_name: boilerplate-go-mysql
-        image: mysql:5.7.25
+        build: .
         env_file: .env
         ports:
             - 3306:${DB_PORT}
