@@ -1,0 +1,4 @@
+development:
+  dialect: mysql
+  datasource: root:alhamsya@tcp(localhost:3306)/movie?parseTime=true
+  dir: schema/
