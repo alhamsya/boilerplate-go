@@ -2,7 +2,7 @@ package main
 
 import (
 	"github.com/alhamsya/boilerplate-go/app"
-	"github.com/alhamsya/boilerplate-go/infrastructure/services/inter/rest/handler"
+	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/rest/handler"
 )
 
 func main() {

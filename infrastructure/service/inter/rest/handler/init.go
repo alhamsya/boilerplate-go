@@ -7,7 +7,7 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"time"
 
-	"github.com/alhamsya/boilerplate-go/infrastructure/services/inter/rest/routers"
+	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/rest/routers"
 )
 
 func New(this *Handler) *Handler {

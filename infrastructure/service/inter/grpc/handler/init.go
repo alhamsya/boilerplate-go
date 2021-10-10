@@ -9,7 +9,7 @@ import (
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/reflection"
 
-	"github.com/alhamsya/boilerplate-go/infrastructure/services/inter/grpc/routers"
+	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/grpc/routers"
 	grpcMiddleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpcOpenTracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	grpcValidator "github.com/grpc-ecosystem/go-grpc-middleware/validator"
@@ -40,7 +40,7 @@ func New(this *Handler) *Handler {
 	//healthy check gRPC grpc-health-probe
 	grpc_health_v1.RegisterHealthServer(srv, NewHealthChecker())
 
-	//gRPC Server Reflection provides information about publicly-accessible gRPC services on a server,
+	//gRPC Server Reflection provides information about publicly-accessible gRPC service on a server,
 	//and assists clients at runtime to construct RPC requests and responses without precompiled service information.
 	reflection.Register(srv)
 
