@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package service;
+
+option go_package = "/;proto";
+
+service Services {
+  rpc GetListMovie (GetListMovieReq) returns (GetListMovieResp) {}
+  rpc GetDetailMovie (GetDetailMovieReq) returns (GetDetailMovieResp) {}
+}
+
+message RPCStatus {
+  string Code = 1;
+  string Message = 2;
+}
+
+message GetListMovieReq {
+  string Search = 1;
+  int64 Page = 2;
+}
+
+message GetListMovieResp {
+  RPCStatus Status = 1;
+}
+
+message GetDetailMovieReq {
+  string MovieID = 1;
+}
+
+message GetDetailMovieResp {
+  RPCStatus Status = 1;
+}

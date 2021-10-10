@@ -1,0 +1,21 @@
+# Logs
+**/logs
+*.log
+
+# VSCode Editor Ignore
+.vscode/*
+
+# Goland Editor Ignore
+.idea/*
+
+# Binary Ignore
+bin/*
+
+# Vendor Path
+/vendor
+
+# Ignore vault mocking
+/files/configuration/*.development.json
+
+# Environment, please use main.development.example.ini to create the new one
+/files/etc/service/*.development.ini
