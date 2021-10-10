@@ -16,5 +16,5 @@ type RestInterface interface {
 
 type GrpcInterface interface {
 	DoGetListMovie(ctx context.Context, req *pb.GetListMovieReq) (resp *pb.GetListMovieResp, err error)
-	DoGetDetailMovie(ctx context.Context, req *pb.GetDetailMovieReq) (resp *pb.DataDetailMovie, err error)
+	DoGetDetailMovie(ctx context.Context, req *pb.GetDetailMovieReq) (resp *pb.GetDetailMovieResp, err error)
 }

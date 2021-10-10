@@ -22,6 +22,19 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 		return nil, err
 	}
 
+	if respMovie == nil {
+		return nil, fmt.Errorf("data from api call does not exist")
+	}
+
+	status, err := strconv.ParseBool(respMovie.Response)
+	if err != nil {
+		return nil, err
+	}
+
+	if !status {
+		return nil, fmt.Errorf("movie does not exist")
+	}
+
 	var items []*pb.ItemsMovie
 	for _, movie := range respMovie.Search {
 		items = append(items, &pb.ItemsMovie{
@@ -60,10 +73,6 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 	}
 
 	resp = &pb.GetListMovieResp{
-		Status: &pb.RPCStatus{
-			Code:    constCommon.GRPCStatusOk,
-			Message: "get all movie successfully",
-		},
 		Data: &pb.DataListMovie{
 			Items: items,
 			Total: total,
@@ -73,7 +82,7 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 	return resp, nil
 }
 
-func (uc *UcInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetDetailMovieReq) (data *pb.DataDetailMovie, err error) {
+func (uc *UcInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetDetailMovieReq) (data *pb.GetDetailMovieResp, err error) {
 	respMovie, err := uc.OMDBRepo.GetDetailMovie(reqClient.MovieID)
 	if err != nil {
 		return nil, err
@@ -108,31 +117,33 @@ func (uc *UcInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetD
 		return nil, err
 	}
 
-	data = &pb.DataDetailMovie{
-		Title:      respMovie.Title,
-		Year:       respMovie.Year,
-		Rated:      respMovie.Rated,
-		Released:   respMovie.Released,
-		Runtime:    respMovie.Runtime,
-		Genre:      respMovie.Genre,
-		Director:   respMovie.Director,
-		Writer:     respMovie.Writer,
-		Actors:     respMovie.Actors,
-		Plot:       respMovie.Plot,
-		Language:   respMovie.Language,
-		Country:    respMovie.Country,
-		Awards:     respMovie.Awards,
-		Poster:     respMovie.Poster,
-		Ratings:    ratings,
-		MetaScore:  respMovie.Metascore,
-		ImdbRating: respMovie.ImdbRating,
-		ImdbVotes:  respMovie.ImdbVotes,
-		ImdbID:     respMovie.ImdbID,
-		Type:       respMovie.Type,
-		DVD:        respMovie.DVD,
-		BoxOffice:  respMovie.BoxOffice,
-		Production: respMovie.Production,
-		Website:    respMovie.Website,
+	data = &pb.GetDetailMovieResp{
+		Data:   &pb.DataDetailMovie{
+			Title:      respMovie.Title,
+			Year:       respMovie.Year,
+			Rated:      respMovie.Rated,
+			Released:   respMovie.Released,
+			Runtime:    respMovie.Runtime,
+			Genre:      respMovie.Genre,
+			Director:   respMovie.Director,
+			Writer:     respMovie.Writer,
+			Actors:     respMovie.Actors,
+			Plot:       respMovie.Plot,
+			Language:   respMovie.Language,
+			Country:    respMovie.Country,
+			Awards:     respMovie.Awards,
+			Poster:     respMovie.Poster,
+			Ratings:    ratings,
+			MetaScore:  respMovie.Metascore,
+			ImdbRating: respMovie.ImdbRating,
+			ImdbVotes:  respMovie.ImdbVotes,
+			ImdbID:     respMovie.ImdbID,
+			Type:       respMovie.Type,
+			DVD:        respMovie.DVD,
+			BoxOffice:  respMovie.BoxOffice,
+			Production: respMovie.Production,
+			Website:    respMovie.Website,
+		},
 	}
 
 	return data, nil
