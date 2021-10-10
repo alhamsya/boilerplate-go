@@ -1,5 +1,5 @@
 package grpcUc
 
-func NewInteractor(c *UcInteractor) *UcInteractor {
+func New(c *UcInteractor) *UcInteractor {
 	return c
 }

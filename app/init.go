@@ -5,10 +5,10 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/infrastructure/config"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
-	"github.com/alhamsya/boilerplate-go/infrastructure/service/exter/omdb"
-	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/grpc/routers"
-	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/rest/routers"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
+	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
+	"github.com/alhamsya/boilerplate-go/service/inter/grpc/routers"
+	"github.com/alhamsya/boilerplate-go/service/inter/rest/routers"
 	"github.com/alhamsya/boilerplate-go/usecase/grpc"
 	"github.com/alhamsya/boilerplate-go/usecase/rest"
 )
@@ -41,7 +41,7 @@ func GetDatabase(cfg *config.MainConfig, nameConfig string) (*database.Store, er
 func RestGetInteractor(cfg *config.MainConfig, db *database.Store) *restRouters.RestInteractor {
 	generalInteractor := GeneralInteractor(cfg, db)
 
-	uc := restUc.NewInteractor(&restUc.UcInteractor{
+	uc := restUc.New(&restUc.UcInteractor{
 		Cfg:         cfg,
 		ServiceRepo: generalInteractor.service,
 		OMDBRepo:    generalInteractor.omdb,
@@ -55,7 +55,7 @@ func RestGetInteractor(cfg *config.MainConfig, db *database.Store) *restRouters.
 func GrpcGetInteractor(cfg *config.MainConfig, db *database.Store) *grpcRouters.GrpcInteractor {
 	generalInteractor := GeneralInteractor(cfg, db)
 
-	uc := grpcUc.NewInteractor(&grpcUc.UcInteractor{
+	uc := grpcUc.New(&grpcUc.UcInteractor{
 		Cfg:         cfg,
 		ServiceRepo: generalInteractor.service,
 		OMDBRepo:    generalInteractor.omdb,
@@ -67,7 +67,7 @@ func GrpcGetInteractor(cfg *config.MainConfig, db *database.Store) *grpcRouters.
 }
 
 func GeneralInteractor(cfg *config.MainConfig, db *database.Store) *ModuleRepo {
-	service := databases.NewDBService(
+	service := databases.New(
 		&databases.DBService{
 			DB: db,
 		},

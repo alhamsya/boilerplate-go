@@ -2,10 +2,10 @@ package restHandler
 
 import (
 	"fmt"
+	"github.com/alhamsya/boilerplate-go/service/inter/rest/routers"
 	"time"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
-	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/rest/routers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 )

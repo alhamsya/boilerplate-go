@@ -1,5 +1,5 @@
 package databases
 
-func NewDBService(this *DBService) *DBService {
+func New(this *DBService) *DBService {
 	return this
 }
