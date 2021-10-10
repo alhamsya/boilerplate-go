@@ -14,6 +14,12 @@ migrate-up:
 migrate-status:
 	sql-migrate status
 
+migrate-down:
+	sql-migrate down
+
+migrate-redo:
+	sql-migrate redo
+
 create:
 	@read -p  "What is the name of migration : " NAME; \
 	sql-migrate new $$NAME
