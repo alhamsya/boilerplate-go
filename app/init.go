@@ -2,14 +2,13 @@ package app
 
 import (
 	"fmt"
-	"github.com/alhamsya/boilerplate-go/infrastructure/service/exter/omdb"
 
 	"github.com/alhamsya/boilerplate-go/infrastructure/config"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
-
+	"github.com/alhamsya/boilerplate-go/infrastructure/service/exter/omdb"
 	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/grpc/routers"
 	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/rest/routers"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/alhamsya/boilerplate-go/usecase/grpc"
 	"github.com/alhamsya/boilerplate-go/usecase/rest"
 )

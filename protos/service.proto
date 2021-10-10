@@ -21,6 +21,8 @@ message GetListMovieReq {
 
 message GetListMovieResp {
   RPCStatus Status = 1;
+  repeated ItemsMovie Items = 2;
+  int64 Total = 3;
 }
 
 message GetDetailMovieReq {
@@ -29,4 +31,12 @@ message GetDetailMovieReq {
 
 message GetDetailMovieResp {
   RPCStatus Status = 1;
+}
+
+message ItemsMovie {
+  string Title = 1;
+  string Year = 2;
+  string MovieID = 3;
+  string Types = 4;
+  string Poster = 5;
 }
