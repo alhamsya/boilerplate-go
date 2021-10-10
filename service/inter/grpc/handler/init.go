@@ -2,6 +2,7 @@ package grpcHandler
 
 import (
 	"fmt"
+	"github.com/alhamsya/boilerplate-go/infrastructure/middleware"
 	"github.com/alhamsya/boilerplate-go/service/inter/grpc/routers"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
@@ -31,6 +32,7 @@ func New(this *Handler) *Handler {
 				grpcOpenTracing.UnaryServerInterceptor(),
 				grpcValidator.UnaryServerInterceptor(),
 				grpcPrometheus.UnaryServerInterceptor,
+				middleware.GrpcLoggingInterceptor,
 			),
 		),
 	)

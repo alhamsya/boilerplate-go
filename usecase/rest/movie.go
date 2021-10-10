@@ -2,15 +2,18 @@ package restUc
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"strconv"
 
+	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/models/movie"
+	"github.com/alhamsya/boilerplate-go/lib/utils/datetime"
 )
 
-func (uc *UcInteractor) DoGetListMovie(ctx context.Context, search string, page int64) (resp *modelMovie.RespListMovie, httpCode int, err error) {
-	respMovie, err := uc.OMDBRepo.GetListMovie(search, page)
+func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *modelMovie.ReqListMovie) (resp *modelMovie.RespListMovie, httpCode int, err error) {
+	respMovie, err := uc.OMDBRepo.GetListMovie(reqClient.Search, reqClient.Page)
 	if err != nil {
 		return nil, http.StatusInternalServerError, err
 	}
@@ -34,6 +37,25 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, search string, page 
 	resp = &modelMovie.RespListMovie{
 		Items: items,
 		Total: total,
+	}
+
+	now, err := datetime.CurrentTimeF(constCommon.DateTime)
+	if err != nil {
+		return nil, http.StatusInternalServerError, err
+	}
+
+	reqStr, _ := json.Marshal(reqClient)
+	respStr, _ := json.Marshal(resp)
+	reqDB := &modelMovie.DBHistoryLog{
+		Request:   string(reqStr),
+		Response:  string(respStr),
+		SourceData: "REST",
+		CreatedAt: now,
+		CreatedBy: reqClient.CreatedBy,
+	}
+	_, err = uc.ServiceRepo.CreateHistoryLog(ctx, reqDB)
+	if err != nil {
+		return nil, http.StatusInternalServerError, err
 	}
 
 	return resp, http.StatusOK, nil

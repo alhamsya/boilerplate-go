@@ -2,16 +2,20 @@ package grpcUc
 
 import (
 	"context"
+	"encoding/json"
 	"fmt"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/client"
 	"strconv"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
+	"github.com/alhamsya/boilerplate-go/domain/models/movie"
+	"github.com/alhamsya/boilerplate-go/lib/utils/datetime"
 
 	pb "github.com/alhamsya/boilerplate-go/protos"
 )
 
-func (uc *UcInteractor) DoGetListMovie(ctx context.Context, req *pb.GetListMovieReq) (resp *pb.GetListMovieResp, err error) {
-	respMovie, err := uc.OMDBRepo.GetListMovie(req.Search, req.Page)
+func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetListMovieReq) (resp *pb.GetListMovieResp, err error) {
+	respMovie, err := uc.OMDBRepo.GetListMovie(reqClient.Search, reqClient.Page)
 	if err != nil {
 		return nil, err
 	}
@@ -42,5 +46,25 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, req *pb.GetListMovie
 			Total: total,
 		},
 	}
+
+	now, err := datetime.CurrentTimeF(constCommon.DateTime)
+	if err != nil {
+		return nil, err
+	}
+
+	reqStr, _ := json.Marshal(reqClient)
+	respStr, _ := json.Marshal(resp)
+	reqDB := &modelMovie.DBHistoryLog{
+		Request:    string(reqStr),
+		Response:   string(respStr),
+		SourceData: "GRPC",
+		CreatedAt:  now,
+		CreatedBy:  client.GrpcGetIP(ctx),
+	}
+	_, err = uc.ServiceRepo.CreateHistoryLog(ctx, reqDB)
+	if err != nil {
+		return nil, err
+	}
+
 	return resp, nil
 }
