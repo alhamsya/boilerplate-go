@@ -9,15 +9,26 @@ func (rest *RestServer) GetListMovie(ctx *fiber.Ctx) error {
 	reqClient := &modelMovie.ReqListMovie{
 		Search: "batman",
 		Page:   1,
-		CreatedBy: ctx.IP(),
 	}
-	data, httpCode, err := rest.RestInteractor.RestInterface.DoGetListMovie(ctx.Context(), reqClient)
+	data, httpCode, err := rest.RestInteractor.RestInterface.DoGetListMovie(ctx, reqClient)
 	if err != nil {
 		return err
 	}
 
 	return ctx.Status(httpCode).JSON(&fiber.Map{
 		"message": "get all movie successfully",
+		"data":   data,
+	})
+}
+
+func (rest *RestServer) GetDetailMovie(ctx *fiber.Ctx) error {
+	data, httpCode, err := rest.RestInteractor.RestInterface.DoGetDetailMovie(ctx, ctx.Params("movieID"))
+	if err != nil {
+		return err
+	}
+
+	return ctx.Status(httpCode).JSON(&fiber.Map{
+		"message": "get detail movie successfully",
 		"data":   data,
 	})
 }

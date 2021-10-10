@@ -41,6 +41,39 @@ message GetDetailMovieReq {
   string MovieID = 1;
 }
 
+message DataDetailMovie {
+  string Title = 1;
+  string Year = 2;
+  string Rated = 3;
+  string Released = 4;
+  string Runtime = 5;
+  string Genre = 6;
+  string Director = 7;
+  string Writer = 8;
+  string Actors = 9;
+  string Plot = 10;
+  string Language = 11;
+  string Country = 12;
+  string Awards = 13;
+  string Poster = 14;
+  repeated Ratings Ratings = 15;
+  string MetaScore = 16;
+  string ImdbRating = 17;
+  string ImdbVotes = 18;
+  string ImdbID = 19;
+  string Type = 20;
+  string DVD = 21;
+  string BoxOffice = 22;
+  string Production = 23;
+  string Website = 24;
+}
+
+message Ratings {
+  string Source = 1;
+  string Value = 2;
+}
+
 message GetDetailMovieResp {
   RPCStatus Status = 1;
+  DataDetailMovie Data = 2;
 }

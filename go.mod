@@ -4,9 +4,11 @@ go 1.14
 
 require (
 	github.com/andybalholm/brotli v1.0.3 // indirect
+	github.com/friendsofgo/errors v0.9.2 // indirect
 	github.com/go-gcfg/gcfg v1.2.3
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gofiber/fiber/v2 v2.20.1
+	github.com/gofrs/uuid v3.2.0+incompatible // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
 	github.com/jmoiron/sqlx v1.3.4
@@ -14,6 +16,9 @@ require (
 	github.com/lib/pq v1.10.3
 	github.com/prometheus/client_golang v1.11.0 // indirect
 	github.com/valyala/fasthttp v1.30.0 // indirect
+	github.com/volatiletech/inflect v0.0.1 // indirect
+	github.com/volatiletech/null v8.0.0+incompatible
+	github.com/volatiletech/sqlboiler v3.7.1+incompatible // indirect
 	golang.org/x/net v0.0.0-20211008194852-3b03d305991f // indirect
 	golang.org/x/sys v0.0.0-20211007075335-d3039528d8ac // indirect
 	golang.org/x/text v0.3.7 // indirect

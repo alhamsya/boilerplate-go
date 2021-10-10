@@ -4,14 +4,17 @@ import (
 	"context"
 
 	"github.com/alhamsya/boilerplate-go/domain/models/movie"
+	"github.com/gofiber/fiber/v2"
 
 	pb "github.com/alhamsya/boilerplate-go/protos"
 )
 
 type RestInterface interface {
-	DoGetListMovie(ctx context.Context, reqClient *modelMovie.ReqListMovie) (resp *modelMovie.RespListMovie, httpCode int, err error)
+	DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.ReqListMovie) (resp *modelMovie.RespListMovie, httpCode int, err error)
+	DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *modelMovie.RespDetailMovie, httpCode int, err error)
 }
 
 type GrpcInterface interface {
 	DoGetListMovie(ctx context.Context, req *pb.GetListMovieReq) (resp *pb.GetListMovieResp, err error)
+	DoGetDetailMovie(ctx context.Context, req *pb.GetDetailMovieReq) (resp *pb.DataDetailMovie, err error)
 }

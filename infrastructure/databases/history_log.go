@@ -8,8 +8,8 @@ import (
 
 func (db *DBService) CreateHistoryLog(ctx context.Context, reqDB *modelMovie.DBHistoryLog) (lastInsertID int64, err error) {
 	q := `
-		INSERT INTO hst_log (request, response, source_data, created_at, created_by)
-		VALUES (:request, :response, :source_data, :created_at, :created_by)
+		INSERT INTO hst_log (endpoint, request, response, source_data, created_at, created_by)
+		VALUES (:endpoint, :request, :response, :source_data, :created_at, :created_by)
 	`
 
 	result, err := db.DB.Master.NamedExecContext(ctx, q, &reqDB)
