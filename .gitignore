@@ -9,13 +9,15 @@
 .idea/*
 
 # Binary Ignore
-bin/*
+/bin/rest
+/bin/grpc
 
 # Vendor Path
 /vendor
 
-# Ignore vault mocking
-/files/configuration/*.development.json
+# ENV
+.env
 
 # Environment, please use main.development.example.ini to create the new one
 /files/etc/service/*.development.ini
+

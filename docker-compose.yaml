@@ -1,0 +1,22 @@
+version: "3.1"
+
+services:
+    ### Database ################################################
+    database:
+        container_name: boilerplate-go-mysql
+        image: mysql:5.7.25
+        env_file: .env
+        ports:
+            - 3306:${DB_PORT}
+        environment:
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+            - MYSQL_DATABASE=${DB_NAME}
+        volumes:
+            - dbdata:/var/lib/mysql
+
+networks:
+    apps:
+        driver: bridge
+
+volumes:
+    dbdata:
