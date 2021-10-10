@@ -40,7 +40,7 @@ type OMDBDetail struct {
 	ImdbVotes  string    `json:"imdbVotes"`
 	ImdbID     string    `json:"imdbID"`
 	Type       string    `json:"Type"`
-	Dvd        string    `json:"DVD"`
+	DVD        string    `json:"DVD"`
 	BoxOffice  string    `json:"BoxOffice"`
 	Production string    `json:"Production"`
 	Website    string    `json:"Website"`

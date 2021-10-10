@@ -42,7 +42,7 @@ func New(this *Handler) *Handler {
 	})
 
 	app.Use(logger.New(logger.Config{
-		Format:     "[${time}] ${status} - ${method} ${path}\n",
+		Format:     "[${latency}] ${status} - ${method} ${path}\n",
 		TimeFormat: constCommon.DateTime,
 		TimeZone:   constCommon.TimeLocalJakarta,
 	}))

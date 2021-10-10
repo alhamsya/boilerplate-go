@@ -5,6 +5,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/client"
+	"github.com/volatiletech/null"
+	"google.golang.org/grpc"
 	"strconv"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
@@ -36,25 +38,16 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 		return nil, fmt.Errorf("fail convert total result")
 	}
 
-	resp = &pb.GetListMovieResp{
-		Status: &pb.RPCStatus{
-			Code:    constCommon.GRPCStatusOk,
-			Message: "get all movie successfully",
-		},
-		Data: &pb.DataListMovie{
-			Items: items,
-			Total: total,
-		},
-	}
-
 	now, err := datetime.CurrentTimeF(constCommon.DateTime)
 	if err != nil {
 		return nil, err
 	}
 
+	endPoint, _ := grpc.Method(ctx)
 	reqStr, _ := json.Marshal(reqClient)
-	respStr, _ := json.Marshal(resp)
+	respStr, _ := json.Marshal(respMovie)
 	reqDB := &modelMovie.DBHistoryLog{
+		Endpoint:   null.StringFrom(endPoint),
 		Request:    string(reqStr),
 		Response:   string(respStr),
 		SourceData: "GRPC",
@@ -66,5 +59,81 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 		return nil, err
 	}
 
+	resp = &pb.GetListMovieResp{
+		Status: &pb.RPCStatus{
+			Code:    constCommon.GRPCStatusOk,
+			Message: "get all movie successfully",
+		},
+		Data: &pb.DataListMovie{
+			Items: items,
+			Total: total,
+		},
+	}
+
 	return resp, nil
+}
+
+func (uc *UcInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetDetailMovieReq) (data *pb.DataDetailMovie, err error) {
+	respMovie, err := uc.OMDBRepo.GetDetailMovie(reqClient.MovieID)
+	if err != nil {
+		return nil, err
+	}
+
+	var ratings []*pb.Ratings
+	for _, rating := range respMovie.Ratings {
+		ratings = append(ratings, &pb.Ratings{
+			Source: rating.Source,
+			Value:  rating.Value,
+		})
+	}
+
+	now, err := datetime.CurrentTimeF(constCommon.DateTime)
+	if err != nil {
+		return nil, err
+	}
+
+	endPoint, _ := grpc.Method(ctx)
+	reqStr, _ := json.Marshal(reqClient)
+	respStr, _ := json.Marshal(respMovie)
+	reqDB := &modelMovie.DBHistoryLog{
+		Endpoint:   null.StringFrom(endPoint),
+		Request:    string(reqStr),
+		Response:   string(respStr),
+		SourceData: "GRPC",
+		CreatedAt:  now,
+		CreatedBy:  client.GrpcGetIP(ctx),
+	}
+	_, err = uc.ServiceRepo.CreateHistoryLog(ctx, reqDB)
+	if err != nil {
+		return nil, err
+	}
+
+	data = &pb.DataDetailMovie{
+		Title:      respMovie.Title,
+		Year:       respMovie.Year,
+		Rated:      respMovie.Rated,
+		Released:   respMovie.Released,
+		Runtime:    respMovie.Runtime,
+		Genre:      respMovie.Genre,
+		Director:   respMovie.Director,
+		Writer:     respMovie.Writer,
+		Actors:     respMovie.Actors,
+		Plot:       respMovie.Plot,
+		Language:   respMovie.Language,
+		Country:    respMovie.Country,
+		Awards:     respMovie.Awards,
+		Poster:     respMovie.Poster,
+		Ratings:    ratings,
+		MetaScore:  respMovie.Metascore,
+		ImdbRating: respMovie.ImdbRating,
+		ImdbVotes:  respMovie.ImdbVotes,
+		ImdbID:     respMovie.ImdbID,
+		Type:       respMovie.Type,
+		DVD:        respMovie.DVD,
+		BoxOffice:  respMovie.BoxOffice,
+		Production: respMovie.Production,
+		Website:    respMovie.Website,
+	}
+
+	return data, nil
 }

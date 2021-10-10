@@ -13,9 +13,8 @@ func (grpc *GrpcServer) GetListMovie(ctx context.Context, req *pb.GetListMovieRe
 		return &pb.GetListMovieResp{
 			Status: &pb.RPCStatus{
 				Code:    constCommon.GRPCStatusInternal,
-				Message: "",
+				Message: err.Error(),
 			},
-			Data: nil,
 		}, nil
 	}
 
@@ -23,5 +22,21 @@ func (grpc *GrpcServer) GetListMovie(ctx context.Context, req *pb.GetListMovieRe
 }
 
 func (grpc *GrpcServer) GetDetailMovie(ctx context.Context, req *pb.GetDetailMovieReq) (*pb.GetDetailMovieResp, error) {
-	panic("implement me")
+	data, err := grpc.GrpcInteractor.GrpcInterface.DoGetDetailMovie(ctx, req)
+	if err != nil {
+		return &pb.GetDetailMovieResp{
+			Status: &pb.RPCStatus{
+				Code:    constCommon.GRPCStatusInternal,
+				Message: err.Error(),
+			},
+		}, nil
+	}
+
+	return &pb.GetDetailMovieResp{
+		Status: &pb.RPCStatus{
+			Code:    constCommon.GRPCStatusOk,
+			Message: "get detail movie successfully",
+		},
+		Data:   data,
+	}, nil
 }
