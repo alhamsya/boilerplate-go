@@ -19,18 +19,9 @@ message GetListMovieReq {
   int64 Page = 2;
 }
 
-message GetListMovieResp {
-  RPCStatus Status = 1;
-  repeated ItemsMovie Items = 2;
-  int64 Total = 3;
-}
-
-message GetDetailMovieReq {
-  string MovieID = 1;
-}
-
-message GetDetailMovieResp {
-  RPCStatus Status = 1;
+message DataListMovie {
+  repeated ItemsMovie Items = 1;
+  int64 Total = 2;
 }
 
 message ItemsMovie {
@@ -39,4 +30,17 @@ message ItemsMovie {
   string MovieID = 3;
   string Types = 4;
   string Poster = 5;
+}
+
+message GetListMovieResp {
+  RPCStatus Status = 1;
+  DataListMovie Data = 2;
+}
+
+message GetDetailMovieReq {
+  string MovieID = 1;
+}
+
+message GetDetailMovieResp {
+  RPCStatus Status = 1;
 }

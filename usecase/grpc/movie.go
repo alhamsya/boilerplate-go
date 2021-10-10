@@ -37,8 +37,10 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, req *pb.GetListMovie
 			Code:    constCommon.GRPCStatusOk,
 			Message: "get all movie successfully",
 		},
-		Items:  items,
-		Total:  total,
+		Data: &pb.DataListMovie{
+			Items: items,
+			Total: total,
+		},
 	}
-	return nil, nil
+	return resp, nil
 }
