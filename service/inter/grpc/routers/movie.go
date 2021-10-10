@@ -3,11 +3,25 @@ package grpcRouters
 import (
 	"context"
 	constCommon "github.com/alhamsya/boilerplate-go/domain/constants"
+	"strings"
 
 	pb "github.com/alhamsya/boilerplate-go/protos"
 )
 
 func (grpc *GrpcServer) GetListMovie(ctx context.Context, req *pb.GetListMovieReq) (*pb.GetListMovieResp, error) {
+	if strings.TrimSpace(req.Search) == "" {
+		return &pb.GetListMovieResp{
+			Status: &pb.RPCStatus{
+				Code:    constCommon.GRPCStatusInvalidArgument,
+				Message: "request search not empty",
+			},
+		}, nil
+	}
+
+	if req.Page < 1 {
+		req.Page = 1
+	}
+
 	resp, err := grpc.GrpcInteractor.GrpcInterface.DoGetListMovie(ctx, req)
 	if err != nil {
 		return &pb.GetListMovieResp{
@@ -18,11 +32,23 @@ func (grpc *GrpcServer) GetListMovie(ctx context.Context, req *pb.GetListMovieRe
 		}, nil
 	}
 
-	return resp, nil
+	if resp.Data == nil {
+		return &pb.GetListMovieResp{
+			Status: resp.Status,
+		}, nil
+	}
+
+	return &pb.GetListMovieResp{
+		Status: &pb.RPCStatus{
+			Code:    constCommon.GRPCStatusOk,
+			Message: "get all movie successfully",
+		},
+		Data: resp.Data,
+	}, nil
 }
 
 func (grpc *GrpcServer) GetDetailMovie(ctx context.Context, req *pb.GetDetailMovieReq) (*pb.GetDetailMovieResp, error) {
-	data, err := grpc.GrpcInteractor.GrpcInterface.DoGetDetailMovie(ctx, req)
+	resp, err := grpc.GrpcInteractor.GrpcInterface.DoGetDetailMovie(ctx, req)
 	if err != nil {
 		return &pb.GetDetailMovieResp{
 			Status: &pb.RPCStatus{
@@ -32,11 +58,17 @@ func (grpc *GrpcServer) GetDetailMovie(ctx context.Context, req *pb.GetDetailMov
 		}, nil
 	}
 
+	if resp.Data == nil {
+		return &pb.GetDetailMovieResp{
+			Status: resp.Status,
+		}, nil
+	}
+
 	return &pb.GetDetailMovieResp{
 		Status: &pb.RPCStatus{
 			Code:    constCommon.GRPCStatusOk,
 			Message: "get detail movie successfully",
 		},
-		Data:   data,
+		Data: resp.Data,
 	}, nil
 }
