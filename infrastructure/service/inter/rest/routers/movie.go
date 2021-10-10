@@ -1,4 +1,4 @@
-package routers
+package restRouters
 
 import (
 	"github.com/gofiber/fiber/v2"

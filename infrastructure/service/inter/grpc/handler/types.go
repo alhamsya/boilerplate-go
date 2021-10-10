@@ -14,5 +14,5 @@ type HealthChecker struct {
 type Handler struct {
 	Cfg        *config.MainConfig
 	GrpcServer *grpc.Server
-	Interactor *routers.GrpcInteractor
+	Interactor *grpcRouters.GrpcInteractor
 }

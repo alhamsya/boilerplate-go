@@ -1,4 +1,4 @@
-package routers
+package restRouters
 
 func New(this *RestServer) *RestServer {
 	return &RestServer{

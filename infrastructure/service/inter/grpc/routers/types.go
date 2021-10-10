@@ -1,4 +1,4 @@
-package routers
+package grpcRouters
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/definition"

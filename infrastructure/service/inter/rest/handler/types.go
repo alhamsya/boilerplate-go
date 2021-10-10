@@ -9,5 +9,5 @@ import (
 type Handler struct {
 	Cfg        *config.MainConfig
 	App        *fiber.App
-	Interactor *routers.RestInteractor
+	Interactor *restRouters.RestInteractor
 }

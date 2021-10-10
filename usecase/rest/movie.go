@@ -1,4 +1,4 @@
-package ucRest
+package restUc
 
 import (
 	"context"

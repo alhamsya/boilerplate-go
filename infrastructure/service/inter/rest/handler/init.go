@@ -22,7 +22,7 @@ func New(this *Handler) *Handler {
 		BodyLimit:                 0,
 		Concurrency:               0,
 		Views:                     nil,
-		ReadTimeout:               this.Cfg.HttpServer.Timeout * time.Second,
+		ReadTimeout:               this.Cfg.RestServer.Timeout * time.Second,
 		WriteTimeout:              0,
 		IdleTimeout:               0,
 		ReadBufferSize:            0,
@@ -47,12 +47,12 @@ func New(this *Handler) *Handler {
 		TimeZone:   constCommon.TimeLocalJakarta,
 	}))
 
-	routeHandler := &routers.RestServer{
+	routeHandler := &restRouters.RestServer{
 		Cfg:            this.Cfg,
 		App:            app,
 		RestInteractor: this.Interactor,
 	}
-	routers.New(routeHandler).Register()
+	restRouters.New(routeHandler).Register()
 	return &Handler{
 		Cfg:        this.Cfg,
 		App:        app,
@@ -61,5 +61,5 @@ func New(this *Handler) *Handler {
 }
 
 func (h *Handler) Run() error {
-	return h.App.Listen(fmt.Sprintf(":%s", h.Cfg.HttpServer.Port))
+	return h.App.Listen(fmt.Sprintf(":%s", h.Cfg.RestServer.Port))
 }

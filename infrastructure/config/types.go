@@ -3,7 +3,7 @@ package config
 import "time"
 
 type MainConfig struct {
-	HttpServer HttpServer
+	RestServer RestServer
 	GrpcServer GrpcServer
 	Databases  map[string]*DBConfig
 	Toggle     map[string]*Toggle
@@ -21,7 +21,7 @@ type DBConfig struct {
 	NoPingOnOpen             bool `json:"no_ping_on_open"`
 }
 
-type HttpServer struct {
+type RestServer struct {
 	Port          string
 	Timeout       time.Duration
 	AccessLogFile string

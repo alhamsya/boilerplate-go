@@ -8,10 +8,10 @@ import (
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 
-	grpcRouters "github.com/alhamsya/boilerplate-go/infrastructure/service/inter/grpc/routers"
-	httpRouters "github.com/alhamsya/boilerplate-go/infrastructure/service/inter/rest/routers"
-	grpcUc "github.com/alhamsya/boilerplate-go/usecase/grpc"
-	httpUc "github.com/alhamsya/boilerplate-go/usecase/rest"
+	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/grpc/routers"
+	"github.com/alhamsya/boilerplate-go/infrastructure/service/inter/rest/routers"
+	"github.com/alhamsya/boilerplate-go/usecase/grpc"
+	"github.com/alhamsya/boilerplate-go/usecase/rest"
 )
 
 type ModuleRepo struct {
@@ -39,16 +39,16 @@ func GetDatabase(cfg *config.MainConfig, nameConfig string) (*database.Store, er
 	return db, nil
 }
 
-func HttpGetInteractor(cfg *config.MainConfig, db *database.Store) *httpRouters.RestInteractor {
+func RestGetInteractor(cfg *config.MainConfig, db *database.Store) *restRouters.RestInteractor {
 	generalInteractor := GeneralInteractor(cfg, db)
 
-	uc := httpUc.NewInteractor(&httpUc.UcInteractor{
+	uc := restUc.NewInteractor(&restUc.UcInteractor{
 		Cfg:         cfg,
 		ServiceRepo: generalInteractor.service,
 		OMDBRepo:    generalInteractor.omdb,
 	})
 
-	return &httpRouters.RestInteractor{
+	return &restRouters.RestInteractor{
 		RestInterface: uc,
 	}
 }

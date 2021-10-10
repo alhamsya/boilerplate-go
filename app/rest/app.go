@@ -17,7 +17,7 @@ func main() {
 	// init rest option
 	server := restHandler.New(&restHandler.Handler{
 		Cfg: &cfg,
-		Interactor: app.HttpGetInteractor(&cfg, dbService),
+		Interactor: app.RestGetInteractor(&cfg, dbService),
 	})
 
 	if err := server.Run(); err != nil {

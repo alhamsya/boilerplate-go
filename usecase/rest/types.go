@@ -1,4 +1,4 @@
-package ucRest
+package restUc
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"

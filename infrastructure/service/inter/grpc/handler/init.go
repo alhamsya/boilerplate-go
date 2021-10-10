@@ -44,13 +44,13 @@ func New(this *Handler) *Handler {
 	//and assists clients at runtime to construct RPC requests and responses without precompiled service information.
 	reflection.Register(srv)
 
-	routeHandler := &routers.GrpcServer{
+	routeHandler := &grpcRouters.GrpcServer{
 		Cfg:            this.Cfg,
 		GrpcInteractor: this.Interactor,
 		App:            srv,
 	}
 
-	routers.New(routeHandler).Register()
+	grpcRouters.New(routeHandler).Register()
 
 	return &Handler{
 		Cfg:        this.Cfg,

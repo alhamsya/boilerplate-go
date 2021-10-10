@@ -1,4 +1,4 @@
-package routers
+package grpcRouters
 
 import (
 	pb "github.com/alhamsya/boilerplate-go/protos"

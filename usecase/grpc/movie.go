@@ -1,4 +1,4 @@
-package ucGrpc
+package grpcUc
 
 import (
 	"context"
@@ -6,5 +6,6 @@ import (
 )
 
 func (uc *UcInteractor) DoGetListMovie(ctx context.Context, req *pb.GetListMovieReq) (resp *pb.GetListMovieResp, err error) {
+	uc.OMDBRepo.GetListMovie(1, "batman")
 	return nil, nil
 }
