@@ -16,15 +16,15 @@ type GrpcInterface struct {
 }
 
 // DoGetDetailMovie provides a mock function with given fields: ctx, req
-func (_m *GrpcInterface) DoGetDetailMovie(ctx context.Context, req *proto.GetDetailMovieReq) (*proto.DataDetailMovie, error) {
+func (_m *GrpcInterface) DoGetDetailMovie(ctx context.Context, req *proto.GetDetailMovieReq) (*proto.GetDetailMovieResp, error) {
 	ret := _m.Called(ctx, req)
 
-	var r0 *proto.DataDetailMovie
-	if rf, ok := ret.Get(0).(func(context.Context, *proto.GetDetailMovieReq) *proto.DataDetailMovie); ok {
+	var r0 *proto.GetDetailMovieResp
+	if rf, ok := ret.Get(0).(func(context.Context, *proto.GetDetailMovieReq) *proto.GetDetailMovieResp); ok {
 		r0 = rf(ctx, req)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*proto.DataDetailMovie)
+			r0 = ret.Get(0).(*proto.GetDetailMovieResp)
 		}
 	}
 
