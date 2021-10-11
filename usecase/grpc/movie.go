@@ -28,11 +28,11 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
-		return nil, err
+		return nil, fmt.Errorf("response from api third party there is a problem")
 	}
 
 	if !status {
-		return nil, fmt.Errorf("movie does not exist")
+		return nil,fmt.Errorf(respMovie.Error)
 	}
 
 	var items []*pb.ItemsMovie
@@ -86,6 +86,19 @@ func (uc *UcInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetD
 	respMovie, err := uc.OMDBRepo.GetDetailMovie(reqClient.MovieID)
 	if err != nil {
 		return nil, err
+	}
+
+	if respMovie == nil {
+		return nil, fmt.Errorf("data from api call does not exist")
+	}
+
+	status, err := strconv.ParseBool(respMovie.Response)
+	if err != nil {
+		return nil, fmt.Errorf("response from api third party there is a problem")
+	}
+
+	if !status {
+		return nil,fmt.Errorf(respMovie.Error)
 	}
 
 	var ratings []*pb.Ratings

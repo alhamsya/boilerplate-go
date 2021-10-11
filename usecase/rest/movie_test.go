@@ -76,6 +76,60 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			},
 		},
 		{
+			name: "When_GetListMovieResponseCannotConvertReturnError_expectError",
+			args: args{
+				ctx: &fiber.Ctx{},
+				reqClient: &modelMovie.ReqListMovie{
+					Search: "tes",
+					Page:   1,
+				},
+			},
+			wantResp:     nil,
+			wantHttpCode: http.StatusConflict,
+			wantErr:      true,
+			patch: func() {
+				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(&omdb.OMDBList{
+					Search: []omdb.Search{
+						{
+							Title:  "One Day",
+							Year:   "2021",
+							ImdbID: "alham123",
+							Type:   "Film",
+							Poster: "www.google.com",
+						},
+					},
+					Response: "#",
+				}, nil, nil).Once()
+			},
+		},
+		{
+			name: "When_GetListMovieResponseReturnFalse_expectError",
+			args: args{
+				ctx: &fiber.Ctx{},
+				reqClient: &modelMovie.ReqListMovie{
+					Search: "tes",
+					Page:   1,
+				},
+			},
+			wantResp:     nil,
+			wantHttpCode: http.StatusBadRequest,
+			wantErr:      true,
+			patch: func() {
+				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(&omdb.OMDBList{
+					Search: []omdb.Search{
+						{
+							Title:  "One Day",
+							Year:   "2021",
+							ImdbID: "alham123",
+							Type:   "Film",
+							Poster: "www.google.com",
+						},
+					},
+					Response: "False",
+				}, nil, nil).Once()
+			},
+		},
+		{
 			name: "When_ConvertTotalResultsReturnError_expectError",
 			args: args{
 				ctx: &fiber.Ctx{},
@@ -307,6 +361,38 @@ func TestUcInteractor_DoGetDetailMovie(t *testing.T) {
 			},
 		},
 		{
+			name: "When_GetDetailResponseCannotConvertReturnError_expectError",
+			args: args{
+				ctx:     ctx,
+				movieID: "tes123",
+			},
+			wantResp:     nil,
+			wantHttpCode: http.StatusConflict,
+			wantErr:      true,
+			patch: func() {
+				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(&omdb.OMDBDetail{
+					Title:    "One Day",
+					Response: "#",
+				}, nil).Once()
+			},
+		},
+		{
+			name: "When_GetDetailResponseReturnFalse_expectError",
+			args: args{
+				ctx:     ctx,
+				movieID: "tes123",
+			},
+			wantResp:     nil,
+			wantHttpCode: http.StatusBadRequest,
+			wantErr:      true,
+			patch: func() {
+				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(&omdb.OMDBDetail{
+					Title:    "One Day",
+					Response: "False",
+				}, nil).Once()
+			},
+		},
+		{
 			name: "When_CurrentTimeFReturnNil_expectError",
 			args: args{
 				ctx:     ctx,
@@ -317,13 +403,14 @@ func TestUcInteractor_DoGetDetailMovie(t *testing.T) {
 			wantErr:      true,
 			patch: func() {
 				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(&omdb.OMDBDetail{
-					Title:      "One Day",
-					Ratings:    []omdb.Ratings{
+					Title: "One Day",
+					Ratings: []omdb.Ratings{
 						{
 							Source: "tes",
 							Value:  "tes",
 						},
 					},
+					Response: "True",
 				}, nil).Once()
 
 				var guard *monkey.PatchGuard
@@ -339,9 +426,9 @@ func TestUcInteractor_DoGetDetailMovie(t *testing.T) {
 				ctx:     ctx,
 				movieID: "tes123",
 			},
-			wantResp:     &modelMovie.RespDetailMovie{
-				Title:      "One Day",
-				Ratings:    []modelMovie.Ratings{
+			wantResp: &modelMovie.RespDetailMovie{
+				Title: "One Day",
+				Ratings: []modelMovie.Ratings{
 					{
 						Source: "tes",
 						Value:  "tes",
@@ -352,13 +439,14 @@ func TestUcInteractor_DoGetDetailMovie(t *testing.T) {
 			wantErr:      false,
 			patch: func() {
 				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(&omdb.OMDBDetail{
-					Title:      "One Day",
-					Ratings:    []omdb.Ratings{
+					Title: "One Day",
+					Ratings: []omdb.Ratings{
 						{
 							Source: "tes",
 							Value:  "tes",
 						},
 					},
+					Response: "True",
 				}, nil).Once()
 
 				var guard1, guard2 *monkey.PatchGuard
@@ -386,13 +474,14 @@ func TestUcInteractor_DoGetDetailMovie(t *testing.T) {
 			wantErr:      true,
 			patch: func() {
 				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(&omdb.OMDBDetail{
-					Title:      "One Day",
-					Ratings:    []omdb.Ratings{
+					Title: "One Day",
+					Ratings: []omdb.Ratings{
 						{
 							Source: "tes",
 							Value:  "tes",
 						},
 					},
+					Response: "True",
 				}, nil).Once()
 
 				var guard1, guard2 *monkey.PatchGuard

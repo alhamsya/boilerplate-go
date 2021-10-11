@@ -10,6 +10,7 @@ type OMDBList struct {
 	Search       []Search `json:"Search"`
 	TotalResults string   `json:"totalResults"`
 	Response     string   `json:"Response"`
+	Error        string   `json:"Error"`
 }
 type Search struct {
 	Title  string `json:"Title"`
@@ -45,6 +46,7 @@ type OMDBDetail struct {
 	Production string    `json:"Production"`
 	Website    string    `json:"Website"`
 	Response   string    `json:"Response"`
+	Error      string    `json:"Error"`
 }
 type Ratings struct {
 	Source string `json:"Source"`

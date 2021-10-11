@@ -6,7 +6,6 @@ import (
 	"io/ioutil"
 	"net"
 	"net/http"
-	"strconv"
 	"time"
 )
 
@@ -83,15 +82,6 @@ func (o *OMDB) GetDetailMovie(movieID string) (responseObject *OMDBDetail, err e
 	err = json.Unmarshal(bodyBytes, &responseObject)
 	if err != nil {
 		return nil, err
-	}
-
-	status, err := strconv.ParseBool(responseObject.Response)
-	if err != nil {
-		return nil, fmt.Errorf("response from api any problem")
-	}
-
-	if !status {
-		return nil, fmt.Errorf("request from internal service to third party any problem")
 	}
 
 	return responseObject, nil
