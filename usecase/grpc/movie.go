@@ -1,4 +1,4 @@
-package grpcUc
+package grpcUC
 
 import (
 	"context"

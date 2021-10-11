@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package service;
 
-option go_package = "/;proto";
+option go_package = "/;service";
 
 service Services {
   rpc GetListMovie (GetListMovieReq) returns (GetListMovieResp) {}

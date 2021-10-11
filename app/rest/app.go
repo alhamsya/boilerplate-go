@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/alhamsya/boilerplate-go/app"
 	"github.com/alhamsya/boilerplate-go/service/inter/rest/handler"
+	"log"
 )
 
 func main() {
@@ -11,7 +12,7 @@ func main() {
 	//init databases
 	dbService, err := app.GetDatabase(&cfg, "tes")
 	if err != nil {
-		panic("database")
+		log.Fatalln("[REST] fail connect to database", err)
 	}
 
 	// init rest option
@@ -21,6 +22,6 @@ func main() {
 	})
 
 	if err := server.Run(); err != nil {
-		panic("")
+		log.Fatalln("[REST] service not running", err)
 	}
 }

@@ -1,4 +1,4 @@
-package grpcUc
+package grpcUC
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"

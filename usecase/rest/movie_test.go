@@ -1,4 +1,4 @@
-package restUc
+package restUC
 
 import (
 	"bou.ke/monkey"
