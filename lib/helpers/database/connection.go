@@ -10,15 +10,17 @@ import (
 	_ "github.com/lib/pq"
 )
 
+//connectAndMonitoring connectDB and monitoringDB database
 func (d *DB) connectAndMonitoring(driver string, noPing bool) (*sqlx.DB, error) {
 	if noPing {
-		return d.connect(driver)
+		return d.connectDB(driver)
 	}
 
-	return d.monitoring(driver)
+	return d.monitoringDB(driver)
 }
 
-func (d *DB) monitoring(driver string) (*sqlx.DB, error) {
+//monitoringDB monitoring database with pooling mechanism
+func (d *DB) monitoringDB(driver string) (*sqlx.DB, error) {
 	ticker := time.NewTicker(1 * time.Second)
 	defer ticker.Stop()
 
@@ -32,7 +34,7 @@ func (d *DB) monitoring(driver string) (*sqlx.DB, error) {
 		case <-timeoutExceeded:
 			return nil, fmt.Errorf("db connection failed after %s timeout", d.ConnectionMaxLifetime)
 		case <-ticker.C:
-			db, err := d.connect(driver)
+			db, err := d.connectDB(driver)
 			if err != nil {
 				return nil, err
 			}
@@ -41,7 +43,8 @@ func (d *DB) monitoring(driver string) (*sqlx.DB, error) {
 	}
 }
 
-func (d *DB) connect(driver string) (*sqlx.DB, error) {
+//connectDB connect database with configuration
+func (d *DB) connectDB(driver string) (*sqlx.DB, error) {
 	db, err := sqlx.Open(driver, d.DSN)
 	if err != nil {
 		return nil, err

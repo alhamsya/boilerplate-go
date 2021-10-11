@@ -8,6 +8,7 @@ import (
 	"google.golang.org/grpc"
 )
 
+//GrpcLoggingInterceptor GRPC log for interceptor
 func GrpcLoggingInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
 	clientIP := client.GrpcGetIP(ctx)
 

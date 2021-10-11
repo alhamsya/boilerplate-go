@@ -6,6 +6,7 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 )
 
+//CreateHistoryLog create history log from request client
 func (db *DBService) CreateHistoryLog(ctx context.Context, reqDB *modelMovie.DBHistoryLog) (lastInsertID int64, err error) {
 	q := `
 		INSERT INTO hst_log (endpoint, request, response, source_data, created_at, created_by)

@@ -36,7 +36,7 @@ func ServeGRPC(server GRPCServer, address string, graceTimeout time.Duration) er
 		return nil
 	})
 
-	log.Printf("GRPC server running on adress %v", address)
+	log.Printf("GRPC server running on address %v", address)
 
 	if err := server.Serve(lis); err != nil {
 		// Error starting or closing listener:
@@ -61,7 +61,7 @@ func WaitTermSig(handler func(context.Context) error) <-chan struct{} {
 		if err := handler(context.Background()); err != nil {
 			log.Printf("graceful shutdown  failed: %v", err)
 		} else {
-			log.Println("gracefull shutdown succeed")
+			log.Println("graceful shutdown succeed")
 		}
 
 		close(stoppedCh)

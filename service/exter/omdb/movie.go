@@ -10,6 +10,7 @@ import (
 	"time"
 )
 
+//GetListMovie get list movie by search and page
 func (o *OMDB) GetListMovie(search string, page int64) (responseObject *OMDBList, err error) {
 	endpoint := fmt.Sprintf("%s?apikey=%s&s=%s&page=%d", o.Cfg.External["omdb"].Endpoint, o.Cfg.External["omdb"].Key, search, page)
 	req, err := http.NewRequest(http.MethodGet, endpoint, nil)
@@ -48,6 +49,7 @@ func (o *OMDB) GetListMovie(search string, page int64) (responseObject *OMDBList
 	return responseObject, nil
 }
 
+//GetDetailMovie get detail movie by movie ID
 func (o *OMDB) GetDetailMovie(movieID string) (responseObject *OMDBDetail, err error) {
 	endpoint := fmt.Sprintf("%s?apikey=%s&i=%s&plot=full", o.Cfg.External["omdb"].Endpoint, o.Cfg.External["omdb"].Key, movieID)
 	req, err := http.NewRequest(http.MethodGet, endpoint, nil)

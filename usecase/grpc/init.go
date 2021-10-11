@@ -1,4 +1,4 @@
-package grpcUc
+package grpcUC
 
 func New(c *UcInteractor) *UcInteractor {
 	return c

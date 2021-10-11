@@ -1,4 +1,4 @@
-package restUc
+package restUC
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository/mocks"

@@ -41,7 +41,7 @@ func GetDatabase(cfg *config.MainConfig, nameConfig string) (*database.Store, er
 func RestGetInteractor(cfg *config.MainConfig, db *database.Store) *restRouters.RestInteractor {
 	generalInteractor := GeneralInteractor(cfg, db)
 
-	uc := restUc.New(&restUc.UcInteractor{
+	uc := restUC.New(&restUC.UcInteractor{
 		Cfg:         cfg,
 		ServiceRepo: generalInteractor.service,
 		OMDBRepo:    generalInteractor.omdb,
@@ -55,7 +55,7 @@ func RestGetInteractor(cfg *config.MainConfig, db *database.Store) *restRouters.
 func GrpcGetInteractor(cfg *config.MainConfig, db *database.Store) *grpcRouters.GrpcInteractor {
 	generalInteractor := GeneralInteractor(cfg, db)
 
-	uc := grpcUc.New(&grpcUc.UcInteractor{
+	uc := grpcUC.New(&grpcUC.UcInteractor{
 		Cfg:         cfg,
 		ServiceRepo: generalInteractor.service,
 		OMDBRepo:    generalInteractor.omdb,
