@@ -7,6 +7,11 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/alhamsya/boilerplate-go)](https://goreportcard.com/report/github.com/alhamsya/boilerplate-go)
 [![License](https://img.shields.io/github/license/alhamsya/boilerplate-go?color=blue)](https://raw.githubusercontent.com/alhamsya/boilerplate-go/master/LICENSE)
 
+## 👀 Contract API
+- [Documentation Postman](https://documenter.getpostman.com/view/2516369/UV5Ro1M1)
+- [Download File Collection v2.1 (Postman)](https://github.com/alhamsya/boilerplate-go/blob/master/boilerplate-go.postman_collection.json)
+- [Import Collection By Link](https://www.getpostman.com/collections/b71ad1f701723738498f)
+
 ## ⚙️ Installation
 
 Make sure you have Go installed. Version `1.14` or higher is required.

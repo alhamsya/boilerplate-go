@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "7d2d0651-86d2-4be7-b47a-65deb79edd85",
+		"name": "boilerplate-go",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Detail Movie",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/movie/:movieID",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"movie",
+						":movieID"
+					],
+					"variable": [
+						{
+							"key": "movieID",
+							"value": "tt0372784"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "incorect movie ID",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/movie/:movieID",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"movie",
+								":movieID"
+							],
+							"variable": [
+								{
+									"key": "movieID",
+									"value": "bfksfsbb2"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 11 Oct 2021 21:26:22 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "44"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": null,\n    \"message\": \"Incorrect IMDb ID.\"\n}"
+				},
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/movie/:movieID",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"movie",
+								":movieID"
+							],
+							"variable": [
+								{
+									"key": "movieID",
+									"value": "tt0372784"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 11 Oct 2021 22:55:50 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "1476"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"title\": \"Batman Begins\",\n        \"year\": \"2005\",\n        \"rated\": \"PG-13\",\n        \"released\": \"15 Jun 2005\",\n        \"runtime\": \"140 min\",\n        \"genre\": \"Action, Adventure\",\n        \"director\": \"Christopher Nolan\",\n        \"writer\": \"Bob Kane, David S. Goyer, Christopher Nolan\",\n        \"actors\": \"Christian Bale, Michael Caine, Ken Watanabe\",\n        \"plot\": \"When his parents are killed, billionaire playboy Bruce Wayne relocates to Asia, where he is mentored by Henri Ducard and Ra's Al Ghul in how to fight evil. When learning about the plan to wipe out evil in Gotham City by Ducard, Bruce prevents this plan from getting any further and heads back to his home. Back in his original surroundings, Bruce adopts the image of a bat to strike fear into the criminals and the corrupt as the icon known as \\\"Batman\\\". But it doesn't stay quiet for long.\",\n        \"language\": \"English, Mandarin\",\n        \"country\": \"United Kingdom, United States\",\n        \"awards\": \"Nominated for 1 Oscar. 13 wins & 79 nominations total\",\n        \"poster\": \"https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg\",\n        \"ratings\": [\n            {\n                \"source\": \"Internet Movie Database\",\n                \"value\": \"8.2/10\"\n            },\n            {\n                \"source\": \"Rotten Tomatoes\",\n                \"value\": \"84%\"\n            },\n            {\n                \"source\": \"Metacritic\",\n                \"value\": \"70/100\"\n            }\n        ],\n        \"meta_score\": \"70\",\n        \"imdb_rating\": \"8.2\",\n        \"imdb_votes\": \"1,362,365\",\n        \"imdb_id\": \"tt0372784\",\n        \"type\": \"movie\",\n        \"dvd\": \"18 Oct 2005\",\n        \"box_office\": \"$206,852,432\",\n        \"production\": \"Warner Brothers, Di Bonaventura Pictures\",\n        \"website\": \"N/A\"\n    },\n    \"message\": \"get detail movie successfully\"\n}"
+				}
+			]
+		},
+		{
+			"name": "List Movie",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/api/movie?page=1&search=batmans",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"api",
+						"movie"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "1"
+						},
+						{
+							"key": "search",
+							"value": "batmans"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/movie?page=1&search=batman",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"movie"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "search",
+									"value": "batman"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 11 Oct 2021 21:13:23 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "2288"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": {\n        \"items\": [\n            {\n                \"title\": \"Batman Begins\",\n                \"year\": \"2005\",\n                \"movie_id\": \"tt0372784\",\n                \"types\": \"movie\",\n                \"poster\": \"https://m.media-amazon.com/images/M/MV5BOTY4YjI2N2MtYmFlMC00ZjcyLTg3YjEtMDQyM2ZjYzQ5YWFkXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg\"\n            },\n            {\n                \"title\": \"Batman v Superman: Dawn of Justice\",\n                \"year\": \"2016\",\n                \"movie_id\": \"tt2975590\",\n                \"types\": \"movie\",\n                \"poster\": \"https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg\"\n            },\n            {\n                \"title\": \"Batman\",\n                \"year\": \"1989\",\n                \"movie_id\": \"tt0096895\",\n                \"types\": \"movie\",\n                \"poster\": \"https://m.media-amazon.com/images/M/MV5BMTYwNjAyODIyMF5BMl5BanBnXkFtZTYwNDMwMDk2._V1_SX300.jpg\"\n            },\n            {\n                \"title\": \"Batman Returns\",\n                \"year\": \"1992\",\n                \"movie_id\": \"tt0103776\",\n                \"types\": \"movie\",\n                \"poster\": \"https://m.media-amazon.com/images/M/MV5BOGZmYzVkMmItM2NiOS00MDI3LWI4ZWQtMTg0YWZkODRkMmViXkEyXkFqcGdeQXVyODY0NzcxNw@@._V1_SX300.jpg\"\n            },\n            {\n                \"title\": \"Batman Forever\",\n                \"year\": \"1995\",\n                \"movie_id\": \"tt0112462\",\n                \"types\": \"movie\",\n                \"poster\": \"https://m.media-amazon.com/images/M/MV5BNDdjYmFiYWEtYzBhZS00YTZkLWFlODgtY2I5MDE0NzZmMDljXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_SX300.jpg\"\n            },\n            {\n                \"title\": \"Batman & Robin\",\n                \"year\": \"1997\",\n                \"movie_id\": \"tt0118688\",\n                \"types\": \"movie\",\n                \"poster\": \"https://m.media-amazon.com/images/M/MV5BMGQ5YTM1NmMtYmIxYy00N2VmLWJhZTYtN2EwYTY3MWFhOTczXkEyXkFqcGdeQXVyNTA2NTI0MTY@._V1_SX300.jpg\"\n            },\n            {\n                \"title\": \"The Lego Batman Movie\",\n                \"year\": \"2017\",\n                \"movie_id\": \"tt4116284\",\n                \"types\": \"movie\",\n                \"poster\": \"https://m.media-amazon.com/images/M/MV5BMTcyNTEyOTY0M15BMl5BanBnXkFtZTgwOTAyNzU3MDI@._V1_SX300.jpg\"\n            },\n            {\n                \"title\": \"Batman: The Animated Series\",\n                \"year\": \"1992–1995\",\n                \"movie_id\": \"tt0103359\",\n                \"types\": \"series\",\n                \"poster\": \"https://m.media-amazon.com/images/M/MV5BOTM3MTRkZjQtYjBkMy00YWE1LTkxOTQtNDQyNGY0YjYzNzAzXkEyXkFqcGdeQXVyOTgwMzk1MTA@._V1_SX300.jpg\"\n            },\n            {\n                \"title\": \"Batman: Under the Red Hood\",\n                \"year\": \"2010\",\n                \"movie_id\": \"tt1569923\",\n                \"types\": \"movie\",\n                \"poster\": \"https://m.media-amazon.com/images/M/MV5BNmY4ZDZjY2UtOWFiYy00MjhjLThmMjctOTQ2NjYxZGRjYmNlL2ltYWdlL2ltYWdlXkEyXkFqcGdeQXVyNTAyODkwOQ@@._V1_SX300.jpg\"\n            },\n            {\n                \"title\": \"Batman: The Dark Knight Returns, Part 1\",\n                \"year\": \"2012\",\n                \"movie_id\": \"tt2313197\",\n                \"types\": \"movie\",\n                \"poster\": \"https://m.media-amazon.com/images/M/MV5BMzIxMDkxNDM2M15BMl5BanBnXkFtZTcwMDA5ODY1OQ@@._V1_SX300.jpg\"\n            }\n        ],\n        \"total\": 463\n    },\n    \"message\": \"get all movie successfully\"\n}"
+				},
+				{
+					"name": "not found",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/api/movie?page=1&search=batmans",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"api",
+								"movie"
+							],
+							"query": [
+								{
+									"key": "page",
+									"value": "1"
+								},
+								{
+									"key": "search",
+									"value": "batmans"
+								}
+							]
+						}
+					},
+					"status": "Bad Request",
+					"code": 400,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Mon, 11 Oct 2021 21:22:14 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "42"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"data\": null,\n    \"message\": \"Movie not found!\"\n}"
+				}
+			]
+		}
+	]
+}
