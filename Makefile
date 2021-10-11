@@ -2,7 +2,7 @@ include .env
 export
 
 start:
-	@docker-compose up -d --build
+	@docker-compose up -d
 
 stop:
 	@docker-compose down -v

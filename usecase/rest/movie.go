@@ -23,6 +23,15 @@ func (uc *UcInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 		return nil, http.StatusInternalServerError, fmt.Errorf("data from api call does not exist")
 	}
 
+	status, err := strconv.ParseBool(respMovie.Response)
+	if err != nil {
+		return nil, http.StatusConflict, fmt.Errorf("response from api third party there is a problem")
+	}
+
+	if !status {
+		return nil, http.StatusBadRequest,fmt.Errorf(respMovie.Error)
+	}
+
 	resp = new(modelMovie.RespListMovie)
 	for _, movie := range respMovie.Search {
 		resp.Items = append(resp.Items, modelMovie.Items{
@@ -75,6 +84,15 @@ func (uc *UcInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *
 
 	if respMovie == nil {
 		return nil, http.StatusInternalServerError, fmt.Errorf("data from api call does not exist")
+	}
+
+	status, err := strconv.ParseBool(respMovie.Response)
+	if err != nil {
+		return nil, http.StatusConflict, fmt.Errorf("response from api third party there is a problem")
+	}
+
+	if !status {
+		return nil, http.StatusBadRequest,fmt.Errorf(respMovie.Error)
 	}
 
 	resp = new(modelMovie.RespDetailMovie)
