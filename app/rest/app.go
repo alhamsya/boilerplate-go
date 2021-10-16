@@ -15,12 +15,13 @@ func main() {
 		log.Fatalln("[REST] fail connect to database", err)
 	}
 
-	// init rest option
+	//init rest option
 	server := restHandler.New(&restHandler.Handler{
 		Cfg: &cfg,
 		Interactor: app.RestGetInteractor(&cfg, dbService),
 	})
 
+	//running service rest API
 	if err := server.Run(); err != nil {
 		log.Fatalln("[REST] service not running", err)
 	}

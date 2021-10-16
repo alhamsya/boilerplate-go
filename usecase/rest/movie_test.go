@@ -287,7 +287,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			uc := &UcInteractor{
+			uc := &UCInteractor{
 				Cfg:         tt.fields.Cfg,
 				ServiceRepo: mockServiceRepo,
 				OMDBRepo:    mockOMDBRepo,
@@ -501,7 +501,7 @@ func TestUcInteractor_DoGetDetailMovie(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			uc := &UcInteractor{
+			uc := &UCInteractor{
 				Cfg:         tt.fields.Cfg,
 				ServiceRepo: mockServiceRepo,
 				OMDBRepo:    mockOMDBRepo,

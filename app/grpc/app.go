@@ -15,12 +15,13 @@ func main()  {
 		log.Fatalln("[GRPC] fail connect to database", err)
 	}
 
-	// init grpc option
+	//init grpc option
 	server := grpcHandler.New(&grpcHandler.Handler{
 		Cfg: &cfg,
 		Interactor: app.GrpcGetInteractor(&cfg, dbService),
 	})
 
+	//running service gRPC
 	if err := server.Run(); err != nil {
 		log.Fatalln("[GRPC] service not running", err)
 	}

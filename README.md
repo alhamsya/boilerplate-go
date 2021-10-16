@@ -43,6 +43,8 @@ make run-grpc
 ```
 
 ## 🎯 Features
+- Clean Architecture- 
+- DDD (Domain Driven Design) Concept
 - Rest API using [Fiber Framework](https://github.com/gofiber/fiber)
 - Graceful Handling for gRPC server
 - Best Practice Connection Pooling to Database
