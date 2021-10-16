@@ -42,3 +42,6 @@ build-proto:
 mocks:
 	@mockery --disable-version-string --all --dir ./domain/repository/ --output ./domain/repository/mocks/
 	@mockery --disable-version-string --all --dir ./domain/definition/ --output ./domain/definition/mocks/
+
+test:
+	@bash ./script/go_test.sh

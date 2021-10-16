@@ -18,6 +18,7 @@ type ModuleRepo struct {
 	omdb    *omdb.OMDB
 }
 
+//GetConfig get config by name
 func GetConfig() (cfg config.MainConfig) {
 	cfg.ReadConfig("main")
 	return cfg
@@ -38,10 +39,11 @@ func GetDatabase(cfg *config.MainConfig, nameConfig string) (*database.Store, er
 	return db, nil
 }
 
+//RestGetInteractor rest get interactor and related usecase
 func RestGetInteractor(cfg *config.MainConfig, db *database.Store) *restRouters.RestInteractor {
 	generalInteractor := GeneralInteractor(cfg, db)
 
-	uc := restUC.New(&restUC.UcInteractor{
+	uc := restUC.New(&restUC.UCInteractor{
 		Cfg:         cfg,
 		ServiceRepo: generalInteractor.service,
 		OMDBRepo:    generalInteractor.omdb,
@@ -52,6 +54,7 @@ func RestGetInteractor(cfg *config.MainConfig, db *database.Store) *restRouters.
 	}
 }
 
+//GrpcGetInteractor gRPC get interactor and related usecase
 func GrpcGetInteractor(cfg *config.MainConfig, db *database.Store) *grpcRouters.GrpcInteractor {
 	generalInteractor := GeneralInteractor(cfg, db)
 
@@ -66,6 +69,7 @@ func GrpcGetInteractor(cfg *config.MainConfig, db *database.Store) *grpcRouters.
 	}
 }
 
+//GeneralInteractor general interactor for rest and gRPC
 func GeneralInteractor(cfg *config.MainConfig, db *database.Store) *ModuleRepo {
 	service := databases.New(
 		&databases.DBService{

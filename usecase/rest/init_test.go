@@ -16,19 +16,19 @@ func initMock()  {
 
 func TestNew(t *testing.T) {
 	type args struct {
-		c *UcInteractor
+		c *UCInteractor
 	}
 	tests := []struct {
 		name string
 		args args
-		want *UcInteractor
+		want *UCInteractor
 	}{
 		{
 			name: "When_init_expectSuccess",
 			args: args{
-				c: &UcInteractor{},
+				c: &UCInteractor{},
 			},
-			want: &UcInteractor{},
+			want: &UCInteractor{},
 		},
 	}
 	for _, tt := range tests {

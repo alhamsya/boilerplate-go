@@ -13,7 +13,7 @@ import (
 	"github.com/alhamsya/boilerplate-go/lib/utils/datetime"
 )
 
-func (uc *UcInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.ReqListMovie) (resp *modelMovie.RespListMovie, httpCode int, err error) {
+func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.ReqListMovie) (resp *modelMovie.RespListMovie, httpCode int, err error) {
 	respMovie, err := uc.OMDBRepo.GetListMovie(reqClient.Search, reqClient.Page)
 	if err != nil {
 		return nil, http.StatusInternalServerError, err
@@ -76,7 +76,7 @@ func (uc *UcInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 	return resp, http.StatusOK, nil
 }
 
-func (uc *UcInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *modelMovie.RespDetailMovie, httpCode int, err error) {
+func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *modelMovie.RespDetailMovie, httpCode int, err error) {
 	respMovie, err := uc.OMDBRepo.GetDetailMovie(movieID)
 	if err != nil {
 		return nil, http.StatusInternalServerError, err
