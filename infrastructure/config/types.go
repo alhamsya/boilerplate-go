@@ -8,6 +8,7 @@ type MainConfig struct {
 	Databases  map[string]*DBConfig
 	Toggle     map[string]*Toggle
 	External   map[string]*External
+	CORS       CORS
 }
 
 type DBConfig struct {
@@ -26,6 +27,10 @@ type RestServer struct {
 	Timeout       time.Duration
 	AccessLogFile string
 	ErrorLogFile  string
+}
+
+type CORS struct {
+	AllowOrigins []string
 }
 
 type GrpcServer struct {
