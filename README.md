@@ -43,7 +43,9 @@ make run-grpc
 ```
 
 ## 🎯 Features
-- Clean Architecture- 
+- Clean Architecture
+- CORS middleware for Fiber that that can be used to enable Cross-Origin Resource Sharing with various options.
+- [Limiter middleware](https://github.com/gofiber/fiber/tree/master/middleware/limiter#limiter-middleware)
 - DDD (Domain Driven Design) Concept
 - Rest API using [Fiber Framework](https://github.com/gofiber/fiber)
 - Graceful Handling for gRPC server

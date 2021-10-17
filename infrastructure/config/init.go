@@ -28,6 +28,7 @@ func (mainConfig *MainConfig) ReadConfig(module string) {
 	filePath := fmt.Sprintf("%s/%s/%s.%s.ini", dir, pathBase, module, environ)
 
 	cfg, err := ini.LoadSources(ini.LoadOptions{
+		AllowShadows: true,
 		SpaceBeforeInlineComment: true,
 	}, filePath)
 	if err != nil {
