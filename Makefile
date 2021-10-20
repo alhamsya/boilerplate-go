@@ -5,7 +5,7 @@ start:
 	@docker-compose up -d
 
 stop:
-	@docker-compose down -v
+	@docker-compose down --rmi all -v
 
 migrate-up:
 	go get -v github.com/rubenv/sql-migrate/...
