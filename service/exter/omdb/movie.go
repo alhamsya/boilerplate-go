@@ -7,6 +7,8 @@ import (
 	"net"
 	"net/http"
 	"time"
+
+	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 )
 
 //GetListMovie get list movie by search and page
@@ -14,7 +16,7 @@ func (o *OMDB) GetListMovie(search string, page int64) (responseObject *OMDBList
 	endpoint := fmt.Sprintf("%s?apikey=%s&s=%s&page=%d", o.Cfg.External["omdb"].Endpoint, o.Cfg.External["omdb"].Key, search, page)
 	req, err := http.NewRequest(http.MethodGet, endpoint, nil)
 	if err != nil {
-		return nil, err
+		return nil, customError.WrapFlag(err, "http", "request")
 	}
 
 	timeout := time.Duration(10) * time.Second
@@ -31,18 +33,18 @@ func (o *OMDB) GetListMovie(search string, page int64) (responseObject *OMDBList
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return nil, err
+		return nil, customError.WrapFlag(err, "http", "Do")
 	}
 	defer resp.Body.Close()
 
 	bodyBytes, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return nil, customError.WrapFlag(err, "ioutil", "ReadAll")
 	}
 
 	err = json.Unmarshal(bodyBytes, &responseObject)
 	if err != nil {
-		return nil, err
+		return nil, customError.WrapFlag(err, "json", "Unmarshal")
 	}
 
 	return responseObject, nil

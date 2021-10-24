@@ -3,20 +3,21 @@ package restUC
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/gofiber/fiber/v2"
-	"github.com/volatiletech/null"
 	"net/http"
 	"strconv"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/models/movie"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/alhamsya/boilerplate-go/lib/utils/datetime"
+	"github.com/gofiber/fiber/v2"
+	"github.com/volatiletech/null"
 )
 
 func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.ReqListMovie) (resp *modelMovie.RespListMovie, httpCode int, err error) {
 	respMovie, err := uc.OMDBRepo.GetListMovie(reqClient.Search, reqClient.Page)
 	if err != nil {
-		return nil, http.StatusInternalServerError, err
+		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "external api", "GetListMovie")
 	}
 
 	if respMovie == nil {
@@ -50,7 +51,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 
 	now, err := datetime.CurrentTimeF(constCommon.DateTime)
 	if err != nil {
-		return nil, http.StatusInternalServerError, err
+		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "datetime", "CurrentTimeF")
 	}
 
 	reqStr, _ := json.Marshal(reqClient)
@@ -65,7 +66,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 	}
 	_, err = uc.ServiceRepo.CreateHistoryLog(ctx.Context(), reqDB)
 	if err != nil {
-		return nil, http.StatusInternalServerError, err
+		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "database", "CreateHistoryLog")
 	}
 
 	resp = &modelMovie.RespListMovie{
