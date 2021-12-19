@@ -30,6 +30,11 @@ const (
 )
 
 const (
+	TypeREST = "REST"
+	TypeGRPC = "GRPC"
+)
+
+const (
 	DefaultGRCPMaxConnectionIdle  = 3 * time.Second
 	DefaultGRPCContextWithTimeout = 3 * time.Second
 	DefaultServerGRPCGraceTimeout = 10 * time.Second

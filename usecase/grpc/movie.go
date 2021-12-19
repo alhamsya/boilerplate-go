@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/client"
+	customError "github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/volatiletech/null"
 	"google.golang.org/grpc"
 	"strconv"
@@ -19,7 +20,7 @@ import (
 func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetListMovieReq) (resp *pb.GetListMovieResp, err error) {
 	respMovie, err := uc.OMDBRepo.GetListMovie(reqClient.Search, reqClient.Page)
 	if err != nil {
-		return nil, err
+		return nil, customError.WrapFlag(err, "OMDBRepo", "GetListMovie")
 	}
 
 	if respMovie == nil {
@@ -28,11 +29,11 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
-		return nil, fmt.Errorf("response from api third party there is a problem")
+		return nil, customError.Wrap(err, "ParseBool")
 	}
 
 	if !status {
-		return nil,fmt.Errorf(respMovie.Error)
+		return nil, customError.WrapFlag(fmt.Errorf(respMovie.Error), "OMDBRepo", "status third party")
 	}
 
 	var items []*pb.ItemsMovie
@@ -48,12 +49,12 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 
 	total, err := strconv.ParseInt(respMovie.TotalResults, 10, 64)
 	if err != nil {
-		return nil, fmt.Errorf("fail convert total result")
+		return nil, customError.Wrap(err, "ParseInt")
 	}
 
 	now, err := datetime.CurrentTimeF(constCommon.DateTime)
 	if err != nil {
-		return nil, err
+		return nil, customError.Wrap(err, "CurrentTimeF")
 	}
 
 	endPoint, _ := grpc.Method(ctx)
@@ -63,13 +64,13 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 		Endpoint:   null.StringFrom(endPoint),
 		Request:    string(reqStr),
 		Response:   string(respStr),
-		SourceData: "GRPC",
+		SourceData: constCommon.TypeGRPC,
 		CreatedAt:  now,
 		CreatedBy:  client.GrpcGetIP(ctx),
 	}
 	_, err = uc.ServiceRepo.CreateHistoryLog(ctx, reqDB)
 	if err != nil {
-		return nil, err
+		return nil, customError.WrapFlag(err, "database", "CreateHistoryLog")
 	}
 
 	resp = &pb.GetListMovieResp{
@@ -85,20 +86,20 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 func (uc *UcInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetDetailMovieReq) (data *pb.GetDetailMovieResp, err error) {
 	respMovie, err := uc.OMDBRepo.GetDetailMovie(reqClient.MovieID)
 	if err != nil {
-		return nil, err
+		return nil, customError.WrapFlag(err, "OMDBRepo", "GetDetailMovie")
 	}
 
 	if respMovie == nil {
-		return nil, fmt.Errorf("data from api call does not exist")
+		return nil, customError.Wrap(fmt.Errorf("data from api call does not exist"))
 	}
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
-		return nil, fmt.Errorf("response from api third party there is a problem")
+		return nil, customError.Wrap(err, "response from api third party there is a problem")
 	}
 
 	if !status {
-		return nil,fmt.Errorf(respMovie.Error)
+		return nil, customError.WrapFlag(fmt.Errorf(respMovie.Error), "OMDBRepo", "status third party")
 	}
 
 	var ratings []*pb.Ratings
@@ -111,7 +112,7 @@ func (uc *UcInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetD
 
 	now, err := datetime.CurrentTimeF(constCommon.DateTime)
 	if err != nil {
-		return nil, err
+		return nil, customError.Wrap(err, "CurrentTimeF")
 	}
 
 	endPoint, _ := grpc.Method(ctx)
@@ -121,17 +122,17 @@ func (uc *UcInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetD
 		Endpoint:   null.StringFrom(endPoint),
 		Request:    string(reqStr),
 		Response:   string(respStr),
-		SourceData: "GRPC",
+		SourceData: constCommon.TypeGRPC,
 		CreatedAt:  now,
 		CreatedBy:  client.GrpcGetIP(ctx),
 	}
 	_, err = uc.ServiceRepo.CreateHistoryLog(ctx, reqDB)
 	if err != nil {
-		return nil, err
+		return nil, customError.Wrap(err, "database", "CreateHistoryLog")
 	}
 
 	data = &pb.GetDetailMovieResp{
-		Data:   &pb.DataDetailMovie{
+		Data: &pb.DataDetailMovie{
 			Title:      respMovie.Title,
 			Year:       respMovie.Year,
 			Rated:      respMovie.Rated,

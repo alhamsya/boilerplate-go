@@ -30,7 +30,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 	}
 
 	if !status {
-		return nil, http.StatusBadRequest,fmt.Errorf(respMovie.Error)
+		return nil, http.StatusBadRequest, fmt.Errorf(respMovie.Error)
 	}
 
 	resp = new(modelMovie.RespListMovie)
@@ -60,7 +60,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 		Endpoint:   null.StringFrom(ctx.Path()),
 		Request:    string(reqStr),
 		Response:   string(respStr),
-		SourceData: "REST",
+		SourceData: constCommon.TypeREST,
 		CreatedAt:  now,
 		CreatedBy:  ctx.IP(),
 	}
@@ -80,20 +80,20 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *modelMovie.RespDetailMovie, httpCode int, err error) {
 	respMovie, err := uc.OMDBRepo.GetDetailMovie(movieID)
 	if err != nil {
-		return nil, http.StatusInternalServerError, err
+		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "OMDBRepo", "GetDetailMovie")
 	}
 
 	if respMovie == nil {
-		return nil, http.StatusInternalServerError, fmt.Errorf("data from api call does not exist")
+		return nil, http.StatusInternalServerError, customError.Wrap(fmt.Errorf("data from api call does not exist"), "OMDBRepo")
 	}
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
-		return nil, http.StatusConflict, fmt.Errorf("response from api third party there is a problem")
+		return nil, http.StatusConflict, customError.Wrap(err, "response from api third party there is a problem")
 	}
 
 	if !status {
-		return nil, http.StatusBadRequest,fmt.Errorf(respMovie.Error)
+		return nil, http.StatusBadRequest, customError.WrapFlag(fmt.Errorf(respMovie.Error), "OMDBRepo", "status third party")
 	}
 
 	resp = new(modelMovie.RespDetailMovie)
@@ -106,7 +106,7 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *
 
 	now, err := datetime.CurrentTimeF(constCommon.DateTime)
 	if err != nil {
-		return nil, http.StatusInternalServerError, err
+		return nil, http.StatusInternalServerError, customError.Wrap(err, "CurrentTimeF")
 	}
 
 	reqStr, _ := json.Marshal(movieID)
@@ -115,13 +115,13 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *
 		Endpoint:   null.StringFrom(ctx.Path()),
 		Request:    string(reqStr),
 		Response:   string(respStr),
-		SourceData: "REST",
+		SourceData: constCommon.TypeREST,
 		CreatedAt:  now,
 		CreatedBy:  ctx.IP(),
 	}
 	_, err = uc.ServiceRepo.CreateHistoryLog(ctx.Context(), reqDB)
 	if err != nil {
-		return nil, http.StatusInternalServerError, err
+		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "database", "CreateHistoryLog")
 	}
 
 	resp = &modelMovie.RespDetailMovie{
