@@ -9,4 +9,5 @@ type UcInteractor struct {
 	Cfg         *config.MainConfig
 	ServiceRepo repository.ServiceRepo
 	OMDBRepo    repository.OMDBRepo
+	CallWrapper repository.WrapperRepo
 }

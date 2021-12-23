@@ -4,28 +4,33 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/client"
-	customError "github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
-	"github.com/volatiletech/null"
-	"google.golang.org/grpc"
 	"strconv"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/models/movie"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/client"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/alhamsya/boilerplate-go/lib/utils/datetime"
+	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
+	"github.com/volatiletech/null"
+	"google.golang.org/grpc"
 
 	pb "github.com/alhamsya/boilerplate-go/protos"
 )
 
 func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetListMovieReq) (resp *pb.GetListMovieResp, err error) {
-	respMovie, err := uc.OMDBRepo.GetListMovie(reqClient.Search, reqClient.Page)
+	respWrapper, err := uc.CallWrapper.GetWrapper("omdb").Call(func() (interface{}, error) {
+		return  uc.OMDBRepo.GetListMovie(reqClient.Search, reqClient.Page)
+	})
 	if err != nil {
 		return nil, customError.WrapFlag(err, "OMDBRepo", "GetListMovie")
 	}
 
-	if respMovie == nil {
+	if respWrapper == nil {
 		return nil, fmt.Errorf("data from api call does not exist")
 	}
+
+	respMovie := respWrapper.(*omdb.OMDBList)
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
