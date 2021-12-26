@@ -17,6 +17,7 @@ require (
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/lib/pq v1.10.3
 	github.com/prometheus/client_golang v1.11.0 // indirect
+	github.com/sony/gobreaker v0.5.0
 	github.com/stretchr/testify v1.7.0
 	github.com/valyala/fasthttp v1.31.0
 	github.com/volatiletech/inflect v0.0.1 // indirect

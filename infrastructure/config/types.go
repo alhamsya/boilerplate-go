@@ -8,6 +8,7 @@ type MainConfig struct {
 	Databases  map[string]*DBConfig
 	Toggle     map[string]*Toggle
 	External   map[string]*External
+	CallWrapperConfig map[string]*CallWrapperConfig
 	CORS       CORS
 }
 
@@ -48,4 +49,10 @@ type Toggle struct {
 type External struct {
 	Endpoint string
 	Key      string
+}
+
+type CallWrapperConfig struct {
+	APIType            string
+	CallType           string
+	TimeoutInMS        int64
 }
