@@ -1,9 +1,10 @@
 package main
 
 import (
+	"log"
+
 	"github.com/alhamsya/boilerplate-go/app"
 	"github.com/alhamsya/boilerplate-go/service/inter/rest/handler"
-	"log"
 )
 
 func main() {

@@ -8,6 +8,7 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/infrastructure/config"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/grace"
 	"github.com/alhamsya/boilerplate-go/service/inter/rest/routers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
@@ -19,6 +20,7 @@ import (
 func New(this *Handler) *Handler {
 	app := fiber.New(fiber.Config{
 		ReadTimeout: this.Cfg.RestServer.Timeout * time.Second,
+		IdleTimeout: 5 * time.Second,
 	})
 
 	//set middleware fiber framework
@@ -81,7 +83,7 @@ func getRecoverConfig(cfg *config.MainConfig) fiber.Handler {
 		Next: func(c *fiber.Ctx) bool {
 			c.Status(http.StatusInternalServerError).JSON(&fiber.Map{
 				"message": "please try again",
-				"data": nil,
+				"data":    nil,
 			})
 			return false
 		},
@@ -93,5 +95,5 @@ func getRecoverConfig(cfg *config.MainConfig) fiber.Handler {
 }
 
 func (h *Handler) Run() error {
-	return h.App.Listen(fmt.Sprintf(":%s", h.Cfg.RestServer.Port))
+	return grace.ServeRESTWithFiber(h.App, fmt.Sprintf(":%s", h.Cfg.RestServer.Port), 10*time.Second)
 }
