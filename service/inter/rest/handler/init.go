@@ -44,7 +44,7 @@ func New(this *Handler) *Handler {
 	}
 }
 
-func getLoggerConfig(cfg *config.MainConfig) fiber.Handler {
+func getLoggerConfig(cfg *config.ServiceConfig) fiber.Handler {
 	loggerConfig := logger.New(logger.Config{
 		Format:     "[${latency}] ${status} - ${method} ${path}\n",
 		TimeFormat: constCommon.DateTime,
@@ -53,7 +53,7 @@ func getLoggerConfig(cfg *config.MainConfig) fiber.Handler {
 	return loggerConfig
 }
 
-func getCORSConfig(cfg *config.MainConfig) fiber.Handler {
+func getCORSConfig(cfg *config.ServiceConfig) fiber.Handler {
 	corsConfig := cors.New(cors.Config{
 		AllowOrigins: strings.Join(cfg.CORS.AllowOrigins, ", "),
 		AllowHeaders: "Origin, Content-Type, Accept",
@@ -61,7 +61,7 @@ func getCORSConfig(cfg *config.MainConfig) fiber.Handler {
 	return corsConfig
 }
 
-func getLimiterConfig(cfg *config.MainConfig) fiber.Handler {
+func getLimiterConfig(cfg *config.ServiceConfig) fiber.Handler {
 	limiterConfig := limiter.New(limiter.Config{
 		Max:        20,               // max count of connections
 		Expiration: 30 * time.Second, // expiration time of the limit
@@ -78,7 +78,7 @@ func getLimiterConfig(cfg *config.MainConfig) fiber.Handler {
 	return limiterConfig
 }
 
-func getRecoverConfig(cfg *config.MainConfig) fiber.Handler {
+func getRecoverConfig(cfg *config.ServiceConfig) fiber.Handler {
 	recoverConfig := recover.New(recover.Config{
 		Next: func(c *fiber.Ctx) bool {
 			c.Status(http.StatusInternalServerError).JSON(&fiber.Map{

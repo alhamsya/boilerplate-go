@@ -86,7 +86,7 @@ func ServeRESTWithFiber(app *fiber.App, address string, graceTimeout time.Durati
 	}
 
 	<-stoppedCh
-	log.Println("[RESR] server stopped")
+	log.Println("[REST] server stopped")
 
 	return nil
 }

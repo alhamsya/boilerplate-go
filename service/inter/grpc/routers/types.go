@@ -7,7 +7,7 @@ import (
 )
 
 type GrpcServer struct {
-	Cfg            *config.MainConfig
+	Cfg            *config.ServiceConfig
 	GrpcInteractor *GrpcInteractor
 	App            *grpc.Server
 }

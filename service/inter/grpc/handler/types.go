@@ -12,7 +12,7 @@ type HealthChecker struct {
 }
 
 type Handler struct {
-	Cfg        *config.MainConfig
+	Cfg        *config.ServiceConfig
 	GrpcServer *grpc.Server
 	Interactor *grpcRouters.GrpcInteractor
 }

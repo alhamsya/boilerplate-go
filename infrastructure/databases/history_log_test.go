@@ -76,7 +76,7 @@ func TestDBService_CreateHistoryLog(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			db := &DBService{
+			db := &ServiceDB{
 				DB: mockStore,
 			}
 			tt.patch()

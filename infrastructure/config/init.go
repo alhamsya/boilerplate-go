@@ -2,22 +2,22 @@ package config
 
 import (
 	"fmt"
+	"github.com/go-gcfg/gcfg"
+	"gopkg.in/ini.v1"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
-
-	"github.com/go-gcfg/gcfg"
-	"gopkg.in/ini.v1"
+	"strings"
 )
 
 //ReadConfig read config file .ini
-func (mainConfig *MainConfig) ReadConfig(module string) {
+func (serviceConfig *ServiceConfig) ReadConfig(module string) {
 	environ := os.Getenv("ENV")
 	pathBase := fmt.Sprintf("etc/%s", "service")
 	dir, err := os.Getwd()
 	if err != nil {
-		log.Fatalf("[INIT] fail get working directory: %v", err)
+		log.Fatalf("[INIT] [CONFIG] fail get working directory: %v", err)
 	}
 
 	if environ == "" {
@@ -32,21 +32,23 @@ func (mainConfig *MainConfig) ReadConfig(module string) {
 		SpaceBeforeInlineComment: true,
 	}, filePath)
 	if err != nil {
-		log.Fatalf("[INIT] fail load file .ini: %v", err)
+		log.Fatalf("[INIT] [CONFIG] fail LoadSources .ini: %v", err)
 	}
 
 	ini.PrettyFormat = true
 	err = cfg.SaveTo(filePath)
 	if err != nil {
-		log.Fatalf("[INIT] fail load file .ini: %v", err)
+		log.Fatalf("[INIT] [CONFIG] fail SaveTo .ini: %v", err)
 	}
 
 	configStr, err := ioutil.ReadFile(filepath.Clean(filePath))
 	if err != nil {
-		log.Fatalf("[INIT] ReadFile: %v", err)
+		log.Fatalf("[INIT] [CONFIG] fail ReadFile: %v", err)
 	}
-	err = gcfg.FatalOnly(gcfg.ReadStringInto(mainConfig, string(configStr)))
+	err = gcfg.FatalOnly(gcfg.ReadStringInto(serviceConfig, string(configStr)))
 	if err != nil {
-		log.Fatalf("[INIT] fail FatalOnly: %v", err)
+		log.Fatalf("[INIT] [CONFIG] fail FatalOnly: %v", err)
 	}
+
+	log.Printf("[IGNORE] [CONFIG] [%s] initialize", strings.ToUpper(module))
 }

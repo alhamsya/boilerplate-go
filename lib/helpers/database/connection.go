@@ -57,6 +57,8 @@ func (d *DB) connectDB(driver string) (*sqlx.DB, error) {
 
 	if d.MaxIdleConn > 0 {
 		db.SetMaxIdleConns(d.MaxIdleConn)
+	}else {
+		db.SetMaxIdleConns(0)
 	}
 
 	if d.MaxOpenConn > 0 {

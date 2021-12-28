@@ -7,7 +7,7 @@ import (
 )
 
 type RestServer struct {
-	Cfg            *config.MainConfig
+	Cfg            *config.ServiceConfig
 	App            *fiber.App
 	RestInteractor *RestInteractor
 }

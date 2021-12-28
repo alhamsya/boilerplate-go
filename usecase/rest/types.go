@@ -6,8 +6,9 @@ import (
 )
 
 type UCInteractor struct {
-	Cfg         *config.MainConfig
-	ServiceRepo repository.ServiceRepo
+	Cfg         *config.ServiceConfig
+	DBRepo      repository.DBRepo
+	CacheRepo   repository.CacheRepo
 	OMDBRepo    repository.OMDBRepo
 	CallWrapper repository.WrapperRepo
 }

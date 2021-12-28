@@ -2,14 +2,15 @@ package config
 
 import "time"
 
-type MainConfig struct {
-	RestServer RestServer
-	GrpcServer GrpcServer
-	Databases  map[string]*DBConfig
-	Toggle     map[string]*Toggle
-	External   map[string]*External
-	CallWrapperConfig map[string]*CallWrapperConfig
-	CORS       CORS
+type ServiceConfig struct {
+	RestServer        RestServer
+	GrpcServer        GrpcServer
+	Databases         map[string]*DBConfig
+	Toggle            map[string]*Toggle
+	External          map[string]*External
+	CallWrapper map[string]*CallWrapper
+	CORS              CORS
+	Redis             Redis
 }
 
 type DBConfig struct {
@@ -51,8 +52,18 @@ type External struct {
 	Key      string
 }
 
-type CallWrapperConfig struct {
-	APIType            string
-	CallType           string
-	TimeoutInMS        int64
+type CallWrapper struct {
+	APIType     string
+	CallType    string
+	TimeoutInMS int64
+}
+
+type Redis struct {
+	Address          string
+	Username         string
+	Password         string
+	DB               int
+	MinIdleConn      int
+	MaxConnAgeInSec  int
+	IdleTimeoutInSec int
 }

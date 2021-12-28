@@ -3,7 +3,7 @@ package omdb
 import "github.com/alhamsya/boilerplate-go/infrastructure/config"
 
 type OMDB struct {
-	Cfg *config.MainConfig
+	Cfg *config.ServiceConfig
 }
 
 type OMDBList struct {

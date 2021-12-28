@@ -1,7 +1,13 @@
 package databases
 
-import "github.com/alhamsya/boilerplate-go/lib/helpers/database"
+import (
+	"github.com/alhamsya/boilerplate-go/infrastructure/config"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
+)
 
-type DBService struct {
-	DB *database.Store
+type ServiceDB struct {
+	Cfg    *config.ServiceConfig
+	Driver string
+	DB     *database.Store
+	Name   string
 }

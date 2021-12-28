@@ -28,19 +28,19 @@ func setupMockDB() (mockDB *sql.DB, mockStore *database.Store, mockSQL sqlmock.S
 
 func TestNew(t *testing.T) {
 	type args struct {
-		this *DBService
+		this *ServiceDB
 	}
 	tests := []struct {
 		name string
 		args args
-		want *DBService
+		want *ServiceDB
 	}{
 		{
 			name: "When_init_expectSuccess",
 			args: args{
-				this: &DBService{},
+				this: &ServiceDB{},
 			},
-			want: &DBService{},
+			want: &ServiceDB{},
 		},
 	}
 	for _, tt := range tests {

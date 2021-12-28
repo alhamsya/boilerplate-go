@@ -26,8 +26,8 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 	defer app.ReleaseCtx(ctx)
 
 	type fields struct {
-		Cfg         *config.MainConfig
-		ServiceRepo repository.ServiceRepo
+		Cfg         *config.ServiceConfig
+		ServiceRepo repository.DBRepo
 		OMDBRepo    repository.OMDBRepo
 	}
 	type args struct {
@@ -288,9 +288,9 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			uc := &UCInteractor{
-				Cfg:         tt.fields.Cfg,
-				ServiceRepo: mockServiceRepo,
-				OMDBRepo:    mockOMDBRepo,
+				Cfg:      tt.fields.Cfg,
+				DBRepo:   mockServiceRepo,
+				OMDBRepo: mockOMDBRepo,
 			}
 			tt.patch()
 			gotResp, gotHttpCode, err := uc.DoGetListMovie(tt.args.ctx, tt.args.reqClient)
@@ -317,8 +317,8 @@ func TestUcInteractor_DoGetDetailMovie(t *testing.T) {
 	defer app.ReleaseCtx(ctx)
 
 	type fields struct {
-		Cfg         *config.MainConfig
-		ServiceRepo repository.ServiceRepo
+		Cfg         *config.ServiceConfig
+		ServiceRepo repository.DBRepo
 		OMDBRepo    repository.OMDBRepo
 	}
 	type args struct {
@@ -502,9 +502,9 @@ func TestUcInteractor_DoGetDetailMovie(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			uc := &UCInteractor{
-				Cfg:         tt.fields.Cfg,
-				ServiceRepo: mockServiceRepo,
-				OMDBRepo:    mockOMDBRepo,
+				Cfg:      tt.fields.Cfg,
+				DBRepo:   mockServiceRepo,
+				OMDBRepo: mockOMDBRepo,
 			}
 			tt.patch()
 			gotResp, gotHttpCode, err := uc.DoGetDetailMovie(tt.args.ctx, tt.args.movieID)

@@ -17,7 +17,7 @@ func shouldBeSwitchedToOpen(counts gobreaker.Counts) bool {
 	return counts.Requests >= 3 && failureRatio >= 0.6
 }
 
-func NewCircuitBreaker(cfg *config.CallWrapperConfig, usecase string) (*gobreaker.CircuitBreaker, error) {
+func NewCircuitBreaker(cfg *config.CallWrapper, usecase string) (*gobreaker.CircuitBreaker, error) {
 	var reqTimeout time.Duration
 
 	//validate usecase

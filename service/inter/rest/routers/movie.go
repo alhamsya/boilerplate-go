@@ -2,6 +2,7 @@ package restRouters
 
 import (
 	"net/http"
+	"net/url"
 	"strconv"
 	"strings"
 
@@ -27,7 +28,7 @@ func (rest *RestServer) GetListMovie(ctx *fiber.Ctx) error {
 	}
 
 	reqClient := &modelMovie.ReqListMovie{
-		Search: paramSearch,
+		Search: url.QueryEscape(strings.ToLower(paramSearch)),
 		Page:   paramPage,
 	}
 	data, httpCode, err := rest.RestInteractor.RestInterface.DoGetListMovie(ctx, reqClient)

@@ -10,19 +10,43 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/alhamsya/boilerplate-go/lib/utils/datetime"
+	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
 	"github.com/gofiber/fiber/v2"
 	"github.com/volatiletech/null"
 )
 
 func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.ReqListMovie) (resp *modelMovie.RespListMovie, httpCode int, err error) {
-	respMovie, err := uc.OMDBRepo.GetListMovie(reqClient.Search, reqClient.Page)
+	//implement call wrapping and on purpose do not use error wrapping
+	respWrapper, err := uc.CallWrapper.GetWrapper("omdb").Call(func() (interface{}, error) {
+		//get data from redis
+		respMovie, err := uc.CacheRepo.GetListMovie(ctx.Context(), reqClient.Search, reqClient.Page)
+		if err == nil {
+			return respMovie, nil
+		}
+
+		//api call to the OMDB
+		respMovie, err = uc.OMDBRepo.GetListMovie(reqClient.Search, reqClient.Page)
+		if err != nil {
+			return nil, err
+		}
+
+		//ignore for return error
+		uc.CacheRepo.SetListMovie(ctx.Context(), reqClient.Search, reqClient.Page, respMovie)
+		return respMovie, nil
+	})
+
+	//handle error for API call
 	if err != nil {
-		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "external api", "GetListMovie")
+		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "OMDBRepo", "GetListMovie")
 	}
 
-	if respMovie == nil {
+	//handle response wrapper is nil
+	if respWrapper == nil {
 		return nil, http.StatusInternalServerError, fmt.Errorf("data from api call does not exist")
 	}
+
+	//force data to struct
+	respMovie := respWrapper.(*omdb.OMDBList)
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
@@ -64,7 +88,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 		CreatedAt:  now,
 		CreatedBy:  ctx.IP(),
 	}
-	_, err = uc.ServiceRepo.CreateHistoryLog(ctx.Context(), reqDB)
+	_, err = uc.DBRepo.CreateHistoryLog(ctx.Context(), reqDB)
 	if err != nil {
 		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "database", "CreateHistoryLog")
 	}
@@ -119,7 +143,7 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *
 		CreatedAt:  now,
 		CreatedBy:  ctx.IP(),
 	}
-	_, err = uc.ServiceRepo.CreateHistoryLog(ctx.Context(), reqDB)
+	_, err = uc.DBRepo.CreateHistoryLog(ctx.Context(), reqDB)
 	if err != nil {
 		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "database", "CreateHistoryLog")
 	}

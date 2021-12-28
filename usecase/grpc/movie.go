@@ -18,18 +18,38 @@ import (
 	pb "github.com/alhamsya/boilerplate-go/protos"
 )
 
-func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetListMovieReq) (resp *pb.GetListMovieResp, err error) {
+//DoGetListMovie get list movie
+func (uc *UCInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetListMovieReq) (resp *pb.GetListMovieResp, err error) {
+	//implement call wrapping and on purpose do not use error wrapping
 	respWrapper, err := uc.CallWrapper.GetWrapper("omdb").Call(func() (interface{}, error) {
-		return  uc.OMDBRepo.GetListMovie(reqClient.Search, reqClient.Page)
+		//get data from redis
+		respMovie, err := uc.CacheRepo.GetListMovie(ctx, reqClient.Search, reqClient.Page)
+		if err == nil {
+			return respMovie, nil
+		}
+
+		//api call to the OMDB
+		respMovie, err = uc.OMDBRepo.GetListMovie(reqClient.Search, reqClient.Page)
+		if err != nil {
+			return nil, err
+		}
+
+		//ignore for return error
+		uc.CacheRepo.SetListMovie(ctx, reqClient.Search, reqClient.Page, respMovie)
+		return respMovie, nil
 	})
+
+	//handle error for API call
 	if err != nil {
 		return nil, customError.WrapFlag(err, "OMDBRepo", "GetListMovie")
 	}
 
+	//handle response wrapper is nil
 	if respWrapper == nil {
 		return nil, fmt.Errorf("data from api call does not exist")
 	}
 
+	//force data to struct
 	respMovie := respWrapper.(*omdb.OMDBList)
 
 	status, err := strconv.ParseBool(respMovie.Response)
@@ -73,7 +93,8 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 		CreatedAt:  now,
 		CreatedBy:  client.GrpcGetIP(ctx),
 	}
-	_, err = uc.ServiceRepo.CreateHistoryLog(ctx, reqDB)
+
+	_, err = uc.DBRepo.CreateHistoryLog(ctx, reqDB)
 	if err != nil {
 		return nil, customError.WrapFlag(err, "database", "CreateHistoryLog")
 	}
@@ -88,7 +109,7 @@ func (uc *UcInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 	return resp, nil
 }
 
-func (uc *UcInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetDetailMovieReq) (data *pb.GetDetailMovieResp, err error) {
+func (uc *UCInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetDetailMovieReq) (data *pb.GetDetailMovieResp, err error) {
 	respMovie, err := uc.OMDBRepo.GetDetailMovie(reqClient.MovieID)
 	if err != nil {
 		return nil, customError.WrapFlag(err, "OMDBRepo", "GetDetailMovie")
@@ -131,7 +152,7 @@ func (uc *UcInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetD
 		CreatedAt:  now,
 		CreatedBy:  client.GrpcGetIP(ctx),
 	}
-	_, err = uc.ServiceRepo.CreateHistoryLog(ctx, reqDB)
+	_, err = uc.DBRepo.CreateHistoryLog(ctx, reqDB)
 	if err != nil {
 		return nil, customError.Wrap(err, "database", "CreateHistoryLog")
 	}

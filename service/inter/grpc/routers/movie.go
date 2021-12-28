@@ -3,6 +3,7 @@ package grpcRouters
 import (
 	"context"
 	constCommon "github.com/alhamsya/boilerplate-go/domain/constants"
+	"net/url"
 	"strings"
 
 	pb "github.com/alhamsya/boilerplate-go/protos"
@@ -22,6 +23,10 @@ func (grpc *GrpcServer) GetListMovie(ctx context.Context, req *pb.GetListMovieRe
 		req.Page = 1
 	}
 
+	req = &pb.GetListMovieReq{
+		Search: url.QueryEscape(strings.ToLower(req.Search)),
+		Page:   req.Page,
+	}
 	resp, err := grpc.GrpcInteractor.GrpcInterface.DoGetListMovie(ctx, req)
 	if err != nil {
 		return &pb.GetListMovieResp{
