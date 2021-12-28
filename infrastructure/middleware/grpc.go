@@ -16,6 +16,7 @@ func GrpcLoggingInterceptor(ctx context.Context, req interface{}, info *grpc.Una
 	if errHandler != nil {
 		log.Printf("[GRPC] %s [CLIENT] %s : %v", info.FullMethod, clientIP, errHandler)
 	}
+
 	log.Printf("[GRPC] %s [CLIENT] %s : [REQUEST] %s", info.FullMethod, clientIP, req)
 	return resp, nil
 }

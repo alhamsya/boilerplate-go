@@ -8,6 +8,7 @@ require (
 	github.com/andybalholm/brotli v1.0.3 // indirect
 	github.com/friendsofgo/errors v0.9.2
 	github.com/go-gcfg/gcfg v1.2.3
+	github.com/go-redis/redis/v8 v8.11.4
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gofiber/fiber/v2 v2.20.2
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect

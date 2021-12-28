@@ -1,24 +1,19 @@
 package main
 
 import (
+	"log"
+
 	"github.com/alhamsya/boilerplate-go/app"
 	"github.com/alhamsya/boilerplate-go/service/inter/grpc/handler"
-	"log"
 )
 
 func main()  {
 	cfg := app.GetConfig()
 
-	//init databases
-	dbService, err := app.GetDatabase(&cfg, "tes")
-	if err != nil {
-		log.Fatalln("[GRPC] fail connect to database", err)
-	}
-
 	//init grpc option
 	server := grpcHandler.New(&grpcHandler.Handler{
 		Cfg: &cfg,
-		Interactor: app.GrpcGetInteractor(&cfg, dbService),
+		Interactor: app.GrpcGetInteractor(&cfg),
 	})
 
 	//running service gRPC

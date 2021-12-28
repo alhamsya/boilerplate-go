@@ -6,7 +6,7 @@ import (
 )
 
 type Wrapper struct {
-	Cfg     *config.MainConfig
+	Cfg     *config.ServiceConfig
 	Wrapper *gobreaker.CircuitBreaker
 	Err     error
 	CW      map[string]*gobreaker.CircuitBreaker

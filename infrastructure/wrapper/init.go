@@ -10,11 +10,13 @@ import (
 func New(this *Wrapper) *Wrapper {
 	var err error
 	this.CW = make(map[string]*gobreaker.CircuitBreaker)
-	for usecase, cwCfg := range this.Cfg.CallWrapperConfig {
+	for usecase, cwCfg := range this.Cfg.CallWrapper {
 		this.CW[usecase], err = circuitBreaker.NewCircuitBreaker(cwCfg, usecase)
 		if err != nil {
-			log.Fatalf("fail initialize call wrapper")
+			log.Fatalf("[INIT] [CALL WRAPPER] fail NewCircuitBreaker: %v", err)
 		}
 	}
+
+	log.Printf("[IGNORE] [CALL WRAPPER] initialize")
 	return this
 }

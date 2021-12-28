@@ -10,16 +10,10 @@ import (
 func main() {
 	cfg := app.GetConfig()
 
-	//init databases
-	dbService, err := app.GetDatabase(&cfg, "tes")
-	if err != nil {
-		log.Fatalln("[REST] fail connect to database", err)
-	}
-
 	//init rest option
 	server := restHandler.New(&restHandler.Handler{
 		Cfg: &cfg,
-		Interactor: app.RestGetInteractor(&cfg, dbService),
+		Interactor: app.RestGetInteractor(&cfg),
 	})
 
 	//running service rest API

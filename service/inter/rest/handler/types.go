@@ -7,7 +7,7 @@ import (
 )
 
 type Handler struct {
-	Cfg        *config.MainConfig
+	Cfg        *config.ServiceConfig
 	App        *fiber.App
 	Interactor *restRouters.RestInteractor
 }

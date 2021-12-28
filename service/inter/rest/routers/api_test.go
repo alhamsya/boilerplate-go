@@ -11,7 +11,7 @@ func TestRestServer_Register(t *testing.T) {
 
 	})
 	type fields struct {
-		Cfg            *config.MainConfig
+		Cfg            *config.ServiceConfig
 		App            *fiber.App
 		RestInteractor *RestInteractor
 	}
@@ -22,7 +22,7 @@ func TestRestServer_Register(t *testing.T) {
 		{
 			name: "When_register_expectSuccess",
 			fields: fields{
-				Cfg: &config.MainConfig{},
+				Cfg: &config.ServiceConfig{},
 				App: app,
 				RestInteractor: &RestInteractor{},
 			},

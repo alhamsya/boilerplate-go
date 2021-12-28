@@ -1,8 +1,7 @@
 package app
 
 import (
-	"fmt"
-
+	"github.com/alhamsya/boilerplate-go/infrastructure/cache"
 	"github.com/alhamsya/boilerplate-go/infrastructure/config"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
@@ -15,41 +14,29 @@ import (
 )
 
 type ModuleRepo struct {
-	service *databases.DBService
-	omdb    *omdb.OMDB
-	wrapper *wrapper.Wrapper
+	serviceDB    *databases.ServiceDB
+	serviceCache *cache.ServiceCache
+	omdb         *omdb.OMDB
+	wrapper      *wrapper.Wrapper
 }
 
 //GetConfig get config by name
-func GetConfig() (cfg config.MainConfig) {
+func GetConfig() (cfg config.ServiceConfig) {
 	cfg.ReadConfig("main")
+	cfg.ReadConfig("toggle")
 	return cfg
 }
 
-//GetDatabase get specific database
-func GetDatabase(cfg *config.MainConfig, nameConfig string) (*database.Store, error) {
-	dbCfg, ok := cfg.Databases[nameConfig]
-	if !ok {
-		return nil, fmt.Errorf("config database does not exist")
-	}
-
-	db, err := database.New(dbCfg, database.DriverMySQL)
-	if err != nil {
-		return nil, err
-	}
-
-	return db, nil
-}
-
 //RestGetInteractor rest get interactor and related usecase
-func RestGetInteractor(cfg *config.MainConfig, db *database.Store) *restRouters.RestInteractor {
-	generalInteractor := GeneralInteractor(cfg, db)
+func RestGetInteractor(cfg *config.ServiceConfig) *restRouters.RestInteractor {
+	generalInteractor := GeneralInteractor(cfg)
 
 	uc := restUC.New(&restUC.UCInteractor{
 		Cfg:         cfg,
-		ServiceRepo: generalInteractor.service,
+		DBRepo:      generalInteractor.serviceDB,
 		OMDBRepo:    generalInteractor.omdb,
 		CallWrapper: generalInteractor.wrapper,
+		CacheRepo:   generalInteractor.serviceCache,
 	})
 
 	return &restRouters.RestInteractor{
@@ -58,15 +45,16 @@ func RestGetInteractor(cfg *config.MainConfig, db *database.Store) *restRouters.
 }
 
 //GrpcGetInteractor gRPC get interactor and related usecase
-func GrpcGetInteractor(cfg *config.MainConfig, db *database.Store) *grpcRouters.GrpcInteractor {
-	generalInteractor := GeneralInteractor(cfg, db)
+func GrpcGetInteractor(cfg *config.ServiceConfig) *grpcRouters.GrpcInteractor {
+	generalInteractor := GeneralInteractor(cfg)
 
 	uc := grpcUC.New(
-		&grpcUC.UcInteractor{
+		&grpcUC.UCInteractor{
 			Cfg:         cfg,
-			ServiceRepo: generalInteractor.service,
+			DBRepo:      generalInteractor.serviceDB,
 			OMDBRepo:    generalInteractor.omdb,
 			CallWrapper: generalInteractor.wrapper,
+			CacheRepo:   generalInteractor.serviceCache,
 		},
 	)
 
@@ -76,10 +64,18 @@ func GrpcGetInteractor(cfg *config.MainConfig, db *database.Store) *grpcRouters.
 }
 
 //GeneralInteractor general interactor for rest and gRPC
-func GeneralInteractor(cfg *config.MainConfig, db *database.Store) *ModuleRepo {
-	service := databases.New(
-		&databases.DBService{
-			DB: db,
+func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
+	dbService := databases.New(
+		&databases.ServiceDB{
+			Cfg:    cfg,
+			Name:   "tes",
+			Driver: database.DriverMySQL,
+		},
+	)
+
+	cacheService := cache.New(
+		&cache.ServiceCache{
+			Cfg: cfg,
 		},
 	)
 
@@ -94,8 +90,9 @@ func GeneralInteractor(cfg *config.MainConfig, db *database.Store) *ModuleRepo {
 	)
 
 	return &ModuleRepo{
-		service: service,
-		omdb:    omdbRepo,
-		wrapper: cw,
+		serviceDB:    dbService,
+		serviceCache: cacheService,
+		omdb:         omdbRepo,
+		wrapper:      cw,
 	}
 }

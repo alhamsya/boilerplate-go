@@ -25,7 +25,7 @@ func TestRestServer_GetDetailMovie(t *testing.T) {
 	defer app.ReleaseCtx(ctx)
 
 	type fields struct {
-		Cfg            *config.MainConfig
+		Cfg            *config.ServiceConfig
 		App            *fiber.App
 		RestInteractor *RestInteractor
 	}
@@ -101,7 +101,7 @@ func TestRestServer_GetListMovie(t *testing.T) {
 	defer app.ReleaseCtx(ctx)
 
 	type fields struct {
-		Cfg            *config.MainConfig
+		Cfg            *config.ServiceConfig
 		App            *fiber.App
 		RestInteractor *RestInteractor
 	}
