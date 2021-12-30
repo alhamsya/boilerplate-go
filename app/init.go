@@ -68,7 +68,7 @@ func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
 	dbService := databases.New(
 		&databases.ServiceDB{
 			Cfg:    cfg,
-			Name:   "tes",
+			Name:   "movie",
 			Driver: database.DriverMySQL,
 		},
 	)

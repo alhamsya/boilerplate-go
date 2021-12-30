@@ -3,14 +3,14 @@ package config
 import "time"
 
 type ServiceConfig struct {
-	RestServer        RestServer
-	GrpcServer        GrpcServer
-	Databases         map[string]*DBConfig
-	Toggle            map[string]*Toggle
-	External          map[string]*External
+	RestServer  RestServer
+	GrpcServer  GrpcServer
+	Databases   map[string]*DBConfig
+	Toggle      map[string]*Toggle
+	External    map[string]*External
 	CallWrapper map[string]*CallWrapper
-	CORS              CORS
-	Redis             Redis
+	CORS        CORS
+	Redis       Redis
 }
 
 type DBConfig struct {
@@ -21,7 +21,6 @@ type DBConfig struct {
 	ConnectionMaxLifetime time.Duration `json:"connection_max_lifetime"`
 
 	TimeoutExceededInMinutes int  `json:"timeout_exceeded_in_minutes"`
-	NoPingOnOpen             bool `json:"no_ping_on_open"`
 }
 
 type RestServer struct {
