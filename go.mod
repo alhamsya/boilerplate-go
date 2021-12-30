@@ -10,7 +10,7 @@ require (
 	github.com/go-gcfg/gcfg v1.2.3
 	github.com/go-redis/redis/v8 v8.11.4
 	github.com/go-sql-driver/mysql v1.6.0
-	github.com/gofiber/fiber/v2 v2.20.2
+	github.com/gofiber/fiber/v2 v2.23.0
 	github.com/gofrs/uuid v3.2.0+incompatible // indirect
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0
@@ -18,6 +18,7 @@ require (
 	github.com/klauspost/compress v1.13.6 // indirect
 	github.com/lib/pq v1.10.3
 	github.com/prometheus/client_golang v1.11.0 // indirect
+	github.com/sirupsen/logrus v1.8.1
 	github.com/sony/gobreaker v0.5.0
 	github.com/stretchr/testify v1.7.0
 	github.com/valyala/fasthttp v1.31.0

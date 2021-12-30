@@ -53,3 +53,7 @@ make run-grpc
 - Best Practice Connection Pooling to Database
 - Auto migration using Dockerize
 - Example code has been implement call to [OMDB API](http://www.omdbapi.com/)
+- Database connect loop
+- Implementation go-redis
+- Handling can be customised by providing an alternate gRCP recovery function
+- Integration of logrus logging library into gRPC handlers.

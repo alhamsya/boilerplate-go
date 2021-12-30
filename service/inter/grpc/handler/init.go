@@ -13,6 +13,7 @@ import (
 	"google.golang.org/grpc/reflection"
 
 	grpcMiddleware "github.com/grpc-ecosystem/go-grpc-middleware"
+	grpcRecovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpcOpenTracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
 	grpcValidator "github.com/grpc-ecosystem/go-grpc-middleware/validator"
 	grpcPrometheus "github.com/grpc-ecosystem/go-grpc-prometheus"
@@ -32,6 +33,7 @@ func New(this *Handler) *Handler {
 				grpcOpenTracing.UnaryServerInterceptor(),
 				grpcValidator.UnaryServerInterceptor(),
 				grpcPrometheus.UnaryServerInterceptor,
+				grpcRecovery.UnaryServerInterceptor(),
 				middleware.GrpcLoggingInterceptor,
 			),
 		),

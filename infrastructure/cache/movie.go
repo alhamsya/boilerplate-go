@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
@@ -19,7 +20,7 @@ func (cache *ServiceCache) SetListMovie(ctx context.Context, search string, page
 		return customError.Wrap(err, "json marshal")
 	}
 
-	err = cache.Redis.SetEX(ctx, fmt.Sprintf(KeyListMovie, search, page), jsonData, constCommon.RedisExpiry1Minute).Err()
+	err = cache.Redis.SetEX(ctx, fmt.Sprintf(KeyListMovie, search, page), jsonData, constCommon.RedisExpiry1Hour).Err()
 	if err != nil {
 		return customError.WrapFlag(err, "redis", "SetEX")
 	}

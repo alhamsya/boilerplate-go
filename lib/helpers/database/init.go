@@ -17,7 +17,7 @@ func New(cfg *config.DBConfig, dbDriver string) (*Store, error) {
 		MaxIdleConn:           cfg.MaxIdleConn,
 		ConnectionMaxLifetime: cfg.ConnectionMaxLifetime,
 	}
-	connMaster, err := dbMaster.connectAndMonitoring(dbDriver, cfg.NoPingOnOpen)
+	connMaster, err := dbMaster.monitoringDB(dbDriver)
 	if err != nil {
 		return nil, err
 	}
@@ -28,7 +28,7 @@ func New(cfg *config.DBConfig, dbDriver string) (*Store, error) {
 		MaxIdleConn:           cfg.MaxIdleConn,
 		ConnectionMaxLifetime: cfg.ConnectionMaxLifetime,
 	}
-	connSlave, err := dbSlave.connectAndMonitoring(dbDriver, cfg.NoPingOnOpen)
+	connSlave, err := dbSlave.monitoringDB(dbDriver)
 	if err != nil {
 		return nil, err
 	}

@@ -4,20 +4,13 @@ import (
 	"fmt"
 	"time"
 
+	"log"
+
 	"github.com/jmoiron/sqlx"
 
 	_ "github.com/go-sql-driver/mysql"
 	_ "github.com/lib/pq"
 )
-
-//connectAndMonitoring connectDB and monitoringDB database
-func (d *DB) connectAndMonitoring(driver string, noPing bool) (*sqlx.DB, error) {
-	if noPing {
-		return d.connectDB(driver)
-	}
-
-	return d.monitoringDB(driver)
-}
 
 //monitoringDB monitoring database with pooling mechanism
 func (d *DB) monitoringDB(driver string) (*sqlx.DB, error) {
@@ -35,10 +28,10 @@ func (d *DB) monitoringDB(driver string) (*sqlx.DB, error) {
 			return nil, fmt.Errorf("db connection failed after %s timeout", d.ConnectionMaxLifetime)
 		case <-ticker.C:
 			db, err := d.connectDB(driver)
-			if err != nil {
-				return nil, err
+			if err == nil {
+				return db, nil
 			}
-			return db, nil
+			log.Println("[Error]: DB reconnect error", err.Error())
 		}
 	}
 }
