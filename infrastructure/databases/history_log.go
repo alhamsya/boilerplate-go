@@ -11,7 +11,7 @@ import (
 //CreateHistoryLog create history log from request client
 func (db *ServiceDB) CreateHistoryLog(ctx context.Context, reqDB *modelMovie.DBHistoryLog) (lastInsertID int64, err error) {
 	q := `
-		INSERT INTO hst_log (endpoint, request, response, source_data, created_at, created_by)
+		INSERT INTO movie_hst_log (endpoint, request, response, source_data, created_at, created_by)
 		VALUES (:endpoint, :request, :response, :source_data, :created_at, :created_by)
 	`
 	result, err := db.DB.Master.NamedExecContext(ctx, q, &reqDB)
@@ -30,7 +30,7 @@ func (db *ServiceDB) CreateHistoryLog(ctx context.Context, reqDB *modelMovie.DBH
 //CreateHistoryLogTx create history log from request client suing transaction
 func (db *ServiceDB) CreateHistoryLogTx(ctx context.Context, tx *sqlx.Tx, reqDB *modelMovie.DBHistoryLog) (lastInsertID int64, err error) {
 	q := `
-		INSERT INTO hst_log (endpoint, request, response, source_data, created_at, created_by)
+		INSERT INTO movie_hst_log (endpoint, request, response, source_data, created_at, created_by)
 		VALUES (:endpoint, :request, :response, :source_data, :created_at, :created_by)
 	`
 	result, err := tx.NamedExecContext(ctx, q, &reqDB)

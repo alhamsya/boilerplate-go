@@ -1,4 +1,4 @@
-package datetime
+package utils
 
 import (
 	"time"
@@ -6,8 +6,7 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 )
 
-//CurrentTimeF current time using standard format
-func CurrentTimeF(format string) (string, error) {
+func (l *thing) CurrentTimeF(format string) (string, error) {
 	location, err := time.LoadLocation(constCommon.TimeLocalJakarta)
 	if err != nil {
 		return "", err

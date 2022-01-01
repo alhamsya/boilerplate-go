@@ -4,21 +4,27 @@ export
 start:
 	@docker-compose up -d
 
+start-and-migrate:
+	@docker-compose up -d
+	@docker-compose exec database sh -c 'until mysqladmin ping -P 3306 -palhamsya -uroot | grep "mysqld is alive"; do { echo "MySQL is unavailable - waiting for it... ?"; sleep 1; }; done'
+	@go get -v github.com/rubenv/sql-migrate/...
+	@sql-migrate up
+
 stop:
 	@docker-compose down --rmi local -v
 
 migrate-up:
-	go get -v github.com/rubenv/sql-migrate/...
-	sql-migrate up
+	@go get -v github.com/rubenv/sql-migrate/...
+	@sql-migrate up
 
 migrate-status:
-	sql-migrate status
+	@sql-migrate status -config=dbconfig.yml -env="development"
 
 migrate-down:
-	sql-migrate down
+	@sql-migrate down
 
 migrate-redo:
-	sql-migrate redo
+	@sql-migrate redo
 
 create:
 	@read -p  "What is the name of migration : " NAME; \

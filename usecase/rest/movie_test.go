@@ -1,19 +1,20 @@
 package restUC
 
 import (
-	"bou.ke/monkey"
 	"errors"
-	modelMovie "github.com/alhamsya/boilerplate-go/domain/models/movie"
+	"net/http"
+	"reflect"
+	"testing"
+
+	"github.com/alhamsya/boilerplate-go/domain/constants"
+	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 	"github.com/alhamsya/boilerplate-go/domain/repository"
 	"github.com/alhamsya/boilerplate-go/infrastructure/config"
-	"github.com/alhamsya/boilerplate-go/lib/utils/datetime"
+	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
 	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/mock"
 	"github.com/valyala/fasthttp"
-	"net/http"
-	"reflect"
-	"testing"
 )
 
 func TestUcInteractor_DoGetListMovie(t *testing.T) {
@@ -27,8 +28,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 
 	type fields struct {
 		Cfg         *config.ServiceConfig
-		ServiceRepo repository.DBRepo
+		DBRepo      repository.DBRepo
+		CacheRepo   repository.CacheRepo
 		OMDBRepo    repository.OMDBRepo
+		WrapperRepo repository.CallWrapperRepo
+		UtilsRepo   repository.UtilsRepo
 	}
 	type args struct {
 		ctx       *fiber.Ctx
@@ -46,7 +50,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 		{
 			name: "When_GetListMovieReturnError_expectError",
 			args: args{
-				ctx: &fiber.Ctx{},
+				ctx: ctx,
 				reqClient: &modelMovie.ReqListMovie{
 					Search: "tes",
 					Page:   1,
@@ -56,13 +60,19 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
+				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+					Err: errors.New("ignore"),
+				}).Once()
+
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(nil, someError).Once()
+
 				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(nil, someError).Once()
 			},
 		},
 		{
 			name: "When_GetListMovieReturnNil_expectError",
 			args: args{
-				ctx: &fiber.Ctx{},
+				ctx: ctx,
 				reqClient: &modelMovie.ReqListMovie{
 					Search: "tes",
 					Page:   1,
@@ -72,13 +82,17 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(nil, nil).Once()
+				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+					Err: errors.New("ignore"),
+				}).Once()
+
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(nil, nil).Once()
 			},
 		},
 		{
 			name: "When_GetListMovieResponseCannotConvertReturnError_expectError",
 			args: args{
-				ctx: &fiber.Ctx{},
+				ctx: ctx,
 				reqClient: &modelMovie.ReqListMovie{
 					Search: "tes",
 					Page:   1,
@@ -88,7 +102,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusConflict,
 			wantErr:      true,
 			patch: func() {
-				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(&omdb.OMDBList{
+				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+					Err: errors.New("ignore"),
+				}).Once()
+
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
 							Title:  "One Day",
@@ -99,13 +117,13 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 						},
 					},
 					Response: "#",
-				}, nil, nil).Once()
+				}, nil).Once()
 			},
 		},
 		{
 			name: "When_GetListMovieResponseReturnFalse_expectError",
 			args: args{
-				ctx: &fiber.Ctx{},
+				ctx: ctx,
 				reqClient: &modelMovie.ReqListMovie{
 					Search: "tes",
 					Page:   1,
@@ -115,6 +133,12 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusBadRequest,
 			wantErr:      true,
 			patch: func() {
+				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+					Err: errors.New("ignore"),
+				}).Once()
+
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(nil, someError).Once()
+
 				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
@@ -126,7 +150,9 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 						},
 					},
 					Response: "False",
-				}, nil, nil).Once()
+				}, nil).Once()
+
+				mockCacheRepo.On("SetListMovie", mock.Anything, "tes", int64(1), mock.Anything).Return(nil).Once()
 			},
 		},
 		{
@@ -142,7 +168,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(&omdb.OMDBList{
+				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+					Err: errors.New("ignore"),
+				}).Once()
+
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
 							Title:  "One Day",
@@ -160,7 +190,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 		{
 			name: "When_CurrentTimeFReturnError_expectError",
 			args: args{
-				ctx: &fiber.Ctx{},
+				ctx: ctx,
 				reqClient: &modelMovie.ReqListMovie{
 					Search: "tes",
 					Page:   1,
@@ -170,7 +200,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(&omdb.OMDBList{
+				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+					Err: errors.New("ignore"),
+				}).Once()
+
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
 							Title:  "One Day",
@@ -184,11 +218,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 					Response:     "True",
 				}, nil).Once()
 
-				var guard *monkey.PatchGuard
-				guard = monkey.Patch(datetime.CurrentTimeF, func(format string) (string, error) {
-					defer guard.Unpatch()
-					return "", someError
-				})
+				mockUtilsRepo.On("CurrentTimeF", constCommon.DateTime).Return("", someError).Once()
 			},
 		},
 		{
@@ -204,7 +234,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(&omdb.OMDBList{
+				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+					Err: errors.New("ignore"),
+				}).Once()
+
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
 							Title:  "One Day",
@@ -218,16 +252,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 					Response:     "True",
 				}, nil).Once()
 
-				var guard1, guard2 *monkey.PatchGuard
-				guard1 = monkey.Patch(datetime.CurrentTimeF, func(format string) (string, error) {
-					defer guard1.Unpatch()
-					return "2021-01-01 15:04:05", nil
-				})
-
-				guard2 = monkey.PatchInstanceMethod(reflect.TypeOf(&fiber.Ctx{}), "IP", func(c *fiber.Ctx) string {
-					defer guard2.Unpatch()
-					return ""
-				})
+				mockUtilsRepo.On("CurrentTimeF", constCommon.DateTime).Return(constCommon.DateTime, nil).Once()
 
 				mockServiceRepo.On("CreateHistoryLog", ctx.Context(), mock.Anything).Return(int64(1), someError).Once()
 			},
@@ -256,7 +281,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusOK,
 			wantErr:      false,
 			patch: func() {
-				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(&omdb.OMDBList{
+				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+					Err: errors.New("ignore"),
+				}).Once()
+
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
 							Title:  "One Day",
@@ -270,16 +299,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 					Response:     "True",
 				}, nil).Once()
 
-				var guard1, guard2 *monkey.PatchGuard
-				guard1 = monkey.Patch(datetime.CurrentTimeF, func(format string) (string, error) {
-					defer guard1.Unpatch()
-					return "2021-01-01 15:04:05", nil
-				})
-
-				guard2 = monkey.PatchInstanceMethod(reflect.TypeOf(&fiber.Ctx{}), "IP", func(c *fiber.Ctx) string {
-					defer guard2.Unpatch()
-					return ""
-				})
+				mockUtilsRepo.On("CurrentTimeF", constCommon.DateTime).Return(constCommon.DateTime, nil).Once()
 
 				mockServiceRepo.On("CreateHistoryLog", ctx.Context(), mock.Anything).Return(int64(1), nil).Once()
 			},
@@ -288,9 +308,12 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			uc := &UCInteractor{
-				Cfg:      tt.fields.Cfg,
-				DBRepo:   mockServiceRepo,
-				OMDBRepo: mockOMDBRepo,
+				Cfg:             tt.fields.Cfg,
+				DBRepo:          mockServiceRepo,
+				OMDBRepo:        mockOMDBRepo,
+				CallWrapperRepo: mockWrapperRepo,
+				UtilsRepo:       mockUtilsRepo,
+				CacheRepo:       mockCacheRepo,
 			}
 			tt.patch()
 			gotResp, gotHttpCode, err := uc.DoGetListMovie(tt.args.ctx, tt.args.reqClient)
@@ -303,220 +326,6 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			}
 			if gotHttpCode != tt.wantHttpCode {
 				t.Errorf("DoGetListMovie() gotHttpCode = %v, want %v", gotHttpCode, tt.wantHttpCode)
-			}
-		})
-	}
-}
-
-func TestUcInteractor_DoGetDetailMovie(t *testing.T) {
-	initMock()
-	someError := errors.New("some error | TestUcInteractor_DoGetDetailMovie")
-
-	app := fiber.New()
-	ctx := app.AcquireCtx(&fasthttp.RequestCtx{})
-	defer app.ReleaseCtx(ctx)
-
-	type fields struct {
-		Cfg         *config.ServiceConfig
-		ServiceRepo repository.DBRepo
-		OMDBRepo    repository.OMDBRepo
-	}
-	type args struct {
-		ctx     *fiber.Ctx
-		movieID string
-	}
-	tests := []struct {
-		name         string
-		fields       fields
-		args         args
-		wantResp     *modelMovie.RespDetailMovie
-		wantHttpCode int
-		wantErr      bool
-		patch        func()
-	}{
-		{
-			name: "When_GetDetailMovieReturnError_expectError",
-			args: args{
-				ctx:     ctx,
-				movieID: "tes123",
-			},
-			wantResp:     nil,
-			wantHttpCode: http.StatusInternalServerError,
-			wantErr:      true,
-			patch: func() {
-				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(nil, someError).Once()
-			},
-		},
-		{
-			name: "When_GetDetailMovieReturnNil_expectError",
-			args: args{
-				ctx:     ctx,
-				movieID: "tes123",
-			},
-			wantResp:     nil,
-			wantHttpCode: http.StatusInternalServerError,
-			wantErr:      true,
-			patch: func() {
-				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(nil, nil).Once()
-			},
-		},
-		{
-			name: "When_GetDetailResponseCannotConvertReturnError_expectError",
-			args: args{
-				ctx:     ctx,
-				movieID: "tes123",
-			},
-			wantResp:     nil,
-			wantHttpCode: http.StatusConflict,
-			wantErr:      true,
-			patch: func() {
-				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(&omdb.OMDBDetail{
-					Title:    "One Day",
-					Response: "#",
-				}, nil).Once()
-			},
-		},
-		{
-			name: "When_GetDetailResponseReturnFalse_expectError",
-			args: args{
-				ctx:     ctx,
-				movieID: "tes123",
-			},
-			wantResp:     nil,
-			wantHttpCode: http.StatusBadRequest,
-			wantErr:      true,
-			patch: func() {
-				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(&omdb.OMDBDetail{
-					Title:    "One Day",
-					Response: "False",
-				}, nil).Once()
-			},
-		},
-		{
-			name: "When_CurrentTimeFReturnNil_expectError",
-			args: args{
-				ctx:     ctx,
-				movieID: "tes123",
-			},
-			wantResp:     nil,
-			wantHttpCode: http.StatusInternalServerError,
-			wantErr:      true,
-			patch: func() {
-				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(&omdb.OMDBDetail{
-					Title: "One Day",
-					Ratings: []omdb.Ratings{
-						{
-							Source: "tes",
-							Value:  "tes",
-						},
-					},
-					Response: "True",
-				}, nil).Once()
-
-				var guard *monkey.PatchGuard
-				guard = monkey.Patch(datetime.CurrentTimeF, func(format string) (string, error) {
-					defer guard.Unpatch()
-					return "", someError
-				})
-			},
-		},
-		{
-			name: "When_CreateHistoryLogReturnError_expectError",
-			args: args{
-				ctx:     ctx,
-				movieID: "tes123",
-			},
-			wantResp: &modelMovie.RespDetailMovie{
-				Title: "One Day",
-				Ratings: []modelMovie.Ratings{
-					{
-						Source: "tes",
-						Value:  "tes",
-					},
-				},
-			},
-			wantHttpCode: http.StatusOK,
-			wantErr:      false,
-			patch: func() {
-				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(&omdb.OMDBDetail{
-					Title: "One Day",
-					Ratings: []omdb.Ratings{
-						{
-							Source: "tes",
-							Value:  "tes",
-						},
-					},
-					Response: "True",
-				}, nil).Once()
-
-				var guard1, guard2 *monkey.PatchGuard
-				guard1 = monkey.Patch(datetime.CurrentTimeF, func(format string) (string, error) {
-					defer guard1.Unpatch()
-					return "2021-01-01 15:04:05", nil
-				})
-
-				guard2 = monkey.PatchInstanceMethod(reflect.TypeOf(&fiber.Ctx{}), "IP", func(c *fiber.Ctx) string {
-					defer guard2.Unpatch()
-					return ""
-				})
-
-				mockServiceRepo.On("CreateHistoryLog", ctx.Context(), mock.Anything).Return(int64(1), nil).Once()
-			},
-		},
-		{
-			name: "When_CreateHistoryLogReturnNil_expectError",
-			args: args{
-				ctx:     ctx,
-				movieID: "tes123",
-			},
-			wantResp:     nil,
-			wantHttpCode: http.StatusInternalServerError,
-			wantErr:      true,
-			patch: func() {
-				mockOMDBRepo.On("GetDetailMovie", "tes123").Return(&omdb.OMDBDetail{
-					Title: "One Day",
-					Ratings: []omdb.Ratings{
-						{
-							Source: "tes",
-							Value:  "tes",
-						},
-					},
-					Response: "True",
-				}, nil).Once()
-
-				var guard1, guard2 *monkey.PatchGuard
-				guard1 = monkey.Patch(datetime.CurrentTimeF, func(format string) (string, error) {
-					defer guard1.Unpatch()
-					return "2021-01-01 15:04:05", nil
-				})
-
-				guard2 = monkey.PatchInstanceMethod(reflect.TypeOf(&fiber.Ctx{}), "IP", func(c *fiber.Ctx) string {
-					defer guard2.Unpatch()
-					return ""
-				})
-
-				mockServiceRepo.On("CreateHistoryLog", ctx.Context(), mock.Anything).Return(int64(1), someError).Once()
-			},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			uc := &UCInteractor{
-				Cfg:      tt.fields.Cfg,
-				DBRepo:   mockServiceRepo,
-				OMDBRepo: mockOMDBRepo,
-			}
-			tt.patch()
-			gotResp, gotHttpCode, err := uc.DoGetDetailMovie(tt.args.ctx, tt.args.movieID)
-			if (err != nil) != tt.wantErr {
-				t.Errorf("DoGetDetailMovie() error = %v, wantErr %v", err, tt.wantErr)
-				return
-			}
-			if !reflect.DeepEqual(gotResp, tt.wantResp) {
-				t.Errorf("DoGetDetailMovie() gotResp = %v, want %v", gotResp, tt.wantResp)
-			}
-			if gotHttpCode != tt.wantHttpCode {
-				t.Errorf("DoGetDetailMovie() gotHttpCode = %v, want %v", gotHttpCode, tt.wantHttpCode)
 			}
 		})
 	}

@@ -1,11 +1,13 @@
 package app
 
 import (
+	"github.com/alhamsya/boilerplate-go/domain/repository"
 	"github.com/alhamsya/boilerplate-go/infrastructure/cache"
 	"github.com/alhamsya/boilerplate-go/infrastructure/config"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
+	"github.com/alhamsya/boilerplate-go/lib/utils"
 	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
 	"github.com/alhamsya/boilerplate-go/service/inter/grpc/routers"
 	"github.com/alhamsya/boilerplate-go/service/inter/rest/routers"
@@ -18,6 +20,7 @@ type ModuleRepo struct {
 	serviceCache *cache.ServiceCache
 	omdb         *omdb.OMDB
 	wrapper      *wrapper.Wrapper
+	utils        repository.UtilsRepo
 }
 
 //GetConfig get config by name
@@ -32,11 +35,12 @@ func RestGetInteractor(cfg *config.ServiceConfig) *restRouters.RestInteractor {
 	generalInteractor := GeneralInteractor(cfg)
 
 	uc := restUC.New(&restUC.UCInteractor{
-		Cfg:         cfg,
-		DBRepo:      generalInteractor.serviceDB,
-		OMDBRepo:    generalInteractor.omdb,
-		CallWrapper: generalInteractor.wrapper,
-		CacheRepo:   generalInteractor.serviceCache,
+		Cfg:             cfg,
+		DBRepo:          generalInteractor.serviceDB,
+		OMDBRepo:        generalInteractor.omdb,
+		CallWrapperRepo: generalInteractor.wrapper,
+		CacheRepo:       generalInteractor.serviceCache,
+		UtilsRepo:       generalInteractor.utils,
 	})
 
 	return &restRouters.RestInteractor{
@@ -50,11 +54,12 @@ func GrpcGetInteractor(cfg *config.ServiceConfig) *grpcRouters.GrpcInteractor {
 
 	uc := grpcUC.New(
 		&grpcUC.UCInteractor{
-			Cfg:         cfg,
-			DBRepo:      generalInteractor.serviceDB,
-			OMDBRepo:    generalInteractor.omdb,
-			CallWrapper: generalInteractor.wrapper,
-			CacheRepo:   generalInteractor.serviceCache,
+			Cfg:             cfg,
+			DBRepo:          generalInteractor.serviceDB,
+			OMDBRepo:        generalInteractor.omdb,
+			CallWrapperRepo: generalInteractor.wrapper,
+			CacheRepo:       generalInteractor.serviceCache,
+			UtilsRepo:       generalInteractor.utils,
 		},
 	)
 
@@ -94,5 +99,6 @@ func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
 		serviceCache: cacheService,
 		omdb:         omdbRepo,
 		wrapper:      cw,
+		utils:        utils.New(),
 	}
 }

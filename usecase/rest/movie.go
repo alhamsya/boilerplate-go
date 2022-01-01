@@ -9,7 +9,6 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
-	"github.com/alhamsya/boilerplate-go/lib/utils/datetime"
 	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
 	"github.com/gofiber/fiber/v2"
 	"github.com/volatiletech/null"
@@ -17,7 +16,7 @@ import (
 
 func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.ReqListMovie) (resp *modelMovie.RespListMovie, httpCode int, err error) {
 	//implement call wrapping and on purpose do not use error wrapping
-	respWrapper, err := uc.CallWrapper.GetWrapper("omdb").Call(func() (interface{}, error) {
+	respWrapper, err := uc.CallWrapperRepo.GetWrapper("omdb").Call(func() (interface{}, error) {
 		//get data from redis
 		respMovie, err := uc.CacheRepo.GetListMovie(ctx.Context(), reqClient.Search, reqClient.Page)
 		if err == nil {
@@ -40,13 +39,13 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "OMDBRepo", "GetListMovie")
 	}
 
-	//handle response wrapper is nil
-	if respWrapper == nil {
-		return nil, http.StatusInternalServerError, fmt.Errorf("data from api call does not exist")
-	}
-
 	//force data to struct
 	respMovie := respWrapper.(*omdb.OMDBList)
+
+	//handle response wrapper is nil
+	if respMovie == nil {
+		return nil, http.StatusInternalServerError, fmt.Errorf("data from api call does not exist")
+	}
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
@@ -73,7 +72,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 		return nil, http.StatusInternalServerError, fmt.Errorf("fail convert total result")
 	}
 
-	now, err := datetime.CurrentTimeF(constCommon.DateTime)
+	now, err := uc.UtilsRepo.CurrentTimeF(constCommon.DateTime)
 	if err != nil {
 		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "datetime", "CurrentTimeF")
 	}
@@ -102,14 +101,37 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 }
 
 func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *modelMovie.RespDetailMovie, httpCode int, err error) {
-	respMovie, err := uc.OMDBRepo.GetDetailMovie(movieID)
+	//implement call wrapping and on purpose do not use error wrapping
+	respWrapper, err := uc.CallWrapperRepo.GetWrapper("omdb").Call(func() (interface{}, error) {
+		//get data from redis
+		respMovie, err := uc.CacheRepo.GetDetailMovie(ctx.Context(), movieID)
+		if err == nil {
+			return respMovie, nil
+		}
+
+		//api call to the OMDB
+		respMovie, err = uc.OMDBRepo.GetDetailMovie(movieID)
+		if err != nil {
+			return nil, err
+		}
+
+		//ignore for return error
+		uc.CacheRepo.SetDetailMovie(ctx.Context(), movieID, respMovie)
+		return respMovie, nil
+	})
+
+	//handle error for API call
 	if err != nil {
 		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "OMDBRepo", "GetDetailMovie")
 	}
 
-	if respMovie == nil {
-		return nil, http.StatusInternalServerError, customError.Wrap(fmt.Errorf("data from api call does not exist"), "OMDBRepo")
+	//handle response wrapper is nil
+	if respWrapper == nil {
+		return nil, http.StatusInternalServerError, fmt.Errorf("data from api call does not exist")
 	}
+
+	//force data to struct
+	respMovie := respWrapper.(*omdb.OMDBDetail)
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
@@ -128,7 +150,7 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *
 		})
 	}
 
-	now, err := datetime.CurrentTimeF(constCommon.DateTime)
+	now, err := uc.UtilsRepo.CurrentTimeF(constCommon.DateTime)
 	if err != nil {
 		return nil, http.StatusInternalServerError, customError.Wrap(err, "CurrentTimeF")
 	}
