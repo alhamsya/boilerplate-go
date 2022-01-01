@@ -6,12 +6,18 @@ import (
 	"testing"
 )
 
-var mockServiceRepo *mocks.ServiceRepo
+var mockServiceRepo *mocks.DBRepo
 var mockOMDBRepo *mocks.OMDBRepo
+var mockUtilsRepo *mocks.UtilsRepo
+var mockWrapperRepo *mocks.WrapperRepo
+var mockCacheRepo *mocks.CacheRepo
 
 func initMock()  {
-	mockServiceRepo = new(mocks.ServiceRepo)
+	mockServiceRepo = new(mocks.DBRepo)
 	mockOMDBRepo = new(mocks.OMDBRepo)
+	mockUtilsRepo = new(mocks.UtilsRepo)
+	mockWrapperRepo = new(mocks.WrapperRepo)
+	mockCacheRepo = new(mocks.CacheRepo)
 }
 
 func TestNew(t *testing.T) {

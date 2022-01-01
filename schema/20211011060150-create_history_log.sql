@@ -2,7 +2,7 @@
 DROP TABLE IF EXISTS `hst_log`;
 
 -- +migrate Up
-CREATE TABLE IF NOT EXISTS `hst_log` (
+CREATE TABLE IF NOT EXISTS `movie_hst_log` (
     `id` bigint(20) NOT NULL AUTO_INCREMENT,
     `endpoint` text,
     `request` text NOT NULL,

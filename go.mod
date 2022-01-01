@@ -3,7 +3,6 @@ module github.com/alhamsya/boilerplate-go
 go 1.14
 
 require (
-	bou.ke/monkey v1.0.2
 	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/andybalholm/brotli v1.0.3 // indirect
 	github.com/friendsofgo/errors v0.9.2

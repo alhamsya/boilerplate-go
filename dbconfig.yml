@@ -1,3 +1,4 @@
+#  https://medium.com/wesionary-team/schema-migration-using-sql-migrate-in-your-go-app-247732953f28
 development:
   dialect: mysql
   datasource: ${DB_USER}:${DB_PASSWORD}@tcp(${DB_HOST}:${DB_PORT})/${DB_NAME}?parseTime=true

@@ -46,7 +46,7 @@ func (rest *RestServer) GetListMovie(ctx *fiber.Ctx) error {
 }
 
 func (rest *RestServer) GetDetailMovie(ctx *fiber.Ctx) error {
-	data, httpCode, err := rest.RestInteractor.RestInterface.DoGetDetailMovie(ctx, ctx.Params("movieID"))
+	data, httpCode, err := rest.RestInteractor.RestInterface.DoGetDetailMovie(ctx, url.QueryEscape(strings.ToLower(ctx.Params("movieID"))))
 	if err != nil {
 		return ctx.Status(httpCode).JSON(&fiber.Map{
 			"message": err.Error(),
