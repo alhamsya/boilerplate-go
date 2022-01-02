@@ -1,5 +1,5 @@
 -- +migrate Down
-DROP TABLE IF EXISTS `hst_log`;
+DROP TABLE IF EXISTS `movie_hst_log`;
 
 -- +migrate Up
 CREATE TABLE IF NOT EXISTS `movie_hst_log` (
