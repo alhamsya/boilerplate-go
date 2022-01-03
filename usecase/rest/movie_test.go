@@ -60,7 +60,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -82,7 +82,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -102,7 +102,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusConflict,
 			wantErr:      true,
 			patch: func() {
-				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -133,7 +133,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusBadRequest,
 			wantErr:      true,
 			patch: func() {
-				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -168,7 +168,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -200,7 +200,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -234,7 +234,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -281,7 +281,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusOK,
 			wantErr:      false,
 			patch: func() {
-				mockWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -311,7 +311,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 				Cfg:             tt.fields.Cfg,
 				DBRepo:          mockServiceRepo,
 				OMDBRepo:        mockOMDBRepo,
-				CallWrapperRepo: mockWrapperRepo,
+				CallWrapperRepo: mockCallWrapperRepo,
 				UtilsRepo:       mockUtilsRepo,
 				CacheRepo:       mockCacheRepo,
 			}

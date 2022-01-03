@@ -2,13 +2,10 @@ package databases
 
 import (
 	"database/sql"
-	"log"
-	"reflect"
-	"testing"
-
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/jmoiron/sqlx"
+	"log"
 )
 
 func setupMockDB() (mockDB *sql.DB, mockStore *database.Store, mockSQL sqlmock.Sqlmock) {
@@ -24,30 +21,4 @@ func setupMockDB() (mockDB *sql.DB, mockStore *database.Store, mockSQL sqlmock.S
 	}
 
 	return mockDB, mockStore, mockSQL
-}
-
-func TestNew(t *testing.T) {
-	type args struct {
-		this *ServiceDB
-	}
-	tests := []struct {
-		name string
-		args args
-		want *ServiceDB
-	}{
-		{
-			name: "When_init_expectSuccess",
-			args: args{
-				this: &ServiceDB{},
-			},
-			want: &ServiceDB{},
-		},
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			if got := New(tt.args.this); !reflect.DeepEqual(got, tt.want) {
-				t.Errorf("New() = %v, want %v", got, tt.want)
-			}
-		})
-	}
 }
