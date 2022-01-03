@@ -45,6 +45,7 @@ make run-grpc
 ## 🎯 Features
 - Clean Architecture
 - Implementation circuit breaker using call wrapper, so that easy to use
+- Auto migration from schema directory
 - CORS middleware for Fiber that that can be used to enable Cross-Origin Resource Sharing with various options.
 - [Limiter middleware](https://github.com/gofiber/fiber/tree/master/middleware/limiter#limiter-middleware)
 - DDD (Domain Driven Design) Concept
@@ -56,4 +57,4 @@ make run-grpc
 - Database connect loop
 - Implementation go-redis
 - Handling can be customised by providing an alternate gRCP recovery function
-- Integration of logrus logging library into gRPC handlers.
+- Integration of logrus logging library into gRPC handlers
