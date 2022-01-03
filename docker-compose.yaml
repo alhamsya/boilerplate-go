@@ -12,7 +12,8 @@ services:
             - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
             - MYSQL_DATABASE=${DB_NAME}
         volumes:
-            - ./schema/:/docker-entrypoint-initdb.d/
+#            FIXME: because migration schema has been in the infrastructure/databases.init.go
+#            - ./schema/:/docker-entrypoint-initdb.d/
             - db_data:/var/lib/mysql
 
     ### Redis ################################################
