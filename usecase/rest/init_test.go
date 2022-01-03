@@ -9,14 +9,14 @@ import (
 var mockServiceRepo *mocks.DBRepo
 var mockOMDBRepo *mocks.OMDBRepo
 var mockUtilsRepo *mocks.UtilsRepo
-var mockWrapperRepo *mocks.WrapperRepo
+var mockCallWrapperRepo *mocks.CallWrapperRepo
 var mockCacheRepo *mocks.CacheRepo
 
 func initMock()  {
 	mockServiceRepo = new(mocks.DBRepo)
 	mockOMDBRepo = new(mocks.OMDBRepo)
 	mockUtilsRepo = new(mocks.UtilsRepo)
-	mockWrapperRepo = new(mocks.WrapperRepo)
+	mockCallWrapperRepo = new(mocks.CallWrapperRepo)
 	mockCacheRepo = new(mocks.CacheRepo)
 }
 
