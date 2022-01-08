@@ -23,6 +23,7 @@ go mod vendor
 ```bash
 cp .env.example .env
 cp files/etc/service/main.development.example.ini files/etc/service/main.development.ini
+cp files/etc/service/toggle.development.example.ini files/etc/service/toggle.development.ini
 ```
 
 2. Run command from Makefile
@@ -58,3 +59,4 @@ make run-grpc
 - Implementation go-redis
 - Handling can be customised by providing an alternate gRCP recovery function
 - Integration of logrus logging library into gRPC handlers
+- Support development in the apple silicon
