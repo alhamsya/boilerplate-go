@@ -1,7 +1,9 @@
-include .env
-export
+#include .env
+#export
 
 start:
+	@go mod vendor
+	@bash ./script/setup.sh
 	@docker-compose up -d
 
 #start-and-migrate:
@@ -50,4 +52,4 @@ mocks:
 	@mockery --disable-version-string --all --dir ./domain/definition/ --output ./domain/definition/mocks/
 
 test:
-	@bash ./script/go_test.sh
+	@bash ./script/test.sh

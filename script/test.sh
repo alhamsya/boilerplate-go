@@ -18,10 +18,10 @@ fi
 printf "\nRUN GO TEST END\n\n" ;
 
 if ! $PASS; then
-  printf "\033[0;30m\033[41mFAILED\033[0m\n"
+  printf "\033[0;30m\033[41m FAILED \033[0m\n"
   exit 1
 else
-  printf "\033[0;30m\033[42mSUCCEEDED\033[0m\n"
+  printf "\033[0;30m\033[42m SUCCEEDED \033[0m\n"
 fi
 
 exit 0
