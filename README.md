@@ -15,18 +15,7 @@
 ## ⚙️ Installation
 
 Make sure you have Go installed. Version `1.14` or higher is required.
-1. Run go module
-```bash
-go mod vendor
-```
-2. Run command for configuration
-```bash
-cp .env.example .env
-cp files/etc/service/main.development.example.ini files/etc/service/main.development.ini
-cp files/etc/service/toggle.development.example.ini files/etc/service/toggle.development.ini
-```
-
-2. Run command from Makefile
+Run command for configuration from Makefile 
 ```bash
 make start
 ```
@@ -59,4 +48,4 @@ make run-grpc
 - Implementation go-redis
 - Handling can be customised by providing an alternate gRCP recovery function
 - Integration of logrus logging library into gRPC handlers
-- Support development in the apple silicon
+- Support development in the Apple Silicon (M1 chipset)
