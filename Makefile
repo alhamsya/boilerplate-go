@@ -33,21 +33,21 @@ create:
 	sql-migrate new $$NAME
 
 run-rest:
-	@echo "===== RUNNING SERVICE REST ====="
+	@printf "\033[0;30m\033[42m === RUNNING SERVICE REST === \033[0m\n"
 	@go mod vendor
 	@go build -o ./bin/rest ./app/rest/app.go && ./bin/rest
 
 run-grpc:
-	@echo "===== RUNNING SERVICE GRPC ====="
+	@printf "\033[0;30m\033[42m === RUNNING SERVICE GRPC === \033[0m\n"
 	@go mod vendor
 	@go build -o ./bin/grpc ./app/grpc/app.go && ./bin/grpc
 
 build-proto:
-	@echo " >> building debt protobuf"
-	go get -u github.com/golang/protobuf/protoc-gen-go
+	@printf "\033[0;30m\033[42m === BUILDING PROTOBUF === \033[0m\n"
 	@protoc -I protos/ protos/*.proto --go_out=plugins=grpc:protos
 
 mocks:
+	@printf "\033[0;30m\033[42m === GENERATE MOCKS === \033[0m\n"
 	@mockery --disable-version-string --all --dir ./domain/repository/ --output ./domain/repository/mocks/
 	@mockery --disable-version-string --all --dir ./domain/definition/ --output ./domain/definition/mocks/
 
