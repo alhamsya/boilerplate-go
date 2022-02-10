@@ -20,6 +20,10 @@ Run command for configuration from Makefile
 make start
 ```
 
+## ⚙️ Essential Tools gRPC
+- https://github.com/protocolbuffers/protobuf/releases/tag/v3.6.1
+- https://github.com/protocolbuffers/protobuf-go/releases/tag/v1.27.1
+
 ## ⚡️ Quickstart
 
 ### Rest
