@@ -1,5 +1,7 @@
 package jobRouters
 
+import "context"
+
 func New(this *JobServer) *JobServer {
 	return &JobServer{
 		Cfg:           this.Cfg,
@@ -7,8 +9,8 @@ func New(this *JobServer) *JobServer {
 	}
 }
 
-func (job *JobServer) Register() map[string][]func() error {
-	return map[string][]func() error{
+func (job *JobServer) Register() map[string][]func(context.Context) (interface{}, error) {
+	return map[string][]func(context.Context) (interface{}, error){
 		"tes": {
 			job.ChunkCountingData,
 		},

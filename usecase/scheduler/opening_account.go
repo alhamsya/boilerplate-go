@@ -14,10 +14,6 @@ import (
 )
 
 func (uc *UCInteractor) DoCreateDummyData() error {
-
-	customLog.InfoF("Start Test")
-	time.Sleep(1 * time.Hour)
-
 	const SecuritiesID = "bc1de9e521e61a7b227c9b3ff7bbec3d80edaef33c85c11e22e3d90f11a9fc3eo5YiLdi9sV"
 
 	ctx := context.Background()
@@ -59,8 +55,6 @@ func (uc *UCInteractor) DoCreateDummyData() error {
 	if err := eg.Wait(); err != nil {
 		customLog.ErrorLn(err)
 	}
-
-	customLog.InfoF("End Test")
 
 	return nil
 }

@@ -9,8 +9,7 @@
 .idea/*
 
 # Binary Ignore
-/bin/rest
-/bin/grpc
+/bin/*
 
 # Vendor Path
 /vendor

@@ -1,6 +1,7 @@
 package schedulerHandler
 
 import (
+	"context"
 	"github.com/alhamsya/boilerplate-go/infrastructure/config"
 	"github.com/alhamsya/boilerplate-go/transport/inter/job/routers"
 	"github.com/robfig/cron/v3"
@@ -14,7 +15,7 @@ type Handler struct {
 }
 
 type funcScheduler func()
-type funcOrigin func() error
+type funcOrigin func(context.Context) (interface{}, error)
 
 type Logger interface {
 	// Info logs routine messages about cron's operation.

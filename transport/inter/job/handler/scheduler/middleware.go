@@ -1,6 +1,7 @@
 package schedulerHandler
 
 import (
+	"context"
 	"time"
 
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
@@ -25,15 +26,18 @@ func (h *Handler) middleware(name string) funcScheduler {
 
 	return func() {
 		now := time.Now()
+
+		ctx := context.WithValue(context.Background(), "cron_name", name)
+
 		customLog.InfoF("[RUN SCHEDULER] %s: start", name)
-		err := h.funcOrigins[name]()
+		resp, err := h.funcOrigins[name](ctx)
 		h.metricInterceptor(name, err)
 		if err != nil {
 			customLog.ErrorF("[USECASE] scheduler name %s: %v", name, err)
 			return
 		}
 
-		customLog.InfoF("[RUN SCHEDULER] %s: success | elapsed time: %f secs", name, time.Since(now).Seconds())
+		customLog.InfoF("[RUN SCHEDULER] %s: success | elapsed time: %f secs | response func: %+v", name, time.Since(now).Seconds(), resp)
 	}
 }
 
