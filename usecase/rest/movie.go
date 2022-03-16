@@ -9,7 +9,7 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
-	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
+	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 	"github.com/gofiber/fiber/v2"
 	"github.com/volatiletech/null"
 )

@@ -42,6 +42,11 @@ run-grpc:
 	@go mod vendor
 	@go build -o ./bin/grpc ./app/grpc/app.go && ./bin/grpc
 
+run-job:
+	@printf "\033[0;30m\033[42m === RUNNING SERVICE JOB === \033[0m\n"
+	@go mod vendor
+	@go build -o ./bin/job ./app/job/app.go && ./bin/job
+
 build-proto:
 	@printf "\033[0;30m\033[42m === BUILDING PROTOBUF === \033[0m\n"
 	@protoc -I protos/ protos/*.proto --go_out=plugins=grpc:protos

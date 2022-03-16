@@ -7,11 +7,11 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
-	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
+	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 )
 
 const (
-	KeyListMovie = "movie:list_movie:search:%s:page:%d"
+	KeyListMovie   = "movie:list_movie:search:%s:page:%d"
 	KeyDetailMovie = "movie:detail:movie_id:%s"
 )
 

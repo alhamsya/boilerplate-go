@@ -5,7 +5,7 @@ package mocks
 import (
 	context "context"
 
-	omdb "github.com/alhamsya/boilerplate-go/service/exter/omdb"
+	omdb "github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 	mock "github.com/stretchr/testify/mock"
 )
 

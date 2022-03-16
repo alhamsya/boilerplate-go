@@ -5,14 +5,17 @@ import (
 	"github.com/alhamsya/boilerplate-go/infrastructure/cache"
 	"github.com/alhamsya/boilerplate-go/infrastructure/config"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
+	"github.com/alhamsya/boilerplate-go/infrastructure/firestore"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/alhamsya/boilerplate-go/lib/utils"
-	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
-	"github.com/alhamsya/boilerplate-go/service/inter/grpc/routers"
-	"github.com/alhamsya/boilerplate-go/service/inter/rest/routers"
+	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
+	"github.com/alhamsya/boilerplate-go/transport/inter/grpc/routers"
+	"github.com/alhamsya/boilerplate-go/transport/inter/job/routers"
+	"github.com/alhamsya/boilerplate-go/transport/inter/rest/routers"
 	"github.com/alhamsya/boilerplate-go/usecase/grpc"
 	"github.com/alhamsya/boilerplate-go/usecase/rest"
+	"github.com/alhamsya/boilerplate-go/usecase/scheduler"
 )
 
 type ModuleRepo struct {
@@ -27,6 +30,7 @@ type ModuleRepo struct {
 func GetConfig() (cfg config.ServiceConfig) {
 	cfg.ReadConfig("main")
 	cfg.ReadConfig("toggle")
+	cfg.ReadConfig("scheduler")
 	return cfg
 }
 
@@ -65,6 +69,31 @@ func GrpcGetInteractor(cfg *config.ServiceConfig) *grpcRouters.GrpcInteractor {
 
 	return &grpcRouters.GrpcInteractor{
 		GrpcInterface: uc,
+	}
+}
+
+func JobGetInteractor(cfg *config.ServiceConfig) *jobRouters.JobInteractor {
+	generalInteractor := GeneralInteractor(cfg)
+
+	firestoreRepo := firestore.New(&firestore.ServiceFirestore{
+		Cfg:       cfg,
+		UtilsRepo: generalInteractor.utils,
+	})
+
+	ucScheduler := schedulerUC.New(
+		&schedulerUC.UCInteractor{
+			Cfg:             cfg,
+			DBRepo:          generalInteractor.serviceDB,
+			OMDBRepo:        generalInteractor.omdb,
+			CallWrapperRepo: generalInteractor.wrapper,
+			CacheRepo:       generalInteractor.serviceCache,
+			UtilsRepo:       generalInteractor.utils,
+			Firestore:       firestoreRepo,
+		},
+	)
+
+	return &jobRouters.JobInteractor{
+		SchedulerInterface: ucScheduler,
 	}
 }
 

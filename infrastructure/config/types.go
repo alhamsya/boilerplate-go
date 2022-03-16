@@ -9,8 +9,19 @@ type ServiceConfig struct {
 	Toggle      map[string]*Toggle
 	External    map[string]*External
 	CallWrapper map[string]*CallWrapper
+	Scheduler   map[string]*Scheduler
+	Firestore   map[string]*Firestore
 	CORS        CORS
 	Redis       Redis
+}
+
+type Firestore struct {
+	ProjectID string
+}
+
+type Scheduler struct {
+	Schedule string
+	IsActive bool
 }
 
 type DBConfig struct {

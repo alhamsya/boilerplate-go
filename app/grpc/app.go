@@ -5,10 +5,10 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/app"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
-	"github.com/alhamsya/boilerplate-go/service/inter/grpc/handler"
+	"github.com/alhamsya/boilerplate-go/transport/inter/grpc/handler"
 )
 
-func main()  {
+func main() {
 	cfg := app.GetConfig()
 
 	err := customLog.InitializeLogging(cfg.GrpcServer.AccessLogFile, cfg.GrpcServer.ErrorLogFile)
