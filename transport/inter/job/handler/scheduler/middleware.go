@@ -33,7 +33,7 @@ func (h *Handler) middleware(name string) funcScheduler {
 		resp, err := h.funcOrigins[name](ctx)
 		h.metricInterceptor(name, err)
 		if err != nil {
-			customLog.ErrorF("[USECASE] scheduler name %s: %v", name, err)
+			customLog.ErrorF("[ROUTERS] scheduler name %s: %v", name, err)
 			return
 		}
 
