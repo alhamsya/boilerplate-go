@@ -55,8 +55,8 @@ func RestGetInteractor(cfg *config.ServiceConfig) *restRouters.RestInteractor {
 	})
 
 	return &restRouters.RestInteractor{
-		RestInterface: uc,
-		Middleware:    middleware,
+		Usecase:    uc,
+		Middleware: middleware,
 	}
 }
 

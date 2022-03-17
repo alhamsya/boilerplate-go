@@ -14,6 +14,6 @@ type RestServer struct {
 }
 
 type RestInteractor struct {
-	RestInterface definition.RestInterface
-	Middleware    *restMiddleware.Middleware
+	Usecase    definition.RestUsecase
+	Middleware *restMiddleware.Middleware
 }

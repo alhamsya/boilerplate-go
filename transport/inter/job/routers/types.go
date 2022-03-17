@@ -11,5 +11,5 @@ type JobServer struct {
 }
 
 type JobInteractor struct {
-	SchedulerInterface definition.SchedulerInterface
+	SchedulerInterface definition.SchedulerUsecase
 }

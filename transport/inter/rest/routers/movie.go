@@ -15,7 +15,7 @@ func (rest *RestServer) GetListMovie(ctx *fiber.Ctx) error {
 	if err != nil {
 		return ctx.Status(http.StatusBadRequest).JSON(&fiber.Map{
 			"message": "invalid request page",
-			"data": nil,
+			"data":    nil,
 		})
 	}
 
@@ -23,7 +23,7 @@ func (rest *RestServer) GetListMovie(ctx *fiber.Ctx) error {
 	if strings.TrimSpace(paramSearch) == "" {
 		return ctx.Status(http.StatusBadRequest).JSON(&fiber.Map{
 			"message": "please input search movie",
-			"data": nil,
+			"data":    nil,
 		})
 	}
 
@@ -31,31 +31,31 @@ func (rest *RestServer) GetListMovie(ctx *fiber.Ctx) error {
 		Search: url.QueryEscape(strings.ToLower(paramSearch)),
 		Page:   paramPage,
 	}
-	data, httpCode, err := rest.RestInteractor.RestInterface.DoGetListMovie(ctx, reqClient)
+	data, httpCode, err := rest.RestInteractor.Usecase.DoGetListMovie(ctx, reqClient)
 	if err != nil {
 		return ctx.Status(httpCode).JSON(&fiber.Map{
 			"message": err.Error(),
-			"data": nil,
+			"data":    nil,
 		})
 	}
 
 	return ctx.Status(httpCode).JSON(&fiber.Map{
 		"message": "get all movie successfully",
-		"data":   data,
+		"data":    data,
 	})
 }
 
 func (rest *RestServer) GetDetailMovie(ctx *fiber.Ctx) error {
-	data, httpCode, err := rest.RestInteractor.RestInterface.DoGetDetailMovie(ctx, url.QueryEscape(strings.ToLower(ctx.Params("movieID"))))
+	data, httpCode, err := rest.RestInteractor.Usecase.DoGetDetailMovie(ctx, url.QueryEscape(strings.ToLower(ctx.Params("movieID"))))
 	if err != nil {
 		return ctx.Status(httpCode).JSON(&fiber.Map{
 			"message": err.Error(),
-			"data": nil,
+			"data":    nil,
 		})
 	}
 
 	return ctx.Status(httpCode).JSON(&fiber.Map{
 		"message": "get detail movie successfully",
-		"data":   data,
+		"data":    data,
 	})
 }

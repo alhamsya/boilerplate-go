@@ -9,17 +9,17 @@ import (
 	pb "github.com/alhamsya/boilerplate-go/protos"
 )
 
-type RestInterface interface {
+type RestUsecase interface {
 	DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.ReqListMovie) (resp *modelMovie.RespListMovie, httpCode int, err error)
 	DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *modelMovie.RespDetailMovie, httpCode int, err error)
 }
 
-type GrpcInterface interface {
+type GrpcUsecase interface {
 	DoGetListMovie(ctx context.Context, req *pb.GetListMovieReq) (resp *pb.GetListMovieResp, err error)
 	DoGetDetailMovie(ctx context.Context, req *pb.GetDetailMovieReq) (resp *pb.GetDetailMovieResp, err error)
 }
 
-type SchedulerInterface interface {
+type SchedulerUsecase interface {
 	DoCreateDummyData() error
 	DoChunkCountingData() error
 }

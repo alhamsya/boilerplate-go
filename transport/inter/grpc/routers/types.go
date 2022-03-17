@@ -13,5 +13,5 @@ type GrpcServer struct {
 }
 
 type GrpcInteractor struct {
-	GrpcInterface definition.GrpcInterface
+	GrpcInterface definition.GrpcUsecase
 }
