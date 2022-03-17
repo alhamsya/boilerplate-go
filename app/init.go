@@ -9,6 +9,7 @@ import (
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/alhamsya/boilerplate-go/lib/utils"
+	restMiddleware "github.com/alhamsya/boilerplate-go/middleware/rest"
 	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 	"github.com/alhamsya/boilerplate-go/transport/inter/grpc/routers"
 	"github.com/alhamsya/boilerplate-go/transport/inter/job/routers"
@@ -47,8 +48,15 @@ func RestGetInteractor(cfg *config.ServiceConfig) *restRouters.RestInteractor {
 		UtilsRepo:       generalInteractor.utils,
 	})
 
+	middleware := restMiddleware.New(&restMiddleware.Middleware{
+		Cfg:       cfg,
+		DBRepo:    generalInteractor.serviceDB,
+		UtilsRepo: generalInteractor.utils,
+	})
+
 	return &restRouters.RestInteractor{
 		RestInterface: uc,
+		Middleware:    middleware,
 	}
 }
 
@@ -72,6 +80,7 @@ func GrpcGetInteractor(cfg *config.ServiceConfig) *grpcRouters.GrpcInteractor {
 	}
 }
 
+//JobGetInteractor job scheduler interactor and related usecase
 func JobGetInteractor(cfg *config.ServiceConfig) *jobRouters.JobInteractor {
 	generalInteractor := GeneralInteractor(cfg)
 
