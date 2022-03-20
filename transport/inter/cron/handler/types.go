@@ -1,15 +1,16 @@
-package schedulerHandler
+package cronHandler
 
 import (
 	"context"
+
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
-	"github.com/alhamsya/boilerplate-go/transport/inter/job/routers"
+	"github.com/alhamsya/boilerplate-go/transport/inter/cron/routers"
 	"github.com/robfig/cron/v3"
 )
 
 type Handler struct {
 	Cfg         *config.ServiceConfig
-	Interactor  *jobRouters.JobInteractor
+	Interactor  *cronRouters.CronInteractor
 	cron        *cron.Cron
 	funcOrigins map[string]funcOrigin
 }

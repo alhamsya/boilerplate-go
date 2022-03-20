@@ -2,13 +2,14 @@ package restUC
 
 import (
 	"errors"
+	"github.com/alhamsya/boilerplate-go/domain/models/request"
+	"github.com/alhamsya/boilerplate-go/domain/models/response"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"net/http"
 	"reflect"
 	"testing"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
-	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 	"github.com/alhamsya/boilerplate-go/domain/repository"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
 	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
@@ -36,13 +37,13 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 	}
 	type args struct {
 		ctx       *fiber.Ctx
-		reqClient *modelMovie.ReqListMovie
+		reqClient *modelReq.ListMovie
 	}
 	tests := []struct {
 		name         string
 		fields       fields
 		args         args
-		wantResp     *modelMovie.RespListMovie
+		wantResp     *modelResp.ListMovie
 		wantHttpCode int
 		wantErr      bool
 		patch        func()
@@ -51,7 +52,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			name: "When_GetListMovieReturnError_expectError",
 			args: args{
 				ctx: ctx,
-				reqClient: &modelMovie.ReqListMovie{
+				reqClient: &modelReq.ListMovie{
 					Search: "tes",
 					Page:   1,
 				},
@@ -73,7 +74,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			name: "When_GetListMovieReturnNil_expectError",
 			args: args{
 				ctx: ctx,
-				reqClient: &modelMovie.ReqListMovie{
+				reqClient: &modelReq.ListMovie{
 					Search: "tes",
 					Page:   1,
 				},
@@ -93,7 +94,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			name: "When_GetListMovieResponseCannotConvertReturnError_expectError",
 			args: args{
 				ctx: ctx,
-				reqClient: &modelMovie.ReqListMovie{
+				reqClient: &modelReq.ListMovie{
 					Search: "tes",
 					Page:   1,
 				},
@@ -124,7 +125,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			name: "When_GetListMovieResponseReturnFalse_expectError",
 			args: args{
 				ctx: ctx,
-				reqClient: &modelMovie.ReqListMovie{
+				reqClient: &modelReq.ListMovie{
 					Search: "tes",
 					Page:   1,
 				},
@@ -159,7 +160,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			name: "When_ConvertTotalResultsReturnError_expectError",
 			args: args{
 				ctx: &fiber.Ctx{},
-				reqClient: &modelMovie.ReqListMovie{
+				reqClient: &modelReq.ListMovie{
 					Search: "tes",
 					Page:   1,
 				},
@@ -191,7 +192,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			name: "When_CurrentTimeFReturnError_expectError",
 			args: args{
 				ctx: ctx,
-				reqClient: &modelMovie.ReqListMovie{
+				reqClient: &modelReq.ListMovie{
 					Search: "tes",
 					Page:   1,
 				},
@@ -225,7 +226,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			name: "When_CreateHistoryLogReturnError_expectError",
 			args: args{
 				ctx: ctx,
-				reqClient: &modelMovie.ReqListMovie{
+				reqClient: &modelReq.ListMovie{
 					Search: "tes",
 					Page:   1,
 				},
@@ -261,13 +262,13 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			name: "When_DoGetListMovieReturnSuccess_expectSuccess",
 			args: args{
 				ctx: ctx,
-				reqClient: &modelMovie.ReqListMovie{
+				reqClient: &modelReq.ListMovie{
 					Search: "tes",
 					Page:   1,
 				},
 			},
-			wantResp: &modelMovie.RespListMovie{
-				Items: []modelMovie.Items{
+			wantResp: &modelResp.ListMovie{
+				Items: []modelResp.Items{
 					{
 						Title:   "One Day",
 						Year:    "2021",

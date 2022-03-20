@@ -1,10 +1,10 @@
-package modelMovie
+package modelDB
 
 import (
 	"github.com/volatiletech/null"
 )
 
-type DBHistoryLog struct {
+type HistoryLog struct {
 	ID         int64       `db:"id"`
 	Endpoint   null.String `db:"endpoint"`
 	Request    string      `db:"request"`

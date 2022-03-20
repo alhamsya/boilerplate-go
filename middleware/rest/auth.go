@@ -3,7 +3,6 @@ package restMiddleware
 import (
 	"context"
 	"errors"
-	"fmt"
 	"strings"
 
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_resp"
@@ -28,15 +27,15 @@ func (m *Middleware) Authorize(h fiber.Handler) fiber.Handler {
 		})
 
 		if errors.Is(err, jwt.ErrSignatureInvalid) {
-			return customResp.Err(ctx, fiber.StatusUnauthorized, err, "ErrSignatureInvalid")
+			return customResp.New(ctx).SetHttpCode(fiber.StatusUnauthorized).SetErr(err).Send("invalid signature")
 		}
 
 		if err != nil {
-			return customResp.Err(ctx, fiber.StatusBadRequest, err, "ParseWithClaims")
+			return customResp.New(ctx).SetHttpCode(fiber.StatusBadRequest).SetErr(err).Send("invalid claim authentication")
 		}
 
 		if !tkn.Valid {
-			return customResp.Err(ctx, fiber.StatusUnauthorized, fmt.Errorf("invalid token"))
+			return customResp.New(ctx).SetHttpCode(fiber.StatusUnauthorized).Send("invalid token")
 		}
 
 		ctx.SetUserContext(context.WithValue(ctx.UserContext(), "user", *claims))

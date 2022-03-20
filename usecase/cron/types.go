@@ -1,4 +1,4 @@
-package schedulerUC
+package cronUC
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"

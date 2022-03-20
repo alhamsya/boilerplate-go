@@ -1,11 +1,11 @@
 package restRouters
 
 import (
+	"github.com/alhamsya/boilerplate-go/domain/models/request"
 	"net/url"
 	"strconv"
 	"strings"
 
-	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_resp"
 	"github.com/gofiber/fiber/v2"
 )
@@ -13,31 +13,31 @@ import (
 func (rest *RestServer) GetListMovie(ctx *fiber.Ctx) error {
 	paramPage, err := strconv.ParseInt(ctx.Query("page", "1"), 10, 64)
 	if err != nil {
-		return customResp.Err(ctx, fiber.StatusBadRequest, err, "invalid request page")
+		return customResp.New(ctx).SetHttpCode(fiber.StatusBadRequest).SetMessage("invalid request page").Send()
 	}
 
 	paramSearch := ctx.Query("search")
 	if strings.TrimSpace(paramSearch) == "" {
-		return customResp.Err(ctx, fiber.StatusBadRequest, err, "please input search movie")
+		return customResp.New(ctx).SetHttpCode(fiber.StatusBadRequest).SetMessage("please input search movie").Send()
 	}
 
-	reqClient := &modelMovie.ReqListMovie{
+	reqClient := &modelReq.ListMovie{
 		Search: url.QueryEscape(strings.ToLower(paramSearch)),
 		Page:   paramPage,
 	}
-	data, httpCode, err := rest.RestInteractor.Usecase.DoGetListMovie(ctx, reqClient)
+	resp, httpCode, err := rest.RestInteractor.Usecase.DoGetListMovie(ctx, reqClient)
 	if err != nil {
-		return customResp.Err(ctx, httpCode, err, "DoGetListMovie")
+		return customResp.New(ctx).SetHttpCode(httpCode).SetErr(err).Send("DoGetListMovie")
 	}
 
-	return customResp.Success(ctx, httpCode, data, "get all movie")
+	return customResp.New(ctx).SetHttpCode(httpCode).SetData(resp).Send("get all movie")
 }
 
 func (rest *RestServer) GetDetailMovie(ctx *fiber.Ctx) error {
-	data, httpCode, err := rest.RestInteractor.Usecase.DoGetDetailMovie(ctx, url.QueryEscape(strings.ToLower(ctx.Params("movieID"))))
+	resp, httpCode, err := rest.RestInteractor.Usecase.DoGetDetailMovie(ctx, url.QueryEscape(strings.ToLower(ctx.Params("movieID"))))
 	if err != nil {
-		return customResp.Err(ctx, httpCode, err, "DoGetDetailMovie")
+		return customResp.New(ctx).SetHttpCode(httpCode).SetErr(err).Send("DoGetDetailMovie")
 	}
 
-	return customResp.Success(ctx, httpCode, data, "get detail movie")
+	return customResp.New(ctx).SetHttpCode(httpCode).SetData(resp).Send("get detail movie")
 }

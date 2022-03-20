@@ -1,11 +1,11 @@
-package schedulerHandler
+package cronHandler
 
 import (
 	"time"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
-	"github.com/alhamsya/boilerplate-go/transport/inter/job/routers"
+	"github.com/alhamsya/boilerplate-go/transport/inter/cron/routers"
 	"github.com/robfig/cron/v3"
 )
 
@@ -31,9 +31,9 @@ func (h *Handler) Register() error {
 
 	h.cron = cron.New(cron.WithLocation(location), cronParser, cronWrappers)
 
-	schedulerList := jobRouters.New(&jobRouters.JobServer{
-		Cfg:           h.Cfg,
-		JobInteractor: h.Interactor,
+	schedulerList := cronRouters.New(&cronRouters.CronServer{
+		Cfg:            h.Cfg,
+		CronInteractor: h.Interactor,
 	}).Register()
 
 	//start scheduler
@@ -44,7 +44,7 @@ func (h *Handler) Register() error {
 				h.addScheduler(name, val.Schedule)
 			}
 		} else {
-			customLog.InfoF("[SCHEDULER] %s: is inactive", name)
+			customLog.InfoF("[CRON] %s: is inactive", name)
 		}
 	}
 
@@ -63,10 +63,10 @@ func VerbosePrintfLogger() cron.Logger {
 
 func (pl printfLogger) Info(msg string, keysAndValues ...interface{}) {
 	if pl.logInfo {
-		customLog.WarnF("[SCHEDULER] %s", msg)
+		customLog.WarnF("[CRON] %s", msg)
 	}
 }
 
 func (pl printfLogger) Error(err error, msg string, keysAndValues ...interface{}) {
-	customLog.ErrorF("[SCHEDULER] %s: %v", msg, err)
+	customLog.ErrorF("[CRON] %s: %v", msg, err)
 }

@@ -1,11 +1,11 @@
-package modelMovie
+package modelResp
 
-type RespListMovie struct {
+type ListMovie struct {
 	Items []Items `json:"items"`
 	Total int64   `json:"total"`
 }
 
-type RespDetailMovie struct {
+type DetailMovie struct {
 	Title      string    `json:"title"`
 	Year       string    `json:"year"`
 	Rated      string    `json:"rated"`

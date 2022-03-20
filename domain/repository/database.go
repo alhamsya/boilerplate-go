@@ -2,9 +2,8 @@ package repository
 
 import (
 	"context"
+	"github.com/alhamsya/boilerplate-go/domain/models/database"
 	"github.com/jmoiron/sqlx"
-
-	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 )
 
 type DBRepo interface {
@@ -12,5 +11,9 @@ type DBRepo interface {
 	TxError(tx *sqlx.Tx, err error) error
 	TxCommit(tx *sqlx.Tx) error
 
-	CreateHistoryLog(ctx context.Context, reqDB *modelMovie.DBHistoryLog) (lastInsertID int64, err error)
+	CreateUserTx(ctx context.Context, tx *sqlx.Tx, reqDB *modelDB.User) (lastInsertID int64, err error)
+	GetUserByEmail(ctx context.Context, email string) (respDB *modelDB.User, err error)
+
+	CreateHistoryLog(ctx context.Context, reqDB *modelDB.HistoryLog) (lastInsertID int64, err error)
+	CreateHistoryLogTx(ctx context.Context, tx *sqlx.Tx, reqDB *modelDB.HistoryLog) (lastInsertID int64, err error)
 }

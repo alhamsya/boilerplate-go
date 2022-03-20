@@ -5,6 +5,7 @@ import "time"
 type ServiceConfig struct {
 	RestServer  RestServer
 	GrpcServer  GrpcServer
+	CronServer  CronServer
 	Databases   map[string]*DBConfig
 	Toggle      map[string]*Toggle
 	External    map[string]*External
@@ -43,6 +44,11 @@ type DBConfig struct {
 type RestServer struct {
 	Port          string
 	Timeout       time.Duration
+	AccessLogFile string
+	ErrorLogFile  string
+}
+
+type CronServer struct {
 	AccessLogFile string
 	ErrorLogFile  string
 }

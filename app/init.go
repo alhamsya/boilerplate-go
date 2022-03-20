@@ -9,14 +9,14 @@ import (
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/alhamsya/boilerplate-go/lib/utils"
-	restMiddleware "github.com/alhamsya/boilerplate-go/middleware/rest"
+	"github.com/alhamsya/boilerplate-go/middleware/rest"
 	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
+	"github.com/alhamsya/boilerplate-go/transport/inter/cron/routers"
 	"github.com/alhamsya/boilerplate-go/transport/inter/grpc/routers"
-	"github.com/alhamsya/boilerplate-go/transport/inter/job/routers"
 	"github.com/alhamsya/boilerplate-go/transport/inter/rest/routers"
+	"github.com/alhamsya/boilerplate-go/usecase/cron"
 	"github.com/alhamsya/boilerplate-go/usecase/grpc"
 	"github.com/alhamsya/boilerplate-go/usecase/rest"
-	"github.com/alhamsya/boilerplate-go/usecase/scheduler"
 )
 
 type ModuleRepo struct {
@@ -80,8 +80,8 @@ func GrpcGetInteractor(cfg *config.ServiceConfig) *grpcRouters.GrpcInteractor {
 	}
 }
 
-//JobGetInteractor job scheduler interactor and related usecase
-func JobGetInteractor(cfg *config.ServiceConfig) *jobRouters.JobInteractor {
+//CronGetInteractor job scheduler interactor and related usecase
+func CronGetInteractor(cfg *config.ServiceConfig) *cronRouters.CronInteractor {
 	generalInteractor := GeneralInteractor(cfg)
 
 	firestoreRepo := firestore.New(&firestore.ServiceFirestore{
@@ -89,8 +89,8 @@ func JobGetInteractor(cfg *config.ServiceConfig) *jobRouters.JobInteractor {
 		UtilsRepo: generalInteractor.utils,
 	})
 
-	ucScheduler := schedulerUC.New(
-		&schedulerUC.UCInteractor{
+	ucScheduler := cronUC.New(
+		&cronUC.UCInteractor{
 			Cfg:             cfg,
 			DBRepo:          generalInteractor.serviceDB,
 			OMDBRepo:        generalInteractor.omdb,
@@ -101,8 +101,8 @@ func JobGetInteractor(cfg *config.ServiceConfig) *jobRouters.JobInteractor {
 		},
 	)
 
-	return &jobRouters.JobInteractor{
-		SchedulerInterface: ucScheduler,
+	return &cronRouters.CronInteractor{
+		CronInterface: ucScheduler,
 	}
 }
 

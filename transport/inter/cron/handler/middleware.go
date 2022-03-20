@@ -1,4 +1,4 @@
-package schedulerHandler
+package cronHandler
 
 import (
 	"context"
@@ -8,7 +8,7 @@ import (
 )
 
 func (h *Handler) addScheduler(name, schedule string) {
-	customLog.InfoF("[SCHEDULER] %s: will be running at %s", name, schedule)
+	customLog.InfoF("[CRON] %s: will be running at %s", name, schedule)
 
 	_, err := h.cron.AddFunc(
 		schedule, h.middleware(name),
@@ -29,7 +29,7 @@ func (h *Handler) middleware(name string) funcScheduler {
 
 		ctx := context.WithValue(context.Background(), "cron_name", name)
 
-		customLog.InfoF("[RUN SCHEDULER] %s: start", name)
+		customLog.InfoF("[RUN CRON] %s: start", name)
 		resp, err := h.funcOrigins[name](ctx)
 		h.metricInterceptor(name, err)
 		if err != nil {
@@ -37,7 +37,7 @@ func (h *Handler) middleware(name string) funcScheduler {
 			return
 		}
 
-		customLog.InfoF("[RUN SCHEDULER] %s: success | elapsed time: %f secs | response func: %+v", name, time.Since(now).Seconds(), resp)
+		customLog.InfoF("[RUN CRON] %s: success | elapsed time: %f secs | response func: %+v", name, time.Since(now).Seconds(), resp)
 	}
 }
 

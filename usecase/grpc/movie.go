@@ -4,10 +4,10 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"github.com/alhamsya/boilerplate-go/domain/models/database"
 	"strconv"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
-	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/client"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
@@ -84,7 +84,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 	endPoint, _ := grpc.Method(ctx)
 	reqStr, _ := json.Marshal(reqClient)
 	respStr, _ := json.Marshal(respMovie)
-	reqDB := &modelMovie.DBHistoryLog{
+	reqDB := &modelDB.HistoryLog{
 		Endpoint:   null.StringFrom(endPoint),
 		Request:    string(reqStr),
 		Response:   string(respStr),
@@ -166,7 +166,7 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetD
 	endPoint, _ := grpc.Method(ctx)
 	reqStr, _ := json.Marshal(reqClient)
 	respStr, _ := json.Marshal(respMovie)
-	reqDB := &modelMovie.DBHistoryLog{
+	reqDB := &modelDB.HistoryLog{
 		Endpoint:   null.StringFrom(endPoint),
 		Request:    string(reqStr),
 		Response:   string(respStr),

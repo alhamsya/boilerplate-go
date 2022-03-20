@@ -1,5 +1,5 @@
-#include .env
-#export
+include .env
+export
 
 start:
 	@go mod vendor
@@ -16,7 +16,7 @@ stop:
 	@docker-compose down --rmi local -v
 
 migrate-up:
-	@go get -v github.com/rubenv/sql-migrate/...@f842348935589e4563be545226d465178bd439cf
+	@go get -d -v github.com/rubenv/sql-migrate/...@f842348935589e4563be545226d465178bd439cf
 	@sql-migrate up
 
 migrate-status:

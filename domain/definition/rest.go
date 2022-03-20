@@ -1,11 +1,13 @@
 package definition
 
 import (
-	"github.com/alhamsya/boilerplate-go/domain/models/movie"
+	"github.com/alhamsya/boilerplate-go/domain/models/request"
+	"github.com/alhamsya/boilerplate-go/domain/models/response"
 	"github.com/gofiber/fiber/v2"
 )
 
 type RestUsecase interface {
-	DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.ReqListMovie) (resp *modelMovie.RespListMovie, httpCode int, err error)
-	DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *modelMovie.RespDetailMovie, httpCode int, err error)
+	DoGetListMovie(ctx *fiber.Ctx, reqClient *modelReq.ListMovie) (resp *modelResp.ListMovie, httpCode int, err error)
+	DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *modelResp.DetailMovie, httpCode int, err error)
+	DoCreateUser(ctx *fiber.Ctx, reqClient *modelReq.User) (resp *modelResp.User, httpCode int, err error)
 }

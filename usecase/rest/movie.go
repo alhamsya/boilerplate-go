@@ -3,18 +3,20 @@ package restUC
 import (
 	"encoding/json"
 	"fmt"
+	"github.com/alhamsya/boilerplate-go/domain/models/database"
+	"github.com/alhamsya/boilerplate-go/domain/models/request"
+	"github.com/alhamsya/boilerplate-go/domain/models/response"
 	"net/http"
 	"strconv"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
-	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 	"github.com/gofiber/fiber/v2"
 	"github.com/volatiletech/null"
 )
 
-func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.ReqListMovie) (resp *modelMovie.RespListMovie, httpCode int, err error) {
+func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelReq.ListMovie) (resp *modelResp.ListMovie, httpCode int, err error) {
 	//implement call wrapping and on purpose do not use error wrapping
 	respWrapper, err := uc.CallWrapperRepo.GetWrapper("omdb").Call(func() (interface{}, error) {
 		//get data from redis
@@ -56,9 +58,9 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 		return nil, http.StatusBadRequest, fmt.Errorf(respMovie.Error)
 	}
 
-	resp = new(modelMovie.RespListMovie)
+	resp = new(modelResp.ListMovie)
 	for _, movie := range respMovie.Search {
-		resp.Items = append(resp.Items, modelMovie.Items{
+		resp.Items = append(resp.Items, modelResp.Items{
 			Title:   movie.Title,
 			Year:    movie.Year,
 			MovieID: movie.ImdbID,
@@ -79,7 +81,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 
 	reqStr, _ := json.Marshal(reqClient)
 	respStr, _ := json.Marshal(respMovie)
-	reqDB := &modelMovie.DBHistoryLog{
+	reqDB := &modelDB.HistoryLog{
 		Endpoint:   null.StringFrom(ctx.Path()),
 		Request:    string(reqStr),
 		Response:   string(respStr),
@@ -92,7 +94,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "database", "CreateHistoryLog")
 	}
 
-	resp = &modelMovie.RespListMovie{
+	resp = &modelResp.ListMovie{
 		Items: resp.Items,
 		Total: total,
 	}
@@ -100,7 +102,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelMovie.Req
 	return resp, http.StatusOK, nil
 }
 
-func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *modelMovie.RespDetailMovie, httpCode int, err error) {
+func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *modelResp.DetailMovie, httpCode int, err error) {
 	//implement call wrapping and on purpose do not use error wrapping
 	respWrapper, err := uc.CallWrapperRepo.GetWrapper("omdb").Call(func() (interface{}, error) {
 		//get data from redis
@@ -142,9 +144,9 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *
 		return nil, http.StatusBadRequest, customError.WrapFlag(fmt.Errorf(respMovie.Error), "OMDBRepo", "status third party")
 	}
 
-	resp = new(modelMovie.RespDetailMovie)
+	resp = new(modelResp.DetailMovie)
 	for _, rating := range respMovie.Ratings {
-		resp.Ratings = append(resp.Ratings, modelMovie.Ratings{
+		resp.Ratings = append(resp.Ratings, modelResp.Ratings{
 			Source: rating.Source,
 			Value:  rating.Value,
 		})
@@ -157,7 +159,7 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *
 
 	reqStr, _ := json.Marshal(movieID)
 	respStr, _ := json.Marshal(respMovie)
-	reqDB := &modelMovie.DBHistoryLog{
+	reqDB := &modelDB.HistoryLog{
 		Endpoint:   null.StringFrom(ctx.Path()),
 		Request:    string(reqStr),
 		Response:   string(respStr),
@@ -170,7 +172,7 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *
 		return nil, http.StatusInternalServerError, customError.WrapFlag(err, "database", "CreateHistoryLog")
 	}
 
-	resp = &modelMovie.RespDetailMovie{
+	resp = &modelResp.DetailMovie{
 		Title:      respMovie.Title,
 		Year:       respMovie.Year,
 		Rated:      respMovie.Rated,

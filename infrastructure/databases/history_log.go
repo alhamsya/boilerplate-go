@@ -2,14 +2,14 @@ package databases
 
 import (
 	"context"
+	"github.com/alhamsya/boilerplate-go/domain/models/database"
 
-	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/jmoiron/sqlx"
 )
 
 //CreateHistoryLog create history log from request client
-func (db *ServiceDB) CreateHistoryLog(ctx context.Context, reqDB *modelMovie.DBHistoryLog) (lastInsertID int64, err error) {
+func (db *ServiceDB) CreateHistoryLog(ctx context.Context, reqDB *modelDB.HistoryLog) (lastInsertID int64, err error) {
 	q := `
 		INSERT INTO movie_hst_log (endpoint, request, response, source_data, created_at, created_by)
 		VALUES (:endpoint, :request, :response, :source_data, :created_at, :created_by)
@@ -27,8 +27,8 @@ func (db *ServiceDB) CreateHistoryLog(ctx context.Context, reqDB *modelMovie.DBH
 	return lastInsertID, nil
 }
 
-//CreateHistoryLogTx create history log from request client suing transaction
-func (db *ServiceDB) CreateHistoryLogTx(ctx context.Context, tx *sqlx.Tx, reqDB *modelMovie.DBHistoryLog) (lastInsertID int64, err error) {
+//CreateHistoryLogTx create history log from request client using transaction
+func (db *ServiceDB) CreateHistoryLogTx(ctx context.Context, tx *sqlx.Tx, reqDB *modelDB.HistoryLog) (lastInsertID int64, err error) {
 	q := `
 		INSERT INTO movie_hst_log (endpoint, request, response, source_data, created_at, created_by)
 		VALUES (:endpoint, :request, :response, :source_data, :created_at, :created_by)

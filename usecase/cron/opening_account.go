@@ -1,4 +1,4 @@
-package schedulerUC
+package cronUC
 
 import (
 	"context"
@@ -13,10 +13,8 @@ import (
 	"golang.org/x/sync/errgroup"
 )
 
-func (uc *UCInteractor) DoCreateDummyData() error {
+func (uc *UCInteractor) DoCreateDummyData(ctx context.Context) error {
 	const SecuritiesID = "bc1de9e521e61a7b227c9b3ff7bbec3d80edaef33c85c11e22e3d90f11a9fc3eo5YiLdi9sV"
-
-	ctx := context.Background()
 
 	oa, err := uc.Firestore.GetOpeningAccountBySecuritiesID(ctx, SecuritiesID)
 	if err != nil {
@@ -59,7 +57,7 @@ func (uc *UCInteractor) DoCreateDummyData() error {
 	return nil
 }
 
-func (uc *UCInteractor) DoChunkCountingData() error {
+func (uc *UCInteractor) DoChunkCountingData(ctx context.Context) error {
 	result, err := uc.UtilsRepo.GenerateRangeDate(2018, 1)
 	if err != nil {
 		return customError.WrapFlag(err, "utils", "GenerateRangeDate")

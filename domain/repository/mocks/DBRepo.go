@@ -5,7 +5,7 @@ package mocks
 import (
 	context "context"
 
-	modelMovie "github.com/alhamsya/boilerplate-go/domain/models/movie"
+	modelDB "github.com/alhamsya/boilerplate-go/domain/models/database"
 	mock "github.com/stretchr/testify/mock"
 
 	sqlx "github.com/jmoiron/sqlx"
@@ -17,19 +17,84 @@ type DBRepo struct {
 }
 
 // CreateHistoryLog provides a mock function with given fields: ctx, reqDB
-func (_m *DBRepo) CreateHistoryLog(ctx context.Context, reqDB *modelMovie.DBHistoryLog) (int64, error) {
+func (_m *DBRepo) CreateHistoryLog(ctx context.Context, reqDB *modelDB.HistoryLog) (int64, error) {
 	ret := _m.Called(ctx, reqDB)
 
 	var r0 int64
-	if rf, ok := ret.Get(0).(func(context.Context, *modelMovie.DBHistoryLog) int64); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, *modelDB.HistoryLog) int64); ok {
 		r0 = rf(ctx, reqDB)
 	} else {
 		r0 = ret.Get(0).(int64)
 	}
 
 	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *modelMovie.DBHistoryLog) error); ok {
+	if rf, ok := ret.Get(1).(func(context.Context, *modelDB.HistoryLog) error); ok {
 		r1 = rf(ctx, reqDB)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// CreateHistoryLogTx provides a mock function with given fields: ctx, tx, reqDB
+func (_m *DBRepo) CreateHistoryLogTx(ctx context.Context, tx *sqlx.Tx, reqDB *modelDB.HistoryLog) (int64, error) {
+	ret := _m.Called(ctx, tx, reqDB)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(context.Context, *sqlx.Tx, *modelDB.HistoryLog) int64); ok {
+		r0 = rf(ctx, tx, reqDB)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, *sqlx.Tx, *modelDB.HistoryLog) error); ok {
+		r1 = rf(ctx, tx, reqDB)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// CreateUserTx provides a mock function with given fields: ctx, tx, reqDB
+func (_m *DBRepo) CreateUserTx(ctx context.Context, tx *sqlx.Tx, reqDB *modelDB.User) (int64, error) {
+	ret := _m.Called(ctx, tx, reqDB)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(context.Context, *sqlx.Tx, *modelDB.User) int64); ok {
+		r0 = rf(ctx, tx, reqDB)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, *sqlx.Tx, *modelDB.User) error); ok {
+		r1 = rf(ctx, tx, reqDB)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetUserByEmail provides a mock function with given fields: ctx, email
+func (_m *DBRepo) GetUserByEmail(ctx context.Context, email string) (*modelDB.User, error) {
+	ret := _m.Called(ctx, email)
+
+	var r0 *modelDB.User
+	if rf, ok := ret.Get(0).(func(context.Context, string) *modelDB.User); ok {
+		r0 = rf(ctx, email)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*modelDB.User)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
+		r1 = rf(ctx, email)
 	} else {
 		r1 = ret.Error(1)
 	}

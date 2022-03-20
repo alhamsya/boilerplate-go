@@ -14,6 +14,20 @@ type CacheRepo struct {
 	mock.Mock
 }
 
+// DecrKYCByStatus provides a mock function with given fields: ctx, statusKYC
+func (_m *CacheRepo) DecrKYCByStatus(ctx context.Context, statusKYC int64) error {
+	ret := _m.Called(ctx, statusKYC)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64) error); ok {
+		r0 = rf(ctx, statusKYC)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // GetDetailMovie provides a mock function with given fields: ctx, movieID
 func (_m *CacheRepo) GetDetailMovie(ctx context.Context, movieID string) (*omdb.OMDBDetail, error) {
 	ret := _m.Called(ctx, movieID)
@@ -30,6 +44,27 @@ func (_m *CacheRepo) GetDetailMovie(ctx context.Context, movieID string) (*omdb.
 	var r1 error
 	if rf, ok := ret.Get(1).(func(context.Context, string) error); ok {
 		r1 = rf(ctx, movieID)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
+// GetKYCByStatus provides a mock function with given fields: ctx, statusKYC
+func (_m *CacheRepo) GetKYCByStatus(ctx context.Context, statusKYC int64) (int, error) {
+	ret := _m.Called(ctx, statusKYC)
+
+	var r0 int
+	if rf, ok := ret.Get(0).(func(context.Context, int64) int); ok {
+		r0 = rf(ctx, statusKYC)
+	} else {
+		r0 = ret.Get(0).(int)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, int64) error); ok {
+		r1 = rf(ctx, statusKYC)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -60,6 +95,20 @@ func (_m *CacheRepo) GetListMovie(ctx context.Context, search string, page int64
 	return r0, r1
 }
 
+// IncrKYCByStatus provides a mock function with given fields: ctx, statusKYC
+func (_m *CacheRepo) IncrKYCByStatus(ctx context.Context, statusKYC int64) error {
+	ret := _m.Called(ctx, statusKYC)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64) error); ok {
+		r0 = rf(ctx, statusKYC)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // SetDetailMovie provides a mock function with given fields: ctx, movieID, req
 func (_m *CacheRepo) SetDetailMovie(ctx context.Context, movieID string, req *omdb.OMDBDetail) error {
 	ret := _m.Called(ctx, movieID, req)
@@ -67,6 +116,20 @@ func (_m *CacheRepo) SetDetailMovie(ctx context.Context, movieID string, req *om
 	var r0 error
 	if rf, ok := ret.Get(0).(func(context.Context, string, *omdb.OMDBDetail) error); ok {
 		r0 = rf(ctx, movieID, req)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
+// SetKYCByStatus provides a mock function with given fields: ctx, statusKYC, value
+func (_m *CacheRepo) SetKYCByStatus(ctx context.Context, statusKYC int64, value int) error {
+	ret := _m.Called(ctx, statusKYC, value)
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(context.Context, int64, int) error); ok {
+		r0 = rf(ctx, statusKYC, value)
 	} else {
 		r0 = ret.Error(0)
 	}

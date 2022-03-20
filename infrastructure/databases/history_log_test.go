@@ -4,10 +4,10 @@ import (
 	"context"
 	"errors"
 	constCommon "github.com/alhamsya/boilerplate-go/domain/constants"
+	"github.com/alhamsya/boilerplate-go/domain/models/database"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/volatiletech/null"
 )
@@ -23,7 +23,7 @@ func TestDBService_CreateHistoryLog(t *testing.T) {
 	}
 	type args struct {
 		ctx   context.Context
-		reqDB *modelMovie.DBHistoryLog
+		reqDB *modelDB.HistoryLog
 	}
 	tests := []struct {
 		name             string
@@ -37,8 +37,8 @@ func TestDBService_CreateHistoryLog(t *testing.T) {
 			name:   "When_NamedExecContextReturnError_expectError",
 			fields: fields{},
 			args: args{
-				ctx:   context.TODO(),
-				reqDB: &modelMovie.DBHistoryLog{
+				ctx: context.TODO(),
+				reqDB: &modelDB.HistoryLog{
 					Endpoint:   null.StringFrom("/api/movie"),
 					Request:    "",
 					Response:   "",
@@ -57,8 +57,8 @@ func TestDBService_CreateHistoryLog(t *testing.T) {
 			name:   "When_CreateHistoryLogReturnSuccess_expectSuccess",
 			fields: fields{},
 			args: args{
-				ctx:   context.TODO(),
-				reqDB: &modelMovie.DBHistoryLog{
+				ctx: context.TODO(),
+				reqDB: &modelDB.HistoryLog{
 					Endpoint:   null.StringFrom("/api/movie"),
 					Request:    "",
 					Response:   "",
