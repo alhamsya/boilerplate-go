@@ -1,15 +1,13 @@
 package restRouters
 
 import (
-	"github.com/alhamsya/boilerplate-go/infrastructure/config"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/gofiber/fiber/v2"
 	"testing"
 )
 
 func TestRestServer_Register(t *testing.T) {
-	app := fiber.New(fiber.Config{
-
-	})
+	app := fiber.New(fiber.Config{})
 	type fields struct {
 		Cfg            *config.ServiceConfig
 		App            *fiber.App
@@ -22,8 +20,8 @@ func TestRestServer_Register(t *testing.T) {
 		{
 			name: "When_register_expectSuccess",
 			fields: fields{
-				Cfg: &config.ServiceConfig{},
-				App: app,
+				Cfg:            &config.ServiceConfig{},
+				App:            app,
 				RestInteractor: &RestInteractor{},
 			},
 		},

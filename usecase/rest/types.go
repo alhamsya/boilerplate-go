@@ -2,7 +2,7 @@ package restUC
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"
-	"github.com/alhamsya/boilerplate-go/infrastructure/config"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 )
 
 type UCInteractor struct {

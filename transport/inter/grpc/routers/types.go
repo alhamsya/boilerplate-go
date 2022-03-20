@@ -2,7 +2,7 @@ package grpcRouters
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/definition"
-	"github.com/alhamsya/boilerplate-go/infrastructure/config"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"google.golang.org/grpc"
 )
 

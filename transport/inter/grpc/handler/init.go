@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
-	"github.com/alhamsya/boilerplate-go/infrastructure/middleware"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/grace"
 	"github.com/alhamsya/boilerplate-go/transport/inter/grpc/routers"
 	"google.golang.org/grpc"
@@ -12,6 +11,7 @@ import (
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/reflection"
 
+	customMiddleware "github.com/alhamsya/boilerplate-go/middleware/grpc"
 	grpcMiddleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpcRecovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpcOpenTracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"
@@ -34,7 +34,7 @@ func New(this *Handler) *Handler {
 				grpcValidator.UnaryServerInterceptor(),
 				grpcPrometheus.UnaryServerInterceptor,
 				grpcRecovery.UnaryServerInterceptor(),
-				middleware.GrpcLoggingInterceptor,
+				customMiddleware.GrpcLoggingInterceptor,
 			),
 		),
 	)

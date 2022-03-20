@@ -2,8 +2,7 @@ package database
 
 import (
 	"fmt"
-
-	"github.com/alhamsya/boilerplate-go/infrastructure/config"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 )
 
 func New(cfg *config.DBConfig, dbDriver string) (*Store, error) {

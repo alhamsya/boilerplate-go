@@ -2,6 +2,7 @@ package restUC
 
 import (
 	"errors"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"net/http"
 	"reflect"
 	"testing"
@@ -9,7 +10,6 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/models/movie"
 	"github.com/alhamsya/boilerplate-go/domain/repository"
-	"github.com/alhamsya/boilerplate-go/infrastructure/config"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
 	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 	"github.com/gofiber/fiber/v2"

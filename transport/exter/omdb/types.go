@@ -1,6 +1,8 @@
 package omdb
 
-import "github.com/alhamsya/boilerplate-go/infrastructure/config"
+import (
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
+)
 
 type OMDB struct {
 	Cfg *config.ServiceConfig

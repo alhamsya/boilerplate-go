@@ -1,7 +1,7 @@
 package grpcHandler
 
 import (
-	"github.com/alhamsya/boilerplate-go/infrastructure/config"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/alhamsya/boilerplate-go/transport/inter/grpc/routers"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health/grpc_health_v1"

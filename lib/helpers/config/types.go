@@ -13,6 +13,12 @@ type ServiceConfig struct {
 	Firestore   map[string]*Firestore
 	CORS        CORS
 	Redis       Redis
+	JWT         JWT
+}
+
+type JWT struct {
+	SignatureKey       string
+	ExpDurationInHours int
 }
 
 type Firestore struct {

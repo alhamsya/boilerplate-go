@@ -3,10 +3,10 @@ package app
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"
 	"github.com/alhamsya/boilerplate-go/infrastructure/cache"
-	"github.com/alhamsya/boilerplate-go/infrastructure/config"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
 	"github.com/alhamsya/boilerplate-go/infrastructure/firestore"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/alhamsya/boilerplate-go/lib/utils"
 	restMiddleware "github.com/alhamsya/boilerplate-go/middleware/rest"
