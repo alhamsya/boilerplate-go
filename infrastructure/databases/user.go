@@ -12,7 +12,7 @@ import (
 //CreateUserTx create user from request client using transaction
 func (db *ServiceDB) CreateUserTx(ctx context.Context, tx *sqlx.Tx, reqDB *modelDB.User) (lastInsertID int64, err error) {
 	q := `
-		INSERT INTO mst_user (email, password, status, created_at, created_by)
+		INSERT INTO movie_mst_user (email, password, status, created_at, created_by)
 		VALUES (:email, :password, :status, :created_at, :created_by)
 	`
 	result, err := tx.NamedExecContext(ctx, q, &reqDB)
@@ -31,7 +31,7 @@ func (db *ServiceDB) CreateUserTx(ctx context.Context, tx *sqlx.Tx, reqDB *model
 func (db *ServiceDB) GetUserByEmail(ctx context.Context, email string) (respDB *modelDB.User, err error) {
 	q := `
 		SELECT *
-		FROM mst_user u
+		FROM movie_mst_user u
 		WHERE u.email=:email AND u.deleted_at IS NULL
 	`
 

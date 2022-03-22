@@ -18,8 +18,9 @@ type ServiceConfig struct {
 }
 
 type JWT struct {
-	SignatureKey       string
-	ExpDurationInHours int
+	SignatureKey             string
+	ExpDurationInHours       int
+	ElapsedDurationInMinutes int
 }
 
 type Firestore struct {

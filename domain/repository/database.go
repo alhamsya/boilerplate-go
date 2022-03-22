@@ -2,6 +2,7 @@ package repository
 
 import (
 	"context"
+
 	"github.com/alhamsya/boilerplate-go/domain/models/database"
 	"github.com/jmoiron/sqlx"
 )
@@ -16,4 +17,6 @@ type DBRepo interface {
 
 	CreateHistoryLog(ctx context.Context, reqDB *modelDB.HistoryLog) (lastInsertID int64, err error)
 	CreateHistoryLogTx(ctx context.Context, tx *sqlx.Tx, reqDB *modelDB.HistoryLog) (lastInsertID int64, err error)
+
+	CreateHistorySigning(ctx context.Context, reqDB *modelDB.Signing) (lastInsertID int64, err error)
 }

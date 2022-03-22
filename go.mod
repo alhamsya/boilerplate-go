@@ -12,7 +12,7 @@ require (
 	github.com/go-sql-driver/mysql v1.6.0
 	github.com/gobuffalo/packr/v2 v2.8.1 // indirect
 	github.com/gofiber/fiber/v2 v2.29.0
-	github.com/gofrs/uuid v3.2.0+incompatible
+	github.com/gofrs/uuid v3.2.0+incompatible // indirect
 	github.com/golang-jwt/jwt/v4 v4.4.0
 	github.com/grpc-ecosystem/go-grpc-middleware v1.3.0
 	github.com/grpc-ecosystem/go-grpc-prometheus v1.2.0

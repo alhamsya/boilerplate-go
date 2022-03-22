@@ -9,5 +9,6 @@ import (
 type RestUsecase interface {
 	DoGetListMovie(ctx *fiber.Ctx, reqClient *modelReq.ListMovie) (resp *modelResp.ListMovie, httpCode int, err error)
 	DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *modelResp.DetailMovie, httpCode int, err error)
-	DoCreateUser(ctx *fiber.Ctx, reqClient *modelReq.User) (resp *modelResp.User, httpCode int, err error)
+	DoSignup(ctx *fiber.Ctx, reqClient *modelReq.User) (resp *modelResp.User, httpCode int, err error)
+	DoSigning(ctx *fiber.Ctx, reqClient *modelReq.User) (resp *modelResp.User, httpCode int, err error)
 }

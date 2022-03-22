@@ -1,8 +1,8 @@
 -- +migrate Down
-DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `movie_mst_user`;
 
 -- +migrate Up
-CREATE TABLE IF NOT EXISTS `mst_user` (
+CREATE TABLE IF NOT EXISTS `movie_mst_user` (
     `id` bigint NOT NULL AUTO_INCREMENT,
     `email` varchar(255) NOT NULL,
     `password` text NOT NULL,
@@ -14,5 +14,7 @@ CREATE TABLE IF NOT EXISTS `mst_user` (
     `deleted_at` datetime NULL,
     `deleted_by` varchar(255) NULL,
     PRIMARY KEY (`id`),
-    UNIQUE INDEX `idx-user-email`(`email`)
+    UNIQUE INDEX `idx-movie_mst_user-email`(`email`)
 )ENGINE = InnoDB DEFAULT CHARSET=utf8mb4;
+
+
