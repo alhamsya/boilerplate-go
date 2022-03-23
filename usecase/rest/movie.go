@@ -16,6 +16,7 @@ import (
 	"github.com/volatiletech/null"
 )
 
+//DoGetListMovie get list movie based on request client
 func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelReq.ListMovie) (resp *modelResp.ListMovie, httpCode int, err error) {
 	//implement call wrapping and on purpose do not use error wrapping
 	respWrapper, err := uc.CallWrapperRepo.GetWrapper("omdb").Call(func() (interface{}, error) {
