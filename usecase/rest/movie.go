@@ -3,13 +3,13 @@ package restUC
 import (
 	"encoding/json"
 	"fmt"
-	"github.com/alhamsya/boilerplate-go/domain/models/database"
-	"github.com/alhamsya/boilerplate-go/domain/models/request"
-	"github.com/alhamsya/boilerplate-go/domain/models/response"
 	"net/http"
 	"strconv"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
+	"github.com/alhamsya/boilerplate-go/domain/models/database"
+	"github.com/alhamsya/boilerplate-go/domain/models/request"
+	"github.com/alhamsya/boilerplate-go/domain/models/response"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 	"github.com/gofiber/fiber/v2"
@@ -21,8 +21,8 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelReq.ListM
 	respWrapper, err := uc.CallWrapperRepo.GetWrapper("omdb").Call(func() (interface{}, error) {
 		//get data from redis
 		respMovie, err := uc.CacheRepo.GetListMovie(ctx.Context(), reqClient.Search, reqClient.Page)
-		if err == nil {
-			return respMovie, nil
+		if err != nil {
+			return nil, err
 		}
 
 		//api call to the OMDB

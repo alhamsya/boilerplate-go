@@ -20,3 +20,5 @@
 # Environment, please use main.development.example.ini to create the new one
 /files/etc/configure/*.development.ini
 
+/files/etc/credentials/*.development.json
+
