@@ -6,15 +6,15 @@ then
   printf "\033[0;30m\033[42m Copy file '.env' SUCCEEDED \033[0m\n"
 fi
 
-if [[ ! -f files/etc/configure/main.development.ini ]]
+if [[ ! -f files/etc/configuration/main.development.ini ]]
 then
-  cp files/etc/configure/main.development.example.ini files/etc/configure/main.development.ini
+  cp files/etc/configuration/main.development.example.ini files/etc/configuration/main.development.ini
   printf "\033[0;30m\033[42m Copy file 'main.development.ini' SUCCEEDED \033[0m\n"
 fi
 
-if [[ ! -f files/etc/configure/toggle.development.ini ]]
+if [[ ! -f files/etc/configuration/toggle.development.ini ]]
 then
-  cp files/etc/configure/toggle.development.example.ini files/etc/configure/toggle.development.ini
+  cp files/etc/configuration/toggle.development.example.ini files/etc/configuration/toggle.development.ini
   printf "\033[0;30m\033[42m Copy file 'toggle.development.ini' SUCCEEDED \033[0m\n"
 fi
 
