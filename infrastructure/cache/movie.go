@@ -8,6 +8,7 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
+	"github.com/go-redis/redis/v8"
 )
 
 const (
@@ -31,6 +32,10 @@ func (cache *ServiceCache) SetListMovie(ctx context.Context, search string, page
 
 func (cache *ServiceCache) GetListMovie(ctx context.Context, search string, page int64) (resp *omdb.OMDBList, err error) {
 	jsonData, err := cache.Redis.Get(ctx, fmt.Sprintf(KeyListMovie, search, page)).Result()
+	if err == redis.Nil {
+		return nil, nil
+	}
+
 	if err != nil {
 		return nil, customError.WrapFlag(err, "redis", "Get")
 	}
