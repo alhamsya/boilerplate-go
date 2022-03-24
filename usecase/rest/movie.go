@@ -22,8 +22,8 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelReq.ListM
 	respWrapper, err := uc.CallWrapperRepo.GetWrapper("omdb").Call(func() (interface{}, error) {
 		//get data from redis
 		respMovie, err := uc.CacheRepo.GetListMovie(ctx.Context(), reqClient.Search, reqClient.Page)
-		if err != nil {
-			return nil, err
+		if err == nil {
+			return respMovie, nil
 		}
 
 		//api call to the OMDB
