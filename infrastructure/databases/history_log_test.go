@@ -19,7 +19,7 @@ func TestDBService_CreateHistoryLog(t *testing.T) {
 	defer mockDB.Close()
 
 	type fields struct {
-		DB *database.Store
+		db *database.Store
 	}
 	type args struct {
 		ctx   context.Context
@@ -77,7 +77,7 @@ func TestDBService_CreateHistoryLog(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			db := &ServiceDB{
-				DB: mockStore,
+				db: mockStore,
 			}
 			tt.patch()
 			gotLastInsertID, err := db.CreateHistoryLog(tt.args.ctx, tt.args.reqDB)

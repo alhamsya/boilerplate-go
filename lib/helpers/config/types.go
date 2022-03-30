@@ -3,18 +3,46 @@ package config
 import "time"
 
 type ServiceConfig struct {
-	RestServer  RestServer
-	GrpcServer  GrpcServer
-	CronServer  CronServer
-	Databases   map[string]*DBConfig
-	Toggle      map[string]*Toggle
-	External    map[string]*External
-	CallWrapper map[string]*CallWrapper
-	Scheduler   map[string]*Scheduler
-	Firestore   map[string]*Firestore
-	CORS        CORS
-	Redis       Redis
-	JWT         JWT
+	RestServer     RestServer
+	GrpcServer     GrpcServer
+	CronServer     CronServer
+	ConsumerServer ConsumerServer
+	Databases      map[string]*DBConfig
+	Toggle         map[string]*Toggle
+	External       map[string]*External
+	CallWrapper    map[string]*CallWrapper
+	Scheduler      map[string]*Scheduler
+	Firestore      map[string]*Firestore
+	PubSub         map[string]*PubSub
+	CORS           CORS
+	Redis          Redis
+	JWT            JWT
+}
+
+type RestServer struct {
+	Port          string
+	Timeout       time.Duration
+	AccessLogFile string
+	ErrorLogFile  string
+}
+
+type GrpcServer struct {
+	Port                string
+	AuthTimeoutInHour   int
+	ContextTimeoutInSec int
+	AccessLogFile       string
+	ErrorLogFile        string
+}
+
+type CronServer struct {
+	AccessLogFile string
+	ErrorLogFile  string
+}
+
+type ConsumerServer struct {
+	ProjectID     string
+	AccessLogFile string
+	ErrorLogFile  string
 }
 
 type JWT struct {
@@ -42,28 +70,8 @@ type DBConfig struct {
 	TimeoutExceededInMinutes int           `json:"timeout_exceeded_in_minutes"`
 }
 
-type RestServer struct {
-	Port          string
-	Timeout       time.Duration
-	AccessLogFile string
-	ErrorLogFile  string
-}
-
-type CronServer struct {
-	AccessLogFile string
-	ErrorLogFile  string
-}
-
 type CORS struct {
 	AllowOrigins []string
-}
-
-type GrpcServer struct {
-	Port                string
-	AuthTimeoutInHour   int
-	ContextTimeoutInSec int
-	AccessLogFile       string
-	ErrorLogFile        string
 }
 
 type Toggle struct {
@@ -89,4 +97,9 @@ type Redis struct {
 	MinIdleConn      int
 	MaxConnAgeInSec  int
 	IdleTimeoutInSec int
+}
+
+type PubSub struct {
+	Topic    string
+	IsActive bool
 }

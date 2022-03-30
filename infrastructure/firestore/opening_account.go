@@ -12,7 +12,7 @@ import (
 )
 
 func (fs *ServiceFirestore) GetOpeningAccountBySecuritiesID(ctx context.Context, securitiesID string) (oa *modelOpeningAccount.OpeningAccount, err error) {
-	coll := fs.Clients["sekuritas_opening_account"].Collection("sekuritas-opening-account")
+	coll := fs.clients["sekuritas_opening_account"].Collection("sekuritas-opening-account")
 	//defer fs.Clients["sekuritas_opening_account"].Close()
 
 	snap, err := coll.Where("securities_id", "==", securitiesID).Documents(ctx).Next()
@@ -35,7 +35,7 @@ func (fs *ServiceFirestore) GetOpeningAccountBySecuritiesID(ctx context.Context,
 }
 
 func (fs *ServiceFirestore) GetOpeningAccountByStatusKYCAndDateRange(ctx context.Context, statusKYC int64, startDate, endDate *time.Time) ([]*firestore.DocumentSnapshot, error) {
-	coll := fs.Clients["sekuritas_opening_account"].Collection("test")
+	coll := fs.clients["sekuritas_opening_account"].Collection("test")
 
 	snap, err := coll.Where("status_kyc", "==", statusKYC).
 		Where("created_at", ">=", startDate).
@@ -51,7 +51,7 @@ func (fs *ServiceFirestore) GetOpeningAccountByStatusKYCAndDateRange(ctx context
 }
 
 func (fs *ServiceFirestore) GetSnapOpeningAccountByStatusKYC(ctx context.Context, statusKYC int64) (*firestore.QuerySnapshot, error) {
-	coll := fs.Clients["sekuritas_opening_account"].Collection("sekuritas-opening-account")
+	coll := fs.clients["sekuritas_opening_account"].Collection("sekuritas-opening-account")
 
 	iter := coll.Where("status_kyc", "==", statusKYC).Snapshots(ctx)
 	snap, err := iter.Next()
@@ -63,7 +63,7 @@ func (fs *ServiceFirestore) GetSnapOpeningAccountByStatusKYC(ctx context.Context
 }
 
 func (fs *ServiceFirestore) CreateOpeningAccount(ctx context.Context, oa *modelOpeningAccount.OpeningAccount) (err error) {
-	coll := fs.Clients["sekuritas_opening_account"].Collection("test")
+	coll := fs.clients["sekuritas_opening_account"].Collection("test")
 	//defer fs.Clients["sekuritas_opening_account"].Close()
 
 	_, err = coll.Doc(fs.UtilsRepo.RandomString(10)).Set(ctx, fs.UtilsRepo.ToMap(&oa))

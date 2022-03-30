@@ -5,15 +5,18 @@ import (
 	"github.com/alhamsya/boilerplate-go/infrastructure/cache"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
 	"github.com/alhamsya/boilerplate-go/infrastructure/firestore"
+	"github.com/alhamsya/boilerplate-go/infrastructure/pubsub"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/alhamsya/boilerplate-go/lib/utils"
 	"github.com/alhamsya/boilerplate-go/middleware/rest"
 	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
+	"github.com/alhamsya/boilerplate-go/transport/inter/consumer/routers"
 	"github.com/alhamsya/boilerplate-go/transport/inter/cron/routers"
 	"github.com/alhamsya/boilerplate-go/transport/inter/grpc/routers"
 	"github.com/alhamsya/boilerplate-go/transport/inter/rest/routers"
+	"github.com/alhamsya/boilerplate-go/usecase/consumer"
 	"github.com/alhamsya/boilerplate-go/usecase/cron"
 	"github.com/alhamsya/boilerplate-go/usecase/grpc"
 	"github.com/alhamsya/boilerplate-go/usecase/rest"
@@ -103,6 +106,36 @@ func CronGetInteractor(cfg *config.ServiceConfig) *cronRouters.CronInteractor {
 
 	return &cronRouters.CronInteractor{
 		CronInterface: ucScheduler,
+	}
+}
+
+func ConsumerGetInteractor(cfg *config.ServiceConfig) *consumerRouters.ConsumerInteractor {
+	generalInteractor := GeneralInteractor(cfg)
+
+	firestoreRepo := firestore.New(&firestore.ServiceFirestore{
+		Cfg:       cfg,
+		UtilsRepo: generalInteractor.utils,
+	})
+
+	pubsub.New(&pubsub.ServicePubSub{
+		Cfg:       cfg,
+		UtilsRepo: generalInteractor.utils,
+	})
+
+	ucConsumer := consumerUC.New(
+		&consumerUC.UCInteractor{
+			Cfg:             cfg,
+			DBRepo:          generalInteractor.serviceDB,
+			OMDBRepo:        generalInteractor.omdb,
+			CallWrapperRepo: generalInteractor.wrapper,
+			CacheRepo:       generalInteractor.serviceCache,
+			UtilsRepo:       generalInteractor.utils,
+			Firestore:       firestoreRepo,
+		},
+	)
+
+	return &consumerRouters.ConsumerInteractor{
+		ConsumerInterface: ucConsumer,
 	}
 }
 

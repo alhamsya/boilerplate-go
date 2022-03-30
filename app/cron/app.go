@@ -16,14 +16,14 @@ func main() {
 		log.Fatalln("[CRON] failed initialize logging:", err)
 	}
 
-	//init job option
+	//init cron option
 	server := cronHandler.New(&cronHandler.Handler{
 		Cfg:        &cfg,
 		Interactor: app.CronGetInteractor(&cfg),
 	})
 
-	//running transport job
+	//running service cron
 	if err := server.Run(); err != nil {
-		log.Fatalln("[CRON] transport not running:", err)
+		log.Fatalln("[CRON] service not running:", err)
 	}
 }

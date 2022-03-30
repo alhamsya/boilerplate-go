@@ -13,7 +13,7 @@ func (db *ServiceDB) CreateHistorySigning(ctx context.Context, reqDB *modelDB.Si
 		INSERT INTO movie_hst_signing (email, created_at, created_by)
 		VALUES (:email, :created_at, :created_by)
 	`
-	result, err := db.DB.Master.NamedExecContext(ctx, q, &reqDB)
+	result, err := db.db.Master.NamedExecContext(ctx, q, &reqDB)
 	if err != nil {
 		return -1, customError.WrapFlag(err, "sqlx", "NamedExecContext")
 	}

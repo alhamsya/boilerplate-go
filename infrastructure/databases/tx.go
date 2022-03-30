@@ -9,7 +9,7 @@ import (
 
 func (db *ServiceDB) TxBegin(ctx context.Context) (*sqlx.Tx, error) {
 	//initialize transaction
-	tx, err := db.DB.Master.BeginTxx(ctx, nil)
+	tx, err := db.db.Master.BeginTxx(ctx, nil)
 	if err != nil {
 		return nil, customError.Wrap(err, "Beginx")
 	}
@@ -39,4 +39,3 @@ func (db *ServiceDB) TxCommit(tx *sqlx.Tx) error {
 	}
 	return nil
 }
-

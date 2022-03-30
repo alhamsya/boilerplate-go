@@ -43,7 +43,7 @@ func (db *ServiceDB) GetUserByEmail(ctx context.Context, email string) (respDB *
 	}
 
 	respDB = new(modelDB.User)
-	err = db.DB.Slave.GetContext(ctx, respDB, q, args...)
+	err = db.db.Slave.GetContext(ctx, respDB, q, args...)
 	if err != nil {
 		if err == sql.ErrNoRows {
 			return nil, nil

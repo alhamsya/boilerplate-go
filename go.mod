@@ -4,6 +4,7 @@ go 1.14
 
 require (
 	cloud.google.com/go/firestore v1.6.1
+	cloud.google.com/go/pubsub v1.19.0
 	github.com/DATA-DOG/go-sqlmock v1.5.0
 	github.com/fatih/structs v1.1.0
 	github.com/friendsofgo/errors v0.9.2
@@ -34,8 +35,8 @@ require (
 	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	golang.org/x/sys v0.0.0-20220319134239-a9b59b0215f8 // indirect
-	google.golang.org/api v0.59.0
-	google.golang.org/grpc v1.41.0
+	google.golang.org/api v0.70.0
+	google.golang.org/grpc v1.44.0
 	google.golang.org/protobuf v1.27.1
 	gopkg.in/check.v1 v1.0.0-20201130134442-10cb98267c6c // indirect
 	gopkg.in/ini.v1 v1.63.2

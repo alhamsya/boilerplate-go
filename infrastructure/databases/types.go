@@ -8,6 +8,6 @@ import (
 type ServiceDB struct {
 	Cfg    *config.ServiceConfig
 	Driver string
-	DB     *database.Store
+	db     *database.Store
 	Name   string
 }

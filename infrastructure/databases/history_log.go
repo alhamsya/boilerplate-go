@@ -14,7 +14,7 @@ func (db *ServiceDB) CreateHistoryLog(ctx context.Context, reqDB *modelDB.Histor
 		INSERT INTO movie_hst_log (endpoint, request, response, source_data, created_at, created_by)
 		VALUES (:endpoint, :request, :response, :source_data, :created_at, :created_by)
 	`
-	result, err := db.DB.Master.NamedExecContext(ctx, q, &reqDB)
+	result, err := db.db.Master.NamedExecContext(ctx, q, &reqDB)
 	if err != nil {
 		return -1, customError.WrapFlag(err, "sqlx", "NamedExecContext")
 	}

@@ -9,5 +9,5 @@ import (
 type ServiceFirestore struct {
 	Cfg       *config.ServiceConfig
 	UtilsRepo repository.UtilsRepo
-	Clients   map[string]*firestore.Client
+	clients   map[string]*firestore.Client
 }
