@@ -11,11 +11,11 @@ func New(this *CronServer) *CronServer {
 
 func (cron *CronServer) Register() map[string][]func(context.Context) (interface{}, error) {
 	return map[string][]func(context.Context) (interface{}, error){
-		"tes": {
+		"chunk_counting": {
 			cron.ChunkCountingData,
 		},
-		//"tes1": {
-		//	h.Interactor.SchedulerInterface.DoCreateDummyData,
-		//},
+		"create_dummy": {
+			cron.CreateDummyData,
+		},
 	}
 }

@@ -32,7 +32,6 @@ require (
 	github.com/volatiletech/null v8.0.0+incompatible
 	github.com/volatiletech/sqlboiler v3.7.1+incompatible // indirect
 	golang.org/x/crypto v0.0.0-20220315160706-3147a52a75dd
-	golang.org/x/oauth2 v0.0.0-20211104180415-d3ed0bb246c8 // indirect
 	golang.org/x/sync v0.0.0-20210220032951-036812b2e83c
 	golang.org/x/sys v0.0.0-20220319134239-a9b59b0215f8 // indirect
 	google.golang.org/api v0.70.0
