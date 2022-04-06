@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.27.1
 // 	protoc        v3.19.1
-// source: transport.proto
+// source: service.proto
 
 package service
 
@@ -825,27 +825,27 @@ func file_service_proto_rawDescGZIP() []byte {
 
 var file_service_proto_msgTypes = make([]protoimpl.MessageInfo, 9)
 var file_service_proto_goTypes = []interface{}{
-	(*RPCStatus)(nil),          // 0: transport.RPCStatus
-	(*GetListMovieReq)(nil),    // 1: transport.GetListMovieReq
-	(*DataListMovie)(nil),      // 2: transport.DataListMovie
-	(*ItemsMovie)(nil),         // 3: transport.ItemsMovie
-	(*GetListMovieResp)(nil),   // 4: transport.GetListMovieResp
-	(*GetDetailMovieReq)(nil),  // 5: transport.GetDetailMovieReq
-	(*DataDetailMovie)(nil),    // 6: transport.DataDetailMovie
-	(*Ratings)(nil),            // 7: transport.Ratings
-	(*GetDetailMovieResp)(nil), // 8: transport.GetDetailMovieResp
+	(*RPCStatus)(nil),          // 0: service.RPCStatus
+	(*GetListMovieReq)(nil),    // 1: service.GetListMovieReq
+	(*DataListMovie)(nil),      // 2: service.DataListMovie
+	(*ItemsMovie)(nil),         // 3: service.ItemsMovie
+	(*GetListMovieResp)(nil),   // 4: service.GetListMovieResp
+	(*GetDetailMovieReq)(nil),  // 5: service.GetDetailMovieReq
+	(*DataDetailMovie)(nil),    // 6: service.DataDetailMovie
+	(*Ratings)(nil),            // 7: service.Ratings
+	(*GetDetailMovieResp)(nil), // 8: service.GetDetailMovieResp
 }
 var file_service_proto_depIdxs = []int32{
-	3, // 0: transport.DataListMovie.Items:type_name -> transport.ItemsMovie
-	0, // 1: transport.GetListMovieResp.Status:type_name -> transport.RPCStatus
-	2, // 2: transport.GetListMovieResp.Data:type_name -> transport.DataListMovie
-	7, // 3: transport.DataDetailMovie.Ratings:type_name -> transport.Ratings
-	0, // 4: transport.GetDetailMovieResp.Status:type_name -> transport.RPCStatus
-	6, // 5: transport.GetDetailMovieResp.Data:type_name -> transport.DataDetailMovie
-	1, // 6: transport.Services.GetListMovie:input_type -> transport.GetListMovieReq
-	5, // 7: transport.Services.GetDetailMovie:input_type -> transport.GetDetailMovieReq
-	4, // 8: transport.Services.GetListMovie:output_type -> transport.GetListMovieResp
-	8, // 9: transport.Services.GetDetailMovie:output_type -> transport.GetDetailMovieResp
+	3, // 0: service.DataListMovie.Items:type_name -> service.ItemsMovie
+	0, // 1: service.GetListMovieResp.Status:type_name -> service.RPCStatus
+	2, // 2: service.GetListMovieResp.Data:type_name -> service.DataListMovie
+	7, // 3: service.DataDetailMovie.Ratings:type_name -> service.Ratings
+	0, // 4: service.GetDetailMovieResp.Status:type_name -> service.RPCStatus
+	6, // 5: service.GetDetailMovieResp.Data:type_name -> service.DataDetailMovie
+	1, // 6: service.Services.GetListMovie:input_type -> service.GetListMovieReq
+	5, // 7: service.Services.GetDetailMovie:input_type -> service.GetDetailMovieReq
+	4, // 8: service.Services.GetListMovie:output_type -> service.GetListMovieResp
+	8, // 9: service.Services.GetDetailMovie:output_type -> service.GetDetailMovieResp
 	8, // [8:10] is the sub-list for method output_type
 	6, // [6:8] is the sub-list for method input_type
 	6, // [6:6] is the sub-list for extension type_name
@@ -996,7 +996,7 @@ var _ grpc.ClientConnInterface
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion6
 
-// ServicesClient is the client API for Services transport.
+// ServicesClient is the client API for Services service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type ServicesClient interface {
@@ -1014,7 +1014,7 @@ func NewServicesClient(cc grpc.ClientConnInterface) ServicesClient {
 
 func (c *servicesClient) GetListMovie(ctx context.Context, in *GetListMovieReq, opts ...grpc.CallOption) (*GetListMovieResp, error) {
 	out := new(GetListMovieResp)
-	err := c.cc.Invoke(ctx, "/transport.Services/GetListMovie", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/service.Services/GetListMovie", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -1023,14 +1023,14 @@ func (c *servicesClient) GetListMovie(ctx context.Context, in *GetListMovieReq, 
 
 func (c *servicesClient) GetDetailMovie(ctx context.Context, in *GetDetailMovieReq, opts ...grpc.CallOption) (*GetDetailMovieResp, error) {
 	out := new(GetDetailMovieResp)
-	err := c.cc.Invoke(ctx, "/transport.Services/GetDetailMovie", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/service.Services/GetDetailMovie", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// ServicesServer is the server API for Services transport.
+// ServicesServer is the server API for Services service.
 type ServicesServer interface {
 	GetListMovie(context.Context, *GetListMovieReq) (*GetListMovieResp, error)
 	GetDetailMovie(context.Context, *GetDetailMovieReq) (*GetDetailMovieResp, error)
@@ -1061,7 +1061,7 @@ func _Services_GetListMovie_Handler(srv interface{}, ctx context.Context, dec fu
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/transport.Services/GetListMovie",
+		FullMethod: "/service.Services/GetListMovie",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ServicesServer).GetListMovie(ctx, req.(*GetListMovieReq))
@@ -1079,7 +1079,7 @@ func _Services_GetDetailMovie_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/transport.Services/GetDetailMovie",
+		FullMethod: "/service.Services/GetDetailMovie",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(ServicesServer).GetDetailMovie(ctx, req.(*GetDetailMovieReq))
@@ -1088,7 +1088,7 @@ func _Services_GetDetailMovie_Handler(srv interface{}, ctx context.Context, dec 
 }
 
 var _Services_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "transport.Services",
+	ServiceName: "service.Services",
 	HandlerType: (*ServicesServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
@@ -1101,5 +1101,5 @@ var _Services_serviceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "transport.proto",
+	Metadata: "service.proto",
 }

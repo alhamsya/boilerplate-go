@@ -2,6 +2,8 @@ package consumerRouters
 
 import (
 	"context"
+
+	"cloud.google.com/go/pubsub"
 )
 
 func New(this *ConsumerServer) *ConsumerServer {
@@ -11,8 +13,8 @@ func New(this *ConsumerServer) *ConsumerServer {
 	}
 }
 
-func (consume *ConsumerServer) Register() map[string][]func(context.Context) (interface{}, error) {
-	return map[string][]func(context.Context) (interface{}, error){
+func (consume *ConsumerServer) Register() map[string][]func(context.Context, *pubsub.Message) (interface{}, error) {
+	return map[string][]func(context.Context, *pubsub.Message) (interface{}, error){
 		"tes": {
 			consume.Payment,
 		},

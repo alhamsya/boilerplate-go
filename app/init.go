@@ -5,7 +5,6 @@ import (
 	"github.com/alhamsya/boilerplate-go/infrastructure/cache"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
 	"github.com/alhamsya/boilerplate-go/infrastructure/firestore"
-	"github.com/alhamsya/boilerplate-go/infrastructure/pubsub"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
@@ -35,6 +34,7 @@ func GetConfig() (cfg config.ServiceConfig) {
 	cfg.ReadConfig("main")
 	cfg.ReadConfig("toggle")
 	cfg.ReadConfig("scheduler")
+	cfg.ReadConfig("pubsub")
 	return cfg
 }
 
@@ -113,11 +113,6 @@ func ConsumerGetInteractor(cfg *config.ServiceConfig) *consumerRouters.ConsumerI
 	generalInteractor := GeneralInteractor(cfg)
 
 	firestoreRepo := firestore.New(&firestore.ServiceFirestore{
-		Cfg:       cfg,
-		UtilsRepo: generalInteractor.utils,
-	})
-
-	pubsub.New(&pubsub.ServicePubSub{
 		Cfg:       cfg,
 		UtilsRepo: generalInteractor.utils,
 	})

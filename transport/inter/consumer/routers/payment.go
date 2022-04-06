@@ -1,8 +1,12 @@
 package consumerRouters
 
-import "context"
+import (
+	"context"
 
-func (consume *ConsumerServer) Payment(ctx context.Context) (interface{}, error) {
+	"cloud.google.com/go/pubsub"
+)
+
+func (consume *ConsumerServer) Payment(ctx context.Context, msg *pubsub.Message) (interface{}, error) {
 	err := consume.ConsumerInteractor.ConsumerInterface.DoPayment(ctx)
 	return nil, err
 }
