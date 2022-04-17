@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"log"
 
 	"github.com/alhamsya/boilerplate-go/app"
@@ -23,7 +24,7 @@ func main() {
 	})
 
 	//running service cron
-	if err := server.Run(); err != nil {
+	if err := server.Run(context.Background()); err != nil {
 		log.Fatalln("[CRON] service not running:", err)
 	}
 }

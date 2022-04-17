@@ -1,7 +1,12 @@
 package cronHandler
 
 import (
+	"context"
+	"sync"
 	"time"
+
+	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
+	"github.com/alhamsya/boilerplate-go/middleware/cron"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
@@ -9,8 +14,8 @@ import (
 	"github.com/robfig/cron/v3"
 )
 
-func (h *Handler) Register() error {
-	h.funcOrigins = make(map[string]funcOrigin)
+func (h *Handler) Register(ctx context.Context) error {
+	h.funcOrigins = make(map[string]cronMiddleware.FuncOrigin)
 
 	cronParser := cron.WithParser(cron.NewParser(cron.SecondOptional | cron.Minute | cron.Hour | cron.Dom | cron.Month | cron.Dow | cron.Descriptor))
 
@@ -19,14 +24,12 @@ func (h *Handler) Register() error {
 	//- Skip a job's execution if the previous run hasn't completed yet
 	//- Log each job's invocations
 	cronWrappers := cron.WithChain(
-		cron.SkipIfStillRunning(
-			VerbosePrintfLogger(),
-		),
+		delayIfStillRunning(ctx),
 	)
 
 	location, err := time.LoadLocation(constCommon.TimeLocalJakarta)
 	if err != nil {
-		return err
+		return customError.WrapFlag(err, "time", "LoadLocation")
 	}
 
 	h.cron = cron.New(cron.WithLocation(location), cronParser, cronWrappers)
@@ -41,7 +44,7 @@ func (h *Handler) Register() error {
 		if val.IsActive {
 			for _, fn := range schedulerList[name] {
 				h.funcOrigins[name] = fn
-				h.addScheduler(name, val.Schedule)
+				h.addScheduler(ctx, name, val.Schedule)
 			}
 		} else {
 			customLog.InfoF("[CRON] %s: is inactive", name)
@@ -53,20 +56,31 @@ func (h *Handler) Register() error {
 	return nil
 }
 
-// VerbosePrintfLogger wraps a Printf-based logger (such as the standard library
-// "log") into an implementation of the Logger interface which logs everything.
-func VerbosePrintfLogger() cron.Logger {
-	return printfLogger{
-		logInfo: true,
+func (h *Handler) addScheduler(ctx context.Context, name, schedule string) {
+	customLog.InfoF("[CRON] %s: will be running at %s", name, schedule)
+
+	_, err := h.cron.AddFunc(
+		schedule, cronMiddleware.Interceptor(ctx, h.funcOrigins, name),
+	)
+	if err != nil {
+		customLog.ErrorLn(err)
 	}
 }
 
-func (pl printfLogger) Info(msg string, keysAndValues ...interface{}) {
-	if pl.logInfo {
-		customLog.WarnF("[CRON] %s", msg)
+// delayIfStillRunning serializes jobs, delaying subsequent runs until the
+// previous one is complete. Jobs running after a delay of more than a minute
+// have the delay logged at Info.
+func delayIfStillRunning(ctx context.Context) cron.JobWrapper {
+	return func(j cron.Job) cron.Job {
+		var mu sync.Mutex
+		return cron.FuncJob(func() {
+			start := time.Now()
+			mu.Lock()
+			defer mu.Unlock()
+			if dur := time.Since(start); dur > time.Minute {
+				customLog.WarnF("[CRON] delaying subsequent runs until the previous one is complete | duration %v", dur)
+			}
+			j.Run()
+		})
 	}
-}
-
-func (pl printfLogger) Error(err error, msg string, keysAndValues ...interface{}) {
-	customLog.ErrorF("[CRON] %s: %v", msg, err)
 }

@@ -1,5 +1,7 @@
 package cronHandler
 
+import "context"
+
 func New(this *Handler) *Handler {
 	return &Handler{
 		Cfg:        this.Cfg,
@@ -7,6 +9,6 @@ func New(this *Handler) *Handler {
 	}
 }
 
-func (h *Handler) Run() error {
-	return h.Register()
+func (h *Handler) Run(ctx context.Context) error {
+	return h.Register(ctx)
 }
