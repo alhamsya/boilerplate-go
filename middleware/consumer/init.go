@@ -1,4 +1,4 @@
-package consumerHandler
+package consumerMiddleware
 
 import (
 	"context"
@@ -8,8 +8,8 @@ import (
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
 )
 
-func (h *Handler) Consume(sub *pubsub.Subscription, fun func(ctx context.Context, msg *pubsub.Message) (interface{}, error)) {
-	err := sub.Receive(context.Background(), func(ctx context.Context, msg *pubsub.Message) {
+func InterceptorPubSub(ctx context.Context, sub *pubsub.Subscription, fun func(ctx context.Context, msg *pubsub.Message) (interface{}, error)) {
+	err := sub.Receive(ctx, func(ctx context.Context, msg *pubsub.Message) {
 		now := time.Now()
 		resp, err := fun(ctx, msg)
 		if err != nil {

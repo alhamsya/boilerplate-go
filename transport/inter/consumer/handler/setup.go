@@ -1,11 +1,13 @@
 package consumerHandler
 
 import (
+	"context"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	consumerMiddleware "github.com/alhamsya/boilerplate-go/middleware/consumer"
 	"github.com/alhamsya/boilerplate-go/transport/inter/consumer/routers"
 )
 
-func (h *Handler) Run() error {
+func (h *Handler) Run(ctx context.Context) error {
 
 	consumerList := consumerRouters.New(&consumerRouters.ConsumerServer{
 		Cfg:                h.Cfg,
@@ -20,7 +22,7 @@ func (h *Handler) Run() error {
 					continue
 				}
 				customLog.InfoF("[CONSUMER] %s: start", subscription.ID())
-				h.Consume(subscription, fun)
+				consumerMiddleware.InterceptorPubSub(ctx, subscription, fun)
 			}
 		} else {
 			customLog.InfoF("[CONSUMER] %s: is inactive", name)
