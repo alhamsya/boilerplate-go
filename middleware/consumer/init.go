@@ -9,6 +9,8 @@ import (
 )
 
 func InterceptorPubSub(ctx context.Context, sub *pubsub.Subscription, fun func(ctx context.Context, msg *pubsub.Message) (interface{}, error)) {
+	customLog.InfoF("[CONSUMER] %s: start", sub.ID())
+
 	err := sub.Receive(ctx, func(ctx context.Context, msg *pubsub.Message) {
 		now := time.Now()
 		resp, err := fun(ctx, msg)

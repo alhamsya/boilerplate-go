@@ -2,85 +2,94 @@ package cronHandler
 
 import (
 	"context"
-	"sync"
+	"fmt"
 	"time"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
-	"github.com/alhamsya/boilerplate-go/middleware/cron"
-
 	"github.com/alhamsya/boilerplate-go/domain/constants"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	"github.com/alhamsya/boilerplate-go/middleware/cron"
 	"github.com/alhamsya/boilerplate-go/transport/inter/cron/routers"
 	"github.com/robfig/cron/v3"
 )
 
 func (h *Handler) Register(ctx context.Context) error {
-	h.funcOrigins = make(map[string]cronMiddleware.FuncOrigin)
-
 	cronParser := cron.WithParser(cron.NewParser(cron.SecondOptional | cron.Minute | cron.Hour | cron.Dom | cron.Month | cron.Dow | cron.Descriptor))
-
-	//- Recover any panics from jobs (activated by default)
-	//- Delay a job's execution if the previous run hasn't completed yet
-	//- Skip a job's execution if the previous run hasn't completed yet
-	//- Log each job's invocations
-	cronWrappers := cron.WithChain(
-		delayIfStillRunning(ctx),
-	)
 
 	location, err := time.LoadLocation(constCommon.TimeLocalJakarta)
 	if err != nil {
 		return customError.WrapFlag(err, "time", "LoadLocation")
 	}
 
-	h.cron = cron.New(cron.WithLocation(location), cronParser, cronWrappers)
+	cronJob := cron.New(cron.WithLocation(location), cronParser)
 
 	schedulerList := cronRouters.New(&cronRouters.CronServer{
 		Cfg:            h.Cfg,
 		CronInteractor: h.Interactor,
 	}).Register()
 
-	//start scheduler
+	//start list scheduler
 	for name, val := range h.Cfg.Scheduler {
 		if val.IsActive {
 			for _, fn := range schedulerList[name] {
-				h.funcOrigins[name] = fn
-				h.addScheduler(ctx, name, val.Schedule)
+				errSch := h.addScheduler(ctx, &scheduler{
+					cron:                cronJob,
+					name:                name,
+					isDelayStillRunning: val.IsDelayStillRunning,
+					StandardSpec:        val.Schedule,
+					function:            fn,
+				})
+				if err != nil {
+					customLog.ErrorF("[CRON] scheduler name %s: %v", name, errSch)
+				}
 			}
 		} else {
 			customLog.InfoF("[CRON] %s: is inactive", name)
 		}
 	}
 
-	h.cron.Run()
+	cronJob.Run()
 
 	return nil
 }
 
-func (h *Handler) addScheduler(ctx context.Context, name, schedule string) {
-	customLog.InfoF("[CRON] %s: will be running at %s", name, schedule)
+func (h *Handler) addScheduler(ctx context.Context, scheduler *scheduler) error {
+	//handle param scheduler is nil
+	if scheduler == nil {
+		return fmt.Errorf("job scheduler is nil")
+	}
 
-	_, err := h.cron.AddFunc(
-		schedule, cronMiddleware.Interceptor(ctx, h.funcOrigins, name),
-	)
+	customLog.InfoF("[CRON] %s: will be running at (%s) and delay still running is (%t)", scheduler.name, scheduler.StandardSpec, scheduler.isDelayStillRunning)
+
+	//parse string scheduler to the standard cron scheduler
+	schedule, err := cron.ParseStandard(scheduler.StandardSpec)
 	if err != nil {
-		customLog.ErrorLn(err)
+		return customError.Wrap(err, "ParseStandard")
 	}
-}
 
-// delayIfStillRunning serializes jobs, delaying subsequent runs until the
-// previous one is complete. Jobs running after a delay of more than a minute
-// have the delay logged at Info.
-func delayIfStillRunning(ctx context.Context) cron.JobWrapper {
-	return func(j cron.Job) cron.Job {
-		var mu sync.Mutex
-		return cron.FuncJob(func() {
-			start := time.Now()
-			mu.Lock()
-			defer mu.Unlock()
-			if dur := time.Since(start); dur > time.Minute {
-				customLog.WarnF("[CRON] delaying subsequent runs until the previous one is complete | duration %v", dur)
-			}
-			j.Run()
-		})
+	//setup wrapper for each job scheduler
+	wrapper := []cron.JobWrapper{
+		Recover(ctx, scheduler.name),
 	}
+
+	//mapping is delay still running
+	if scheduler.isDelayStillRunning {
+		wrapper = append(wrapper, DelayIfStillRunning(ctx, scheduler.name))
+	} else {
+		wrapper = append(wrapper, SkipIfStillRunning(ctx, scheduler.name))
+	}
+
+	//add chain for job scheduler
+	scheduler.cron.Schedule(
+		schedule,
+		cron.NewChain(wrapper...).Then(
+			cronMiddleware.Interceptor(
+				ctx,
+				scheduler.name,
+				scheduler.function,
+			),
+		),
+	)
+
+	return nil
 }

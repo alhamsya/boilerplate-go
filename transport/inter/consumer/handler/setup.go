@@ -21,7 +21,6 @@ func (h *Handler) Run(ctx context.Context) error {
 				if !ok {
 					continue
 				}
-				customLog.InfoF("[CONSUMER] %s: start", subscription.ID())
 				consumerMiddleware.InterceptorPubSub(ctx, subscription, fun)
 			}
 		} else {

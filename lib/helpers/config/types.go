@@ -56,8 +56,9 @@ type Firestore struct {
 }
 
 type Scheduler struct {
-	Schedule string
-	IsActive bool
+	Schedule            string
+	IsActive            bool
+	IsDelayStillRunning bool
 }
 
 type DBConfig struct {

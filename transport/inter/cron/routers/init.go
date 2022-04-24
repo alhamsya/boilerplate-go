@@ -1,6 +1,8 @@
 package cronRouters
 
-import "context"
+import (
+	"github.com/alhamsya/boilerplate-go/middleware/cron"
+)
 
 func New(this *CronServer) *CronServer {
 	return &CronServer{
@@ -9,8 +11,8 @@ func New(this *CronServer) *CronServer {
 	}
 }
 
-func (cron *CronServer) Register() map[string][]func(context.Context) (interface{}, error) {
-	return map[string][]func(context.Context) (interface{}, error){
+func (cron *CronServer) Register() map[string][]cronMiddleware.FuncOrigin {
+	return map[string][]cronMiddleware.FuncOrigin{
 		"chunk_counting": {
 			cron.ChunkCountingData,
 		},
