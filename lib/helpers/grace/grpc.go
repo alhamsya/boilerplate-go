@@ -8,8 +8,9 @@ import (
 	"time"
 )
 
+//ServeGRPC start the gRPC server on the given address and add graceful shutdown handler
 func ServeGRPC(server GRPCServer, address string, graceTimeout time.Duration) error {
-	lis, err :=  net.Listen(ProtocolTCP4, address)
+	lis, err := net.Listen(ProtocolTCP4, address)
 	if err != nil {
 		return err
 	}

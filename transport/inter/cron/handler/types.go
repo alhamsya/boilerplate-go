@@ -10,7 +10,7 @@ import (
 type scheduler struct {
 	cron                *cron.Cron
 	name                string
-	StandardSpec        string
+	standardSpec        string
 	isDelayStillRunning bool
 	function            cronMiddleware.FuncOrigin
 }

@@ -95,5 +95,5 @@ func getRecoverConfig(cfg *config.ServiceConfig) fiber.Handler {
 }
 
 func (h *Handler) Run() error {
-	return grace.ServeRESTWithFiber(h.App, fmt.Sprintf(":%s", h.Cfg.RestServer.Port), 10*time.Second)
+	return grace.ServeRESTWithFiber(h.App, fmt.Sprintf(":%s", h.Cfg.RestServer.Port), constCommon.DefaultServerHTTPGraceTimeout)
 }

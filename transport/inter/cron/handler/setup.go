@@ -13,12 +13,12 @@ import (
 	"github.com/robfig/cron/v3"
 )
 
-func (h *Handler) Register(ctx context.Context) error {
+func (h *Handler) Register(ctx context.Context) (*cron.Cron, error) {
 	cronParser := cron.WithParser(cron.NewParser(cron.SecondOptional | cron.Minute | cron.Hour | cron.Dom | cron.Month | cron.Dow | cron.Descriptor))
 
 	location, err := time.LoadLocation(constCommon.TimeLocalJakarta)
 	if err != nil {
-		return customError.WrapFlag(err, "time", "LoadLocation")
+		return nil, customError.WrapFlag(err, "time", "LoadLocation")
 	}
 
 	cronJob := cron.New(cron.WithLocation(location), cronParser)
@@ -36,10 +36,10 @@ func (h *Handler) Register(ctx context.Context) error {
 					cron:                cronJob,
 					name:                name,
 					isDelayStillRunning: val.IsDelayStillRunning,
-					StandardSpec:        val.Schedule,
+					standardSpec:        val.Schedule,
 					function:            fn,
 				})
-				if err != nil {
+				if errSch != nil {
 					customLog.ErrorF("[CRON] scheduler name %s: %v", name, errSch)
 				}
 			}
@@ -48,9 +48,7 @@ func (h *Handler) Register(ctx context.Context) error {
 		}
 	}
 
-	cronJob.Run()
-
-	return nil
+	return cronJob, nil
 }
 
 func (h *Handler) addScheduler(ctx context.Context, scheduler *scheduler) error {
@@ -59,10 +57,10 @@ func (h *Handler) addScheduler(ctx context.Context, scheduler *scheduler) error 
 		return fmt.Errorf("job scheduler is nil")
 	}
 
-	customLog.InfoF("[CRON] %s: will be running at (%s) and delay still running is (%t)", scheduler.name, scheduler.StandardSpec, scheduler.isDelayStillRunning)
+	customLog.InfoF("[CRON] %s: will be running at (%s) and delay still running is (%t)", scheduler.name, scheduler.standardSpec, scheduler.isDelayStillRunning)
 
 	//parse string scheduler to the standard cron scheduler
-	schedule, err := cron.ParseStandard(scheduler.StandardSpec)
+	schedule, err := cron.ParseStandard(scheduler.standardSpec)
 	if err != nil {
 		return customError.Wrap(err, "ParseStandard")
 	}

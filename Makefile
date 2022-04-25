@@ -42,10 +42,15 @@ run-grpc:
 	@go mod vendor
 	@go build -o ./bin/grpc ./app/grpc/app.go && ./bin/grpc
 
-run-job:
-	@printf "\033[0;30m\033[42m === RUNNING SERVICE JOB === \033[0m\n"
+run-cron:
+	@printf "\033[0;30m\033[42m === RUNNING SERVICE CRON === \033[0m\n"
 	@go mod vendor
-	@go build -o ./bin/job ./app/job/app.go && ./bin/job
+	@go build -o ./bin/cron ./app/cron/app.go && ./bin/cron
+
+run-consumer:
+	@printf "\033[0;30m\033[42m === RUNNING SERVICE CONSUMER === \033[0m\n"
+	@go mod vendor
+	@go build -o ./bin/consumer ./app/consumer/app.go && ./bin/consumer
 
 build-proto:
 	@printf "\033[0;30m\033[42m === BUILDING PROTOBUF === \033[0m\n"
