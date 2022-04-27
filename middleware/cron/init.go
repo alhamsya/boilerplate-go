@@ -9,6 +9,7 @@ import (
 )
 
 func Interceptor(ctx context.Context, name string, fn FuncOrigin) cron.Job {
+	ctx = context.WithValue(ctx, "cron_name", name)
 	return cron.FuncJob(func() {
 		now := time.Now()
 		resp, errFn := fn(ctx)
