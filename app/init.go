@@ -3,30 +3,41 @@ package app
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"
 	"github.com/alhamsya/boilerplate-go/infrastructure/cache"
-	"github.com/alhamsya/boilerplate-go/infrastructure/config"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
+	"github.com/alhamsya/boilerplate-go/infrastructure/firestore"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/alhamsya/boilerplate-go/lib/utils"
-	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
-	"github.com/alhamsya/boilerplate-go/service/inter/grpc/routers"
-	"github.com/alhamsya/boilerplate-go/service/inter/rest/routers"
+	"github.com/alhamsya/boilerplate-go/middleware/rest"
+	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
+	"github.com/alhamsya/boilerplate-go/transport/inter/consumer/routers"
+	"github.com/alhamsya/boilerplate-go/transport/inter/cron/routers"
+	"github.com/alhamsya/boilerplate-go/transport/inter/grpc/routers"
+	"github.com/alhamsya/boilerplate-go/transport/inter/rest/routers"
+	"github.com/alhamsya/boilerplate-go/usecase/consumer"
+	"github.com/alhamsya/boilerplate-go/usecase/cron"
 	"github.com/alhamsya/boilerplate-go/usecase/grpc"
+	"github.com/alhamsya/boilerplate-go/usecase/helpers"
 	"github.com/alhamsya/boilerplate-go/usecase/rest"
 )
 
 type ModuleRepo struct {
-	serviceDB    *databases.ServiceDB
-	serviceCache *cache.ServiceCache
-	omdb         *omdb.OMDB
-	wrapper      *wrapper.Wrapper
-	utils        repository.UtilsRepo
+	serviceFirestore *firestore.ServiceFirestore
+	serviceDB        *databases.ServiceDB
+	serviceCache     *cache.ServiceCache
+	omdb             *omdb.OMDB
+	wrapper          *wrapper.Wrapper
+	utils            repository.UtilsRepo
+	helpers          repository.HelpersRepo
 }
 
 //GetConfig get config by name
 func GetConfig() (cfg config.ServiceConfig) {
 	cfg.ReadConfig("main")
 	cfg.ReadConfig("toggle")
+	cfg.ReadConfig("scheduler")
+	cfg.ReadConfig("pubsub")
 	return cfg
 }
 
@@ -43,8 +54,15 @@ func RestGetInteractor(cfg *config.ServiceConfig) *restRouters.RestInteractor {
 		UtilsRepo:       generalInteractor.utils,
 	})
 
+	middleware := restMiddleware.New(&restMiddleware.Middleware{
+		Cfg:       cfg,
+		DBRepo:    generalInteractor.serviceDB,
+		UtilsRepo: generalInteractor.utils,
+	})
+
 	return &restRouters.RestInteractor{
-		RestInterface: uc,
+		Usecase:    uc,
+		Middleware: middleware,
 	}
 }
 
@@ -60,6 +78,7 @@ func GrpcGetInteractor(cfg *config.ServiceConfig) *grpcRouters.GrpcInteractor {
 			CallWrapperRepo: generalInteractor.wrapper,
 			CacheRepo:       generalInteractor.serviceCache,
 			UtilsRepo:       generalInteractor.utils,
+			HelpersRepo:     generalInteractor.helpers,
 		},
 	)
 
@@ -68,8 +87,54 @@ func GrpcGetInteractor(cfg *config.ServiceConfig) *grpcRouters.GrpcInteractor {
 	}
 }
 
+//CronGetInteractor job scheduler interactor and related usecase
+func CronGetInteractor(cfg *config.ServiceConfig) *cronRouters.CronInteractor {
+	generalInteractor := GeneralInteractor(cfg)
+
+	ucScheduler := cronUC.New(
+		&cronUC.UCInteractor{
+			Cfg:             cfg,
+			DBRepo:          generalInteractor.serviceDB,
+			Firestore:       generalInteractor.serviceFirestore,
+			CacheRepo:       generalInteractor.serviceCache,
+			OMDBRepo:        generalInteractor.omdb,
+			CallWrapperRepo: generalInteractor.wrapper,
+			UtilsRepo:       generalInteractor.utils,
+			HelpersRepo:     generalInteractor.helpers,
+		},
+	)
+
+	return &cronRouters.CronInteractor{
+		CronInterface: ucScheduler,
+	}
+}
+
+//ConsumerGetInteractor consumer interactor and related usecase
+func ConsumerGetInteractor(cfg *config.ServiceConfig) *consumerRouters.ConsumerInteractor {
+	generalInteractor := GeneralInteractor(cfg)
+
+	ucConsumer := consumerUC.New(
+		&consumerUC.UCInteractor{
+			Cfg:             cfg,
+			DBRepo:          generalInteractor.serviceDB,
+			Firestore:       generalInteractor.serviceFirestore,
+			CacheRepo:       generalInteractor.serviceCache,
+			OMDBRepo:        generalInteractor.omdb,
+			CallWrapperRepo: generalInteractor.wrapper,
+			UtilsRepo:       generalInteractor.utils,
+			HelpersRepo:     generalInteractor.helpers,
+		},
+	)
+
+	return &consumerRouters.ConsumerInteractor{
+		ConsumerInterface: ucConsumer,
+	}
+}
+
 //GeneralInteractor general interactor for rest and gRPC
 func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
+	utilsService := utils.New()
+
 	dbService := databases.New(
 		&databases.ServiceDB{
 			Cfg:    cfg,
@@ -77,6 +142,11 @@ func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
 			Driver: database.DriverMySQL,
 		},
 	)
+
+	firestoreService := firestore.New(&firestore.ServiceFirestore{
+		Cfg:       cfg,
+		UtilsRepo: utilsService,
+	})
 
 	cacheService := cache.New(
 		&cache.ServiceCache{
@@ -94,11 +164,22 @@ func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
 		},
 	)
 
+	helpersService := helpersUC.New(&helpersUC.UCInteractor{
+		Cfg:             cfg,
+		DBRepo:          dbService,
+		FirestoreRepo:   firestoreService,
+		CacheRepo:       cacheService,
+		CallWrapperRepo: cw,
+		UtilsRepo:       utilsService,
+	})
+
 	return &ModuleRepo{
-		serviceDB:    dbService,
-		serviceCache: cacheService,
-		omdb:         omdbRepo,
-		wrapper:      cw,
-		utils:        utils.New(),
+		serviceFirestore: firestoreService,
+		serviceDB:        dbService,
+		serviceCache:     cacheService,
+		omdb:             omdbRepo,
+		wrapper:          cw,
+		utils:            utilsService,
+		helpers:          helpersService,
 	}
 }

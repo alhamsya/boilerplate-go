@@ -52,4 +52,4 @@ make run-grpc
 - Implementation go-redis
 - Handling can be customised by providing an alternate gRCP recovery function
 - Integration of logrus logging library into gRPC handlers
-- Support development in the Apple Silicon (M1 chipset)
+- Support development in the Apple Silicon (M1 chipset) because don't use monkey patching

@@ -13,6 +13,29 @@ type CallWrapperRepo struct {
 	mock.Mock
 }
 
+// Call provides a mock function with given fields: req
+func (_m *CallWrapperRepo) Call(req func() (interface{}, error)) (interface{}, error) {
+	ret := _m.Called(req)
+
+	var r0 interface{}
+	if rf, ok := ret.Get(0).(func(func() (interface{}, error)) interface{}); ok {
+		r0 = rf(req)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(interface{})
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(func() (interface{}, error)) error); ok {
+		r1 = rf(req)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetWrapper provides a mock function with given fields: usecase
 func (_m *CallWrapperRepo) GetWrapper(usecase string) *wrapper.Wrapper {
 	ret := _m.Called(usecase)

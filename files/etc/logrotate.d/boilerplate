@@ -1,0 +1,8 @@
+/var/log/boilerplate/*.log {
+	daily
+        copytruncate
+        rotate 30
+        compress
+        delaycompress
+        nodateext
+}

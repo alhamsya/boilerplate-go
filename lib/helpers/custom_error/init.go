@@ -11,7 +11,7 @@ import (
 // example result : [<flag>] <args> : <err>
 func WrapFlag(err error, flag string, args ...string) error {
 	if flag = strings.TrimSpace(flag); flag != "" {
-		flag = fmt.Sprintf("[%s]", strings.ToUpper(flag))
+		flag = fmt.Sprintf("[%s] ", strings.ToUpper(flag))
 	}
 
 	msg := strings.Join(args, " | ")

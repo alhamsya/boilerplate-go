@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
+	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 )
 
 type OMDBRepo interface {

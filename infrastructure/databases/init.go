@@ -35,8 +35,8 @@ func New(this *ServiceDB) *ServiceDB {
 	result := &ServiceDB{
 		Cfg:    this.Cfg,
 		Driver: this.Driver,
-		DB:     dbStore,
 		Name:   this.Name,
+		db:     dbStore,
 	}
 	log.Printf("[IGNORE] [DATABASE] initialize")
 	return result

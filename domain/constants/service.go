@@ -39,3 +39,11 @@ const (
 	DefaultGRPCContextWithTimeout = 3 * time.Second
 	DefaultServerGRPCGraceTimeout = 10 * time.Second
 )
+
+const (
+	DefaultServerHTTPGraceTimeout = 10 * time.Second
+)
+
+const (
+	DefaultServerCRONGraceTimeout = 10 * time.Second
+)

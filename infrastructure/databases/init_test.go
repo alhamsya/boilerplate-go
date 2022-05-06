@@ -2,10 +2,11 @@ package databases
 
 import (
 	"database/sql"
+	"log"
+
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/jmoiron/sqlx"
-	"log"
 )
 
 func setupMockDB() (mockDB *sql.DB, mockStore *database.Store, mockSQL sqlmock.Sqlmock) {

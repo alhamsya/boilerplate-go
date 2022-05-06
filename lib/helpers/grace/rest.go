@@ -12,7 +12,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
-// ServeREST start the http server on the given address and add graceful shutdown handler
+//ServeREST start the http server on the given address and add graceful shutdown handler
 func ServeREST(srv HTTPServer, address string, graceTimeout time.Duration) error {
 	lis, err := net.Listen(ProtocolTCP4, address)
 	if err != nil {

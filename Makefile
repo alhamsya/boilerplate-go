@@ -1,5 +1,5 @@
-#include .env
-#export
+include .env
+export
 
 start:
 	@go mod vendor
@@ -16,7 +16,7 @@ stop:
 	@docker-compose down --rmi local -v
 
 migrate-up:
-	@go get -v github.com/rubenv/sql-migrate/...@f842348935589e4563be545226d465178bd439cf
+	@go get -d -v github.com/rubenv/sql-migrate/...@f842348935589e4563be545226d465178bd439cf
 	@sql-migrate up
 
 migrate-status:
@@ -42,14 +42,41 @@ run-grpc:
 	@go mod vendor
 	@go build -o ./bin/grpc ./app/grpc/app.go && ./bin/grpc
 
-build-proto:
+run-cron:
+	@printf "\033[0;30m\033[42m === RUNNING SERVICE CRON === \033[0m\n"
+	@go mod vendor
+	@go build -o ./bin/cron ./app/cron/app.go && ./bin/cron
+
+run-consumer:
+	@printf "\033[0;30m\033[42m === RUNNING SERVICE CONSUMER === \033[0m\n"
+	@go mod vendor
+	@go build -o ./bin/consumer ./app/consumer/app.go && ./bin/consumer
+
+clean-proto:
+	@printf "\033[0;30m\033[42m === CLEAN PROTOBUF === \033[0m\n"
+	@rm -rf ./protos/*.pb.go
+
+build-proto: clean-proto
 	@printf "\033[0;30m\033[42m === BUILDING PROTOBUF === \033[0m\n"
 	@protoc -I protos/ protos/*.proto --go_out=plugins=grpc:protos
 
-mocks:
+clean-mocks:
+	@printf "\033[0;30m\033[42m === CLEAN MOCKS === \033[0m\n"
+	@rm -rf ./domain/repository/mocks/
+	@rm -rf ./domain/definition/mocks/
+
+mocks: clean-mocks
 	@printf "\033[0;30m\033[42m === GENERATE MOCKS === \033[0m\n"
 	@mockery --disable-version-string --all --dir ./domain/repository/ --output ./domain/repository/mocks/
 	@mockery --disable-version-string --all --dir ./domain/definition/ --output ./domain/definition/mocks/
 
 test:
 	@bash ./script/test.sh
+
+build:
+	@printf "\033[0;30m\033[42m === GENERATE BUILD === \033[0m\n"
+	@GOOS=linux GOARCH=amd64
+	@go build -o ./bin/REST ./app/rest
+	@go build -o ./bin/GRPC ./app/grpc
+	@go build -o ./bin/CRON ./app/cron
+	@go build -o ./bin/CONSUMER ./app/consumer

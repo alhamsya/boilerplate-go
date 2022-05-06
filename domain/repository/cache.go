@@ -3,7 +3,7 @@ package repository
 import (
 	"context"
 
-	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
+	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 )
 
 type CacheRepo interface {
@@ -12,4 +12,9 @@ type CacheRepo interface {
 
 	SetDetailMovie(ctx context.Context, movieID string, req *omdb.OMDBDetail) (err error)
 	GetDetailMovie(ctx context.Context, movieID string) (resp *omdb.OMDBDetail, err error)
+
+	IncrKYCByStatus(ctx context.Context, statusKYC int64) (err error)
+	DecrKYCByStatus(ctx context.Context, statusKYC int64) (err error)
+	SetKYCByStatus(ctx context.Context, statusKYC int64, value int) (err error)
+	GetKYCByStatus(ctx context.Context, statusKYC int64) (total int, err error)
 }

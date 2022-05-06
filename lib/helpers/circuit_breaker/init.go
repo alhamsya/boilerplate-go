@@ -6,7 +6,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/alhamsya/boilerplate-go/infrastructure/config"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/sony/gobreaker"
 )
 

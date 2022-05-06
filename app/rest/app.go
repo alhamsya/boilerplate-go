@@ -5,7 +5,7 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/app"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
-	"github.com/alhamsya/boilerplate-go/service/inter/rest/handler"
+	"github.com/alhamsya/boilerplate-go/transport/inter/rest/handler"
 )
 
 func main() {
@@ -18,7 +18,7 @@ func main() {
 
 	//init rest option
 	server := restHandler.New(&restHandler.Handler{
-		Cfg: &cfg,
+		Cfg:        &cfg,
 		Interactor: app.RestGetInteractor(&cfg),
 	})
 

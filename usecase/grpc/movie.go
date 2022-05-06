@@ -7,18 +7,19 @@ import (
 	"strconv"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
-	"github.com/alhamsya/boilerplate-go/domain/models/movie"
+	"github.com/alhamsya/boilerplate-go/domain/models/database"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/client"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
-	"github.com/alhamsya/boilerplate-go/service/exter/omdb"
+	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 	"github.com/volatiletech/null"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/codes"
 
 	pb "github.com/alhamsya/boilerplate-go/protos"
 )
 
 //DoGetListMovie get list movie
-func (uc *UCInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetListMovieReq) (resp *pb.GetListMovieResp, err error) {
+func (uc *UCInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetListMovieReq) (resp *pb.GetListMovieResp, errResp *customError.Error) {
 	//implement call wrapping and on purpose do not use error wrapping
 	respWrapper, err := uc.CallWrapperRepo.GetWrapper("omdb").Call(func() (interface{}, error) {
 		//get data from redis
@@ -40,12 +41,12 @@ func (uc *UCInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 
 	//handle error for API call
 	if err != nil {
-		return nil, customError.WrapFlag(err, "OMDBRepo", "GetListMovie")
+		return nil, customError.New(err).WrapFlag("OMDBRepo", "GetListMovie").SetGrpcCode(codes.Internal)
 	}
 
 	//handle response wrapper is nil
 	if respWrapper == nil {
-		return nil, fmt.Errorf("data from api call does not exist")
+		return nil, customError.New(fmt.Errorf("data from api call does not exist")).SetGrpcCode(codes.NotFound)
 	}
 
 	//force data to struct
@@ -53,11 +54,11 @@ func (uc *UCInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
-		return nil, customError.Wrap(err, "ParseBool")
+		return nil, customError.New(err).Wrap("ParseBool").SetGrpcCode(codes.Internal)
 	}
 
 	if !status {
-		return nil, customError.WrapFlag(fmt.Errorf(respMovie.Error), "OMDBRepo", "status third party")
+		return nil, customError.New(fmt.Errorf(respMovie.Error)).WrapFlag("OMDBRepo", "status third party").SetGrpcCode(codes.Internal)
 	}
 
 	var items []*pb.ItemsMovie
@@ -73,18 +74,18 @@ func (uc *UCInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 
 	total, err := strconv.ParseInt(respMovie.TotalResults, 10, 64)
 	if err != nil {
-		return nil, customError.Wrap(err, "ParseInt")
+		return nil, customError.New(err).Wrap("ParseInt").SetGrpcCode(codes.Internal)
 	}
 
 	now, err := uc.UtilsRepo.CurrentTimeF(constCommon.DateTime)
 	if err != nil {
-		return nil, customError.Wrap(err, "CurrentTimeF")
+		return nil, customError.New(err).WrapFlag("utils", "CurrentTimeF").SetGrpcCode(codes.Internal)
 	}
 
 	endPoint, _ := grpc.Method(ctx)
 	reqStr, _ := json.Marshal(reqClient)
 	respStr, _ := json.Marshal(respMovie)
-	reqDB := &modelMovie.DBHistoryLog{
+	reqDB := &modelDB.HistoryLog{
 		Endpoint:   null.StringFrom(endPoint),
 		Request:    string(reqStr),
 		Response:   string(respStr),
@@ -95,7 +96,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 
 	_, err = uc.DBRepo.CreateHistoryLog(ctx, reqDB)
 	if err != nil {
-		return nil, customError.WrapFlag(err, "database", "CreateHistoryLog")
+		return nil, customError.New(err).WrapFlag("database", "CreateHistoryLog").SetGrpcCode(codes.Internal)
 	}
 
 	resp = &pb.GetListMovieResp{
@@ -166,7 +167,7 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetD
 	endPoint, _ := grpc.Method(ctx)
 	reqStr, _ := json.Marshal(reqClient)
 	respStr, _ := json.Marshal(respMovie)
-	reqDB := &modelMovie.DBHistoryLog{
+	reqDB := &modelDB.HistoryLog{
 		Endpoint:   null.StringFrom(endPoint),
 		Request:    string(reqStr),
 		Response:   string(respStr),

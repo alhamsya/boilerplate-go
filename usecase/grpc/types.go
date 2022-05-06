@@ -2,7 +2,7 @@ package grpcUC
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"
-	"github.com/alhamsya/boilerplate-go/infrastructure/config"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 )
 
 type UCInteractor struct {
@@ -12,4 +12,5 @@ type UCInteractor struct {
 	OMDBRepo        repository.OMDBRepo
 	CallWrapperRepo repository.CallWrapperRepo
 	UtilsRepo       repository.UtilsRepo
+	HelpersRepo     repository.HelpersRepo
 }
