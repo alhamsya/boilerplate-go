@@ -52,23 +52,15 @@ run-consumer:
 	@go mod vendor
 	@go build -o ./bin/consumer ./app/consumer/app.go && ./bin/consumer
 
-clean-proto:
-	@printf "\033[0;30m\033[42m === CLEAN PROTOBUF === \033[0m\n"
-	@rm -rf ./protos/*.pb.go
-
-build-proto: clean-proto
+build-proto:
 	@printf "\033[0;30m\033[42m === BUILDING PROTOBUF === \033[0m\n"
+	@rm -rf ./protos/*.pb.go
 	@protoc -I protos/ protos/*.proto --go_out=plugins=grpc:protos
 
-clean-mocks:
-	@printf "\033[0;30m\033[42m === CLEAN MOCKS === \033[0m\n"
-	@rm -rf ./domain/repository/mocks/
-	@rm -rf ./domain/definition/mocks/
-
-mocks: clean-mocks
+mocks:
 	@printf "\033[0;30m\033[42m === GENERATE MOCKS === \033[0m\n"
+	@rm -rf ./domain/repository/mocks/
 	@mockery --disable-version-string --all --dir ./domain/repository/ --output ./domain/repository/mocks/
-	@mockery --disable-version-string --all --dir ./domain/definition/ --output ./domain/definition/mocks/
 
 test:
 	@bash ./script/test.sh
