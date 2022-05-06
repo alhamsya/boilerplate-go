@@ -58,6 +58,27 @@ func (_m *DBRepo) CreateHistoryLogTx(ctx context.Context, tx *sqlx.Tx, reqDB *mo
 	return r0, r1
 }
 
+// CreateHistorySigning provides a mock function with given fields: ctx, reqDB
+func (_m *DBRepo) CreateHistorySigning(ctx context.Context, reqDB *modelDB.Signing) (int64, error) {
+	ret := _m.Called(ctx, reqDB)
+
+	var r0 int64
+	if rf, ok := ret.Get(0).(func(context.Context, *modelDB.Signing) int64); ok {
+		r0 = rf(ctx, reqDB)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(context.Context, *modelDB.Signing) error); ok {
+		r1 = rf(ctx, reqDB)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // CreateUserTx provides a mock function with given fields: ctx, tx, reqDB
 func (_m *DBRepo) CreateUserTx(ctx context.Context, tx *sqlx.Tx, reqDB *modelDB.User) (int64, error) {
 	ret := _m.Called(ctx, tx, reqDB)

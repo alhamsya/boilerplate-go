@@ -13,4 +13,5 @@ type UCInteractor struct {
 	CallWrapperRepo repository.CallWrapperRepo
 	UtilsRepo       repository.UtilsRepo
 	Firestore       repository.FirestoreRepo
+	HelpersRepo     repository.HelpersRepo
 }

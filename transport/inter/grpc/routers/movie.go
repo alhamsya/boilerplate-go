@@ -33,7 +33,7 @@ func (grpc *GrpcServer) GetListMovie(ctx context.Context, req *pb.GetListMovieRe
 		return &pb.GetListMovieResp{
 			Status: &pb.RPCStatus{
 				Code:    constCommon.GRPCStatusInternal,
-				Message: err.Error(),
+				Message: err.Err.Error(),
 			},
 		}, nil
 	}

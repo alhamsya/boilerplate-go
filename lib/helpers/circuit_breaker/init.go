@@ -2,11 +2,11 @@ package circuitBreaker
 
 import (
 	"fmt"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"log"
 	"strings"
 	"time"
 
+	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/sony/gobreaker"
 )
 

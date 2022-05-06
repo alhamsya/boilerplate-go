@@ -12,4 +12,5 @@ type UCInteractor struct {
 	OMDBRepo        repository.OMDBRepo
 	CallWrapperRepo repository.CallWrapperRepo
 	UtilsRepo       repository.UtilsRepo
+	HelpersRepo     repository.HelpersRepo
 }

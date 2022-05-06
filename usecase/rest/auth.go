@@ -2,15 +2,17 @@ package restUC
 
 import (
 	"fmt"
+	"time"
+
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/models/database"
 	"github.com/alhamsya/boilerplate-go/domain/models/request"
 	"github.com/alhamsya/boilerplate-go/domain/models/response"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
-	restMiddleware "github.com/alhamsya/boilerplate-go/middleware/rest"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
-	"time"
+
+	restMiddleware "github.com/alhamsya/boilerplate-go/middleware/rest"
 )
 
 func (uc *UCInteractor) DoSignup(ctx *fiber.Ctx, reqClient *modelReq.User) (resp *modelResp.User, httpCode int, err error) {

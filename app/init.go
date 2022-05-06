@@ -18,15 +18,18 @@ import (
 	"github.com/alhamsya/boilerplate-go/usecase/consumer"
 	"github.com/alhamsya/boilerplate-go/usecase/cron"
 	"github.com/alhamsya/boilerplate-go/usecase/grpc"
+	"github.com/alhamsya/boilerplate-go/usecase/helpers"
 	"github.com/alhamsya/boilerplate-go/usecase/rest"
 )
 
 type ModuleRepo struct {
-	serviceDB    *databases.ServiceDB
-	serviceCache *cache.ServiceCache
-	omdb         *omdb.OMDB
-	wrapper      *wrapper.Wrapper
-	utils        repository.UtilsRepo
+	serviceFirestore *firestore.ServiceFirestore
+	serviceDB        *databases.ServiceDB
+	serviceCache     *cache.ServiceCache
+	omdb             *omdb.OMDB
+	wrapper          *wrapper.Wrapper
+	utils            repository.UtilsRepo
+	helpers          repository.HelpersRepo
 }
 
 //GetConfig get config by name
@@ -75,6 +78,7 @@ func GrpcGetInteractor(cfg *config.ServiceConfig) *grpcRouters.GrpcInteractor {
 			CallWrapperRepo: generalInteractor.wrapper,
 			CacheRepo:       generalInteractor.serviceCache,
 			UtilsRepo:       generalInteractor.utils,
+			HelpersRepo:     generalInteractor.helpers,
 		},
 	)
 
@@ -87,20 +91,16 @@ func GrpcGetInteractor(cfg *config.ServiceConfig) *grpcRouters.GrpcInteractor {
 func CronGetInteractor(cfg *config.ServiceConfig) *cronRouters.CronInteractor {
 	generalInteractor := GeneralInteractor(cfg)
 
-	firestoreRepo := firestore.New(&firestore.ServiceFirestore{
-		Cfg:       cfg,
-		UtilsRepo: generalInteractor.utils,
-	})
-
 	ucScheduler := cronUC.New(
 		&cronUC.UCInteractor{
 			Cfg:             cfg,
 			DBRepo:          generalInteractor.serviceDB,
+			Firestore:       generalInteractor.serviceFirestore,
+			CacheRepo:       generalInteractor.serviceCache,
 			OMDBRepo:        generalInteractor.omdb,
 			CallWrapperRepo: generalInteractor.wrapper,
-			CacheRepo:       generalInteractor.serviceCache,
 			UtilsRepo:       generalInteractor.utils,
-			Firestore:       firestoreRepo,
+			HelpersRepo:     generalInteractor.helpers,
 		},
 	)
 
@@ -109,23 +109,20 @@ func CronGetInteractor(cfg *config.ServiceConfig) *cronRouters.CronInteractor {
 	}
 }
 
+//ConsumerGetInteractor consumer interactor and related usecase
 func ConsumerGetInteractor(cfg *config.ServiceConfig) *consumerRouters.ConsumerInteractor {
 	generalInteractor := GeneralInteractor(cfg)
-
-	firestoreRepo := firestore.New(&firestore.ServiceFirestore{
-		Cfg:       cfg,
-		UtilsRepo: generalInteractor.utils,
-	})
 
 	ucConsumer := consumerUC.New(
 		&consumerUC.UCInteractor{
 			Cfg:             cfg,
 			DBRepo:          generalInteractor.serviceDB,
+			Firestore:       generalInteractor.serviceFirestore,
+			CacheRepo:       generalInteractor.serviceCache,
 			OMDBRepo:        generalInteractor.omdb,
 			CallWrapperRepo: generalInteractor.wrapper,
-			CacheRepo:       generalInteractor.serviceCache,
 			UtilsRepo:       generalInteractor.utils,
-			Firestore:       firestoreRepo,
+			HelpersRepo:     generalInteractor.helpers,
 		},
 	)
 
@@ -136,6 +133,8 @@ func ConsumerGetInteractor(cfg *config.ServiceConfig) *consumerRouters.ConsumerI
 
 //GeneralInteractor general interactor for rest and gRPC
 func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
+	utilsService := utils.New()
+
 	dbService := databases.New(
 		&databases.ServiceDB{
 			Cfg:    cfg,
@@ -143,6 +142,11 @@ func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
 			Driver: database.DriverMySQL,
 		},
 	)
+
+	firestoreService := firestore.New(&firestore.ServiceFirestore{
+		Cfg:       cfg,
+		UtilsRepo: utilsService,
+	})
 
 	cacheService := cache.New(
 		&cache.ServiceCache{
@@ -160,11 +164,22 @@ func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
 		},
 	)
 
+	helpersService := helpersUC.New(&helpersUC.UCInteractor{
+		Cfg:             cfg,
+		DBRepo:          dbService,
+		FirestoreRepo:   firestoreService,
+		CacheRepo:       cacheService,
+		CallWrapperRepo: cw,
+		UtilsRepo:       utilsService,
+	})
+
 	return &ModuleRepo{
-		serviceDB:    dbService,
-		serviceCache: cacheService,
-		omdb:         omdbRepo,
-		wrapper:      cw,
-		utils:        utils.New(),
+		serviceFirestore: firestoreService,
+		serviceDB:        dbService,
+		serviceCache:     cacheService,
+		omdb:             omdbRepo,
+		wrapper:          cw,
+		utils:            utilsService,
+		helpers:          helpersService,
 	}
 }

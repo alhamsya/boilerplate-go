@@ -5,6 +5,8 @@ package mocks
 import (
 	context "context"
 
+	customError "github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
+
 	mock "github.com/stretchr/testify/mock"
 
 	service "github.com/alhamsya/boilerplate-go/protos"
@@ -38,24 +40,26 @@ func (_m *GrpcUsecase) DoGetDetailMovie(ctx context.Context, req *service.GetDet
 	return r0, r1
 }
 
-// DoGetListMovie provides a mock function with given fields: ctx, req
-func (_m *GrpcUsecase) DoGetListMovie(ctx context.Context, req *service.GetListMovieReq) (*service.GetListMovieResp, error) {
-	ret := _m.Called(ctx, req)
+// DoGetListMovie provides a mock function with given fields: ctx, reqClient
+func (_m *GrpcUsecase) DoGetListMovie(ctx context.Context, reqClient *service.GetListMovieReq) (*service.GetListMovieResp, *customError.Error) {
+	ret := _m.Called(ctx, reqClient)
 
 	var r0 *service.GetListMovieResp
 	if rf, ok := ret.Get(0).(func(context.Context, *service.GetListMovieReq) *service.GetListMovieResp); ok {
-		r0 = rf(ctx, req)
+		r0 = rf(ctx, reqClient)
 	} else {
 		if ret.Get(0) != nil {
 			r0 = ret.Get(0).(*service.GetListMovieResp)
 		}
 	}
 
-	var r1 error
-	if rf, ok := ret.Get(1).(func(context.Context, *service.GetListMovieReq) error); ok {
-		r1 = rf(ctx, req)
+	var r1 *customError.Error
+	if rf, ok := ret.Get(1).(func(context.Context, *service.GetListMovieReq) *customError.Error); ok {
+		r1 = rf(ctx, reqClient)
 	} else {
-		r1 = ret.Error(1)
+		if ret.Get(1) != nil {
+			r1 = ret.Get(1).(*customError.Error)
+		}
 	}
 
 	return r0, r1

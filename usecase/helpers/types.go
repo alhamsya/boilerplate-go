@@ -1,4 +1,4 @@
-package grpcUC
+package helpersUC
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"
@@ -8,9 +8,8 @@ import (
 type UCInteractor struct {
 	Cfg             *config.ServiceConfig
 	DBRepo          repository.DBRepo
+	FirestoreRepo   repository.FirestoreRepo
 	CacheRepo       repository.CacheRepo
-	OMDBRepo        repository.OMDBRepo
 	CallWrapperRepo repository.CallWrapperRepo
 	UtilsRepo       repository.UtilsRepo
-	HelpersRepo     repository.HelpersRepo
 }

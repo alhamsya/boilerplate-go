@@ -52,7 +52,11 @@ run-consumer:
 	@go mod vendor
 	@go build -o ./bin/consumer ./app/consumer/app.go && ./bin/consumer
 
-build-proto:
+clean:
+	@printf "\033[0;30m\033[42m === CLEAN PROTOBUF === \033[0m\n"
+	@rm -rf ./protos/*.pb.go
+
+build-proto: clean
 	@printf "\033[0;30m\033[42m === BUILDING PROTOBUF === \033[0m\n"
 	@protoc -I protos/ protos/*.proto --go_out=plugins=grpc:protos
 
@@ -63,3 +67,11 @@ mocks:
 
 test:
 	@bash ./script/test.sh
+
+build:
+	@printf "\033[0;30m\033[42m === GENERATE BUILD === \033[0m\n"
+	@GOOS=linux GOARCH=amd64
+	@go build -o ./bin/REST ./app/rest
+	@go build -o ./bin/GRPC ./app/grpc
+	@go build -o ./bin/CRON ./app/cron
+	@go build -o ./bin/CONSUMER ./app/consumer

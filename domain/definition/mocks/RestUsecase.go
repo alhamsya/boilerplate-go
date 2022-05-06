@@ -16,36 +16,6 @@ type RestUsecase struct {
 	mock.Mock
 }
 
-// DoCreateUser provides a mock function with given fields: ctx, reqClient
-func (_m *RestUsecase) DoCreateUser(ctx *fiber.Ctx, reqClient *modelReq.User) (*modelResp.User, int, error) {
-	ret := _m.Called(ctx, reqClient)
-
-	var r0 *modelResp.User
-	if rf, ok := ret.Get(0).(func(*fiber.Ctx, *modelReq.User) *modelResp.User); ok {
-		r0 = rf(ctx, reqClient)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*modelResp.User)
-		}
-	}
-
-	var r1 int
-	if rf, ok := ret.Get(1).(func(*fiber.Ctx, *modelReq.User) int); ok {
-		r1 = rf(ctx, reqClient)
-	} else {
-		r1 = ret.Get(1).(int)
-	}
-
-	var r2 error
-	if rf, ok := ret.Get(2).(func(*fiber.Ctx, *modelReq.User) error); ok {
-		r2 = rf(ctx, reqClient)
-	} else {
-		r2 = ret.Error(2)
-	}
-
-	return r0, r1, r2
-}
-
 // DoGetDetailMovie provides a mock function with given fields: ctx, movieID
 func (_m *RestUsecase) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (*modelResp.DetailMovie, int, error) {
 	ret := _m.Called(ctx, movieID)
@@ -98,6 +68,66 @@ func (_m *RestUsecase) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelReq.ListMo
 
 	var r2 error
 	if rf, ok := ret.Get(2).(func(*fiber.Ctx, *modelReq.ListMovie) error); ok {
+		r2 = rf(ctx, reqClient)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
+// DoSigning provides a mock function with given fields: ctx, reqClient
+func (_m *RestUsecase) DoSigning(ctx *fiber.Ctx, reqClient *modelReq.User) (*modelResp.User, int, error) {
+	ret := _m.Called(ctx, reqClient)
+
+	var r0 *modelResp.User
+	if rf, ok := ret.Get(0).(func(*fiber.Ctx, *modelReq.User) *modelResp.User); ok {
+		r0 = rf(ctx, reqClient)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*modelResp.User)
+		}
+	}
+
+	var r1 int
+	if rf, ok := ret.Get(1).(func(*fiber.Ctx, *modelReq.User) int); ok {
+		r1 = rf(ctx, reqClient)
+	} else {
+		r1 = ret.Get(1).(int)
+	}
+
+	var r2 error
+	if rf, ok := ret.Get(2).(func(*fiber.Ctx, *modelReq.User) error); ok {
+		r2 = rf(ctx, reqClient)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
+// DoSignup provides a mock function with given fields: ctx, reqClient
+func (_m *RestUsecase) DoSignup(ctx *fiber.Ctx, reqClient *modelReq.User) (*modelResp.User, int, error) {
+	ret := _m.Called(ctx, reqClient)
+
+	var r0 *modelResp.User
+	if rf, ok := ret.Get(0).(func(*fiber.Ctx, *modelReq.User) *modelResp.User); ok {
+		r0 = rf(ctx, reqClient)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*modelResp.User)
+		}
+	}
+
+	var r1 int
+	if rf, ok := ret.Get(1).(func(*fiber.Ctx, *modelReq.User) int); ok {
+		r1 = rf(ctx, reqClient)
+	} else {
+		r1 = ret.Get(1).(int)
+	}
+
+	var r2 error
+	if rf, ok := ret.Get(2).(func(*fiber.Ctx, *modelReq.User) error); ok {
 		r2 = rf(ctx, reqClient)
 	} else {
 		r2 = ret.Error(2)
