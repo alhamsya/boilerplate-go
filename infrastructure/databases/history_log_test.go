@@ -3,11 +3,11 @@ package databases
 import (
 	"context"
 	"errors"
-	constCommon "github.com/alhamsya/boilerplate-go/domain/constants"
-	"github.com/alhamsya/boilerplate-go/domain/models/database"
 	"testing"
 
 	"github.com/DATA-DOG/go-sqlmock"
+	"github.com/alhamsya/boilerplate-go/domain/constants"
+	"github.com/alhamsya/boilerplate-go/domain/models/database"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/volatiletech/null"
 )
