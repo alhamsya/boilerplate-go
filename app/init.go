@@ -14,7 +14,7 @@ import (
 	"github.com/alhamsya/boilerplate-go/transport/inter/consumer/routers"
 	"github.com/alhamsya/boilerplate-go/transport/inter/cron/routers"
 	"github.com/alhamsya/boilerplate-go/transport/inter/grpc/routers"
-	"github.com/alhamsya/boilerplate-go/transport/inter/rest/routers"
+	"github.com/alhamsya/boilerplate-go/transport/rest/routers"
 	"github.com/alhamsya/boilerplate-go/usecase/consumer"
 	"github.com/alhamsya/boilerplate-go/usecase/cron"
 	"github.com/alhamsya/boilerplate-go/usecase/grpc"
