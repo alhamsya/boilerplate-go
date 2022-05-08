@@ -11,7 +11,7 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/repository"
-	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
+	"github.com/alhamsya/boilerplate-go/infrastructure/wrappers"
 	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/mock"
@@ -61,7 +61,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -83,7 +83,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -103,7 +103,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusConflict,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -134,7 +134,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusBadRequest,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -169,7 +169,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -201,7 +201,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -235,7 +235,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
@@ -282,7 +282,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusOK,
 			wantErr:      false,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrapper.Wrapper{
+				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
