@@ -8,9 +8,9 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/models/database"
+	"github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/client"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
-	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 	"github.com/volatiletech/null"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
@@ -50,7 +50,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 	}
 
 	//force data to struct
-	respMovie := respWrapper.(*omdb.OMDBList)
+	respMovie := respWrapper.(*external.OMDBList)
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
@@ -140,7 +140,7 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetD
 	}
 
 	//force data to struct
-	respMovie := respWrapper.(*omdb.OMDBDetail)
+	respMovie := respWrapper.(*external.OMDBDetail)
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {

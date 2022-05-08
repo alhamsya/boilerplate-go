@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	omdb "github.com/alhamsya/boilerplate-go/transport/exter/omdb"
+	external "github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -13,15 +13,15 @@ type OMDBRepo struct {
 }
 
 // GetDetailMovie provides a mock function with given fields: movieID
-func (_m *OMDBRepo) GetDetailMovie(movieID string) (*omdb.OMDBDetail, error) {
+func (_m *OMDBRepo) GetDetailMovie(movieID string) (*external.OMDBDetail, error) {
 	ret := _m.Called(movieID)
 
-	var r0 *omdb.OMDBDetail
-	if rf, ok := ret.Get(0).(func(string) *omdb.OMDBDetail); ok {
+	var r0 *external.OMDBDetail
+	if rf, ok := ret.Get(0).(func(string) *external.OMDBDetail); ok {
 		r0 = rf(movieID)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*omdb.OMDBDetail)
+			r0 = ret.Get(0).(*external.OMDBDetail)
 		}
 	}
 
@@ -36,15 +36,15 @@ func (_m *OMDBRepo) GetDetailMovie(movieID string) (*omdb.OMDBDetail, error) {
 }
 
 // GetListMovie provides a mock function with given fields: search, page
-func (_m *OMDBRepo) GetListMovie(search string, page int64) (*omdb.OMDBList, error) {
+func (_m *OMDBRepo) GetListMovie(search string, page int64) (*external.OMDBList, error) {
 	ret := _m.Called(search, page)
 
-	var r0 *omdb.OMDBList
-	if rf, ok := ret.Get(0).(func(string, int64) *omdb.OMDBList); ok {
+	var r0 *external.OMDBList
+	if rf, ok := ret.Get(0).(func(string, int64) *external.OMDBList); ok {
 		r0 = rf(search, page)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*omdb.OMDBList)
+			r0 = ret.Get(0).(*external.OMDBList)
 		}
 	}
 

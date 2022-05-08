@@ -6,8 +6,8 @@ import (
 	"fmt"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
+	"github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
-	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 )
 
 const (
@@ -15,7 +15,7 @@ const (
 	KeyDetailMovie = "movie:detail:movie_id:%s"
 )
 
-func (cache *ServiceCache) SetListMovie(ctx context.Context, search string, page int64, req *omdb.OMDBList) (err error) {
+func (cache *ServiceCache) SetListMovie(ctx context.Context, search string, page int64, req *external.OMDBList) (err error) {
 	jsonData, err := json.Marshal(req)
 	if err != nil {
 		return customError.Wrap(err, "json marshal")
@@ -29,7 +29,7 @@ func (cache *ServiceCache) SetListMovie(ctx context.Context, search string, page
 	return nil
 }
 
-func (cache *ServiceCache) GetListMovie(ctx context.Context, search string, page int64) (resp *omdb.OMDBList, err error) {
+func (cache *ServiceCache) GetListMovie(ctx context.Context, search string, page int64) (resp *external.OMDBList, err error) {
 	jsonData, err := cache.Redis.Get(ctx, fmt.Sprintf(KeyListMovie, search, page)).Result()
 	if err != nil {
 		return nil, customError.WrapFlag(err, "redis", "Get")
@@ -43,7 +43,7 @@ func (cache *ServiceCache) GetListMovie(ctx context.Context, search string, page
 	return resp, nil
 }
 
-func (cache *ServiceCache) SetDetailMovie(ctx context.Context, movieID string, req *omdb.OMDBDetail) (err error) {
+func (cache *ServiceCache) SetDetailMovie(ctx context.Context, movieID string, req *external.OMDBDetail) (err error) {
 	jsonData, err := json.Marshal(req)
 	if err != nil {
 		return customError.Wrap(err, "json marshal")
@@ -57,7 +57,7 @@ func (cache *ServiceCache) SetDetailMovie(ctx context.Context, movieID string, r
 	return nil
 }
 
-func (cache *ServiceCache) GetDetailMovie(ctx context.Context, movieID string) (resp *omdb.OMDBDetail, err error) {
+func (cache *ServiceCache) GetDetailMovie(ctx context.Context, movieID string) (resp *external.OMDBDetail, err error) {
 	jsonData, err := cache.Redis.Get(ctx, fmt.Sprintf(KeyDetailMovie, movieID)).Result()
 	if err != nil {
 		return nil, customError.WrapFlag(err, "redis", "Get")
