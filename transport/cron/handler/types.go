@@ -3,7 +3,7 @@ package cronHandler
 import (
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/alhamsya/boilerplate-go/middleware/cron"
-	"github.com/alhamsya/boilerplate-go/transport/inter/cron/routers"
+	"github.com/alhamsya/boilerplate-go/transport/cron/routers"
 	"github.com/robfig/cron/v3"
 )
 

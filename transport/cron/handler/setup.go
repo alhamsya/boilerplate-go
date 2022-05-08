@@ -9,7 +9,7 @@ import (
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
 	"github.com/alhamsya/boilerplate-go/middleware/cron"
-	"github.com/alhamsya/boilerplate-go/transport/inter/cron/routers"
+	"github.com/alhamsya/boilerplate-go/transport/cron/routers"
 	"github.com/robfig/cron/v3"
 )
 
