@@ -2,9 +2,10 @@ package consumerHandler
 
 import (
 	"context"
+
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
-	consumerMiddleware "github.com/alhamsya/boilerplate-go/middleware/consumer"
-	"github.com/alhamsya/boilerplate-go/transport/inter/consumer/routers"
+	"github.com/alhamsya/boilerplate-go/middleware/consumer"
+	"github.com/alhamsya/boilerplate-go/transport/consumer/routers"
 )
 
 func (h *Handler) Run(ctx context.Context) error {
