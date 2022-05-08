@@ -5,7 +5,7 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/grace"
-	"github.com/alhamsya/boilerplate-go/transport/inter/grpc/routers"
+	"github.com/alhamsya/boilerplate-go/transport/grpc/routers"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health/grpc_health_v1"
 	"google.golang.org/grpc/keepalive"

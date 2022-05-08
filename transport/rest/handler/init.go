@@ -9,7 +9,7 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/grace"
-	"github.com/alhamsya/boilerplate-go/transport/inter/rest/routers"
+	"github.com/alhamsya/boilerplate-go/transport/rest/routers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/limiter"

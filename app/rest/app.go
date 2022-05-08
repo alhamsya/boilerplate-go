@@ -5,7 +5,7 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/app"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
-	"github.com/alhamsya/boilerplate-go/transport/inter/rest/handler"
+	"github.com/alhamsya/boilerplate-go/transport/rest/handler"
 )
 
 func main() {
