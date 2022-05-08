@@ -1,4 +1,4 @@
-package wrapper
+package wrappers
 
 import (
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"

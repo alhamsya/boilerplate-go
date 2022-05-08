@@ -1,4 +1,4 @@
-package firestore
+package firestores
 
 import (
 	"context"

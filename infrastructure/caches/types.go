@@ -1,4 +1,4 @@
-package cache
+package caches
 
 import (
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"

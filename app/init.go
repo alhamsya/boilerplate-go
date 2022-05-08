@@ -2,10 +2,10 @@ package app
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"
-	"github.com/alhamsya/boilerplate-go/infrastructure/cache"
+	"github.com/alhamsya/boilerplate-go/infrastructure/caches"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
-	"github.com/alhamsya/boilerplate-go/infrastructure/firestore"
-	"github.com/alhamsya/boilerplate-go/infrastructure/wrapper"
+	"github.com/alhamsya/boilerplate-go/infrastructure/firestores"
+	"github.com/alhamsya/boilerplate-go/infrastructure/wrappers"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/alhamsya/boilerplate-go/lib/utils"
@@ -23,11 +23,11 @@ import (
 )
 
 type ModuleRepo struct {
-	serviceFirestore *firestore.ServiceFirestore
+	serviceFirestore *firestores.ServiceFirestore
 	serviceDB        *databases.ServiceDB
-	serviceCache     *cache.ServiceCache
+	serviceCache     *caches.ServiceCache
 	omdb             *omdb.OMDB
-	wrapper          *wrapper.Wrapper
+	wrapper          *wrappers.Wrapper
 	utils            repository.UtilsRepo
 	helpers          repository.HelpersRepo
 }
@@ -143,13 +143,13 @@ func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
 		},
 	)
 
-	firestoreService := firestore.New(&firestore.ServiceFirestore{
+	firestoreService := firestores.New(&firestores.ServiceFirestore{
 		Cfg:       cfg,
 		UtilsRepo: utilsService,
 	})
 
-	cacheService := cache.New(
-		&cache.ServiceCache{
+	cacheService := caches.New(
+		&caches.ServiceCache{
 			Cfg: cfg,
 		},
 	)
@@ -158,8 +158,8 @@ func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
 		Cfg: cfg,
 	})
 
-	cw := wrapper.New(
-		&wrapper.Wrapper{
+	cw := wrappers.New(
+		&wrappers.Wrapper{
 			Cfg: cfg,
 		},
 	)
