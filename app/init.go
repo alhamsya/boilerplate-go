@@ -4,13 +4,13 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"
 	"github.com/alhamsya/boilerplate-go/infrastructure/caches"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
+	"github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
 	"github.com/alhamsya/boilerplate-go/infrastructure/firestores"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrappers"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/alhamsya/boilerplate-go/lib/utils"
 	"github.com/alhamsya/boilerplate-go/middleware/rest"
-	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 	"github.com/alhamsya/boilerplate-go/transport/inter/consumer/routers"
 	"github.com/alhamsya/boilerplate-go/transport/inter/cron/routers"
 	"github.com/alhamsya/boilerplate-go/transport/inter/grpc/routers"
@@ -26,7 +26,7 @@ type ModuleRepo struct {
 	serviceFirestore *firestores.ServiceFirestore
 	serviceDB        *databases.ServiceDB
 	serviceCache     *caches.ServiceCache
-	omdb             *omdb.OMDB
+	omdb             *external.OMDB
 	wrapper          *wrappers.Wrapper
 	utils            repository.UtilsRepo
 	helpers          repository.HelpersRepo
@@ -154,7 +154,7 @@ func GeneralInteractor(cfg *config.ServiceConfig) *ModuleRepo {
 		},
 	)
 
-	omdbRepo := omdb.New(&omdb.OMDB{
+	omdbRepo := external.New(&external.OMDB{
 		Cfg: cfg,
 	})
 

@@ -10,8 +10,8 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/models/database"
 	"github.com/alhamsya/boilerplate-go/domain/models/request"
 	"github.com/alhamsya/boilerplate-go/domain/models/response"
+	"github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
-	"github.com/alhamsya/boilerplate-go/transport/exter/omdb"
 	"github.com/gofiber/fiber/v2"
 	"github.com/volatiletech/null"
 )
@@ -43,7 +43,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelReq.ListM
 	}
 
 	//force data to struct
-	respMovie := respWrapper.(*omdb.OMDBList)
+	respMovie := respWrapper.(*external.OMDBList)
 
 	//handle response wrapper is nil
 	if respMovie == nil {
@@ -134,7 +134,7 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *
 	}
 
 	//force data to struct
-	respMovie := respWrapper.(*omdb.OMDBDetail)
+	respMovie := respWrapper.(*external.OMDBDetail)
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
