@@ -4,13 +4,13 @@ import (
 	"context"
 	"log"
 
-	"github.com/alhamsya/boilerplate-go/app"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/initialize"
 	"github.com/alhamsya/boilerplate-go/transport/consumer/handler"
 )
 
 func main() {
-	cfg := app.GetConfig()
+	cfg := initialize.GetConfig()
 
 	err := customLog.InitializeLogging(cfg.ConsumerServer.AccessLogFile, cfg.ConsumerServer.ErrorLogFile)
 	if err != nil {
@@ -20,7 +20,7 @@ func main() {
 	//init consumer option
 	server := consumerHandler.New(&consumerHandler.Handler{
 		Cfg:        &cfg,
-		Interactor: app.ConsumerGetInteractor(&cfg),
+		Interactor: initialize.ConsumerGetInteractor(&cfg),
 	})
 
 	//running service consumer

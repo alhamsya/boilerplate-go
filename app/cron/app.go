@@ -4,13 +4,13 @@ import (
 	"context"
 	"log"
 
-	"github.com/alhamsya/boilerplate-go/app"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/initialize"
 	"github.com/alhamsya/boilerplate-go/transport/cron/handler"
 )
 
 func main() {
-	cfg := app.GetConfig()
+	cfg := initialize.GetConfig()
 
 	err := customLog.InitializeLogging(cfg.CronServer.AccessLogFile, cfg.CronServer.ErrorLogFile)
 	if err != nil {
@@ -20,7 +20,7 @@ func main() {
 	//init cron option
 	server := cronHandler.New(&cronHandler.Handler{
 		Cfg:        &cfg,
-		Interactor: app.CronGetInteractor(&cfg),
+		Interactor: initialize.CronGetInteractor(&cfg),
 	})
 
 	//running service cron

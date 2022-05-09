@@ -107,8 +107,8 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&external.OMDBList{
-					Search: []external.Search{
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
+					Search: []omdb.Search{
 						{
 							Title:  "One Day",
 							Year:   "2021",
@@ -140,8 +140,8 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 
 				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(nil, someError).Once()
 
-				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(&external.OMDBList{
-					Search: []external.Search{
+				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(&omdb.OMDBList{
+					Search: []omdb.Search{
 						{
 							Title:  "One Day",
 							Year:   "2021",
@@ -173,8 +173,8 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&external.OMDBList{
-					Search: []external.Search{
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
+					Search: []omdb.Search{
 						{
 							Title:  "One Day",
 							Year:   "2021",
@@ -205,8 +205,8 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&external.OMDBList{
-					Search: []external.Search{
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
+					Search: []omdb.Search{
 						{
 							Title:  "One Day",
 							Year:   "2021",
@@ -239,8 +239,8 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&external.OMDBList{
-					Search: []external.Search{
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
+					Search: []omdb.Search{
 						{
 							Title:  "One Day",
 							Year:   "2021",
@@ -286,8 +286,8 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&external.OMDBList{
-					Search: []external.Search{
+				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
+					Search: []omdb.Search{
 						{
 							Title:  "One Day",
 							Year:   "2021",
