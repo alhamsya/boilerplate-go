@@ -5,6 +5,10 @@ func (rest *RestServer) Register() {
 	apiGroup.Post("/signing", rest.CreateSigning)
 	apiGroup.Post("/signup", rest.CreateSignup)
 	apiGroup.Post("/refresh", rest.CreateRefreshToken)
+
 	apiGroup.Get("/movie", rest.RestInteractor.Middleware.Authorize(rest.GetListMovie))
 	apiGroup.Get("/movie/:movieID", rest.RestInteractor.Middleware.Authorize(rest.GetDetailMovie))
+
+	apiSpotify := apiGroup.Group("/spotify")
+	apiSpotify.Get("/profile", rest.RestInteractor.Middleware.Authorize(nil))
 }

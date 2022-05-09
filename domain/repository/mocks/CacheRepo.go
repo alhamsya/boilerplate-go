@@ -5,7 +5,7 @@ package mocks
 import (
 	context "context"
 
-	external "github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
+	omdb "github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -29,15 +29,15 @@ func (_m *CacheRepo) DecrKYCByStatus(ctx context.Context, statusKYC int64) error
 }
 
 // GetDetailMovie provides a mock function with given fields: ctx, movieID
-func (_m *CacheRepo) GetDetailMovie(ctx context.Context, movieID string) (*external.OMDBDetail, error) {
+func (_m *CacheRepo) GetDetailMovie(ctx context.Context, movieID string) (*omdb.OMDBDetail, error) {
 	ret := _m.Called(ctx, movieID)
 
-	var r0 *external.OMDBDetail
-	if rf, ok := ret.Get(0).(func(context.Context, string) *external.OMDBDetail); ok {
+	var r0 *omdb.OMDBDetail
+	if rf, ok := ret.Get(0).(func(context.Context, string) *omdb.OMDBDetail); ok {
 		r0 = rf(ctx, movieID)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*external.OMDBDetail)
+			r0 = ret.Get(0).(*omdb.OMDBDetail)
 		}
 	}
 
@@ -73,15 +73,15 @@ func (_m *CacheRepo) GetKYCByStatus(ctx context.Context, statusKYC int64) (int, 
 }
 
 // GetListMovie provides a mock function with given fields: ctx, search, page
-func (_m *CacheRepo) GetListMovie(ctx context.Context, search string, page int64) (*external.OMDBList, error) {
+func (_m *CacheRepo) GetListMovie(ctx context.Context, search string, page int64) (*omdb.OMDBList, error) {
 	ret := _m.Called(ctx, search, page)
 
-	var r0 *external.OMDBList
-	if rf, ok := ret.Get(0).(func(context.Context, string, int64) *external.OMDBList); ok {
+	var r0 *omdb.OMDBList
+	if rf, ok := ret.Get(0).(func(context.Context, string, int64) *omdb.OMDBList); ok {
 		r0 = rf(ctx, search, page)
 	} else {
 		if ret.Get(0) != nil {
-			r0 = ret.Get(0).(*external.OMDBList)
+			r0 = ret.Get(0).(*omdb.OMDBList)
 		}
 	}
 
@@ -110,11 +110,11 @@ func (_m *CacheRepo) IncrKYCByStatus(ctx context.Context, statusKYC int64) error
 }
 
 // SetDetailMovie provides a mock function with given fields: ctx, movieID, req
-func (_m *CacheRepo) SetDetailMovie(ctx context.Context, movieID string, req *external.OMDBDetail) error {
+func (_m *CacheRepo) SetDetailMovie(ctx context.Context, movieID string, req *omdb.OMDBDetail) error {
 	ret := _m.Called(ctx, movieID, req)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, *external.OMDBDetail) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string, *omdb.OMDBDetail) error); ok {
 		r0 = rf(ctx, movieID, req)
 	} else {
 		r0 = ret.Error(0)
@@ -138,11 +138,11 @@ func (_m *CacheRepo) SetKYCByStatus(ctx context.Context, statusKYC int64, value 
 }
 
 // SetListMovie provides a mock function with given fields: ctx, search, page, req
-func (_m *CacheRepo) SetListMovie(ctx context.Context, search string, page int64, req *external.OMDBList) error {
+func (_m *CacheRepo) SetListMovie(ctx context.Context, search string, page int64, req *omdb.OMDBList) error {
 	ret := _m.Called(ctx, search, page, req)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(context.Context, string, int64, *external.OMDBList) error); ok {
+	if rf, ok := ret.Get(0).(func(context.Context, string, int64, *omdb.OMDBList) error); ok {
 		r0 = rf(ctx, search, page, req)
 	} else {
 		r0 = ret.Error(0)

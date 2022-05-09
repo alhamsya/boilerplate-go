@@ -1,4 +1,4 @@
-package external
+package omdb
 
 import (
 	"github.com/alhamsya/boilerplate-go/lib/helpers/config"

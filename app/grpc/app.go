@@ -3,13 +3,13 @@ package main
 import (
 	"log"
 
-	"github.com/alhamsya/boilerplate-go/app"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/initialize"
 	"github.com/alhamsya/boilerplate-go/transport/grpc/handler"
 )
 
 func main() {
-	cfg := app.GetConfig()
+	cfg := initialize.GetConfig()
 
 	err := customLog.InitializeLogging(cfg.GrpcServer.AccessLogFile, cfg.GrpcServer.ErrorLogFile)
 	if err != nil {
@@ -19,7 +19,7 @@ func main() {
 	//init grpc option
 	server := grpcHandler.New(&grpcHandler.Handler{
 		Cfg:        &cfg,
-		Interactor: app.GrpcGetInteractor(&cfg),
+		Interactor: initialize.GrpcGetInteractor(&cfg),
 	})
 
 	//running service gRPC

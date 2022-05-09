@@ -43,7 +43,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx *fiber.Ctx, reqClient *modelReq.ListM
 	}
 
 	//force data to struct
-	respMovie := respWrapper.(*external.OMDBList)
+	respMovie := respWrapper.(*omdb.OMDBList)
 
 	//handle response wrapper is nil
 	if respMovie == nil {
@@ -134,7 +134,7 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx *fiber.Ctx, movieID string) (resp *
 	}
 
 	//force data to struct
-	respMovie := respWrapper.(*external.OMDBDetail)
+	respMovie := respWrapper.(*omdb.OMDBDetail)
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {

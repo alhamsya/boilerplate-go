@@ -1,4 +1,4 @@
-package external
+package omdb
 
 import (
 	"encoding/json"

@@ -3,13 +3,13 @@ package main
 import (
 	"log"
 
-	"github.com/alhamsya/boilerplate-go/app"
 	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	"github.com/alhamsya/boilerplate-go/lib/helpers/initialize"
 	"github.com/alhamsya/boilerplate-go/transport/rest/handler"
 )
 
 func main() {
-	cfg := app.GetConfig()
+	cfg := initialize.GetConfig()
 
 	err := customLog.InitializeLogging(cfg.RestServer.AccessLogFile, cfg.RestServer.ErrorLogFile)
 	if err != nil {
@@ -19,7 +19,7 @@ func main() {
 	//init rest option
 	server := restHandler.New(&restHandler.Handler{
 		Cfg:        &cfg,
-		Interactor: app.RestGetInteractor(&cfg),
+		Interactor: initialize.RestGetInteractor(&cfg),
 	})
 
 	//running service rest API

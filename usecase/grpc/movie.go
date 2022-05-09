@@ -50,7 +50,7 @@ func (uc *UCInteractor) DoGetListMovie(ctx context.Context, reqClient *pb.GetLis
 	}
 
 	//force data to struct
-	respMovie := respWrapper.(*external.OMDBList)
+	respMovie := respWrapper.(*omdb.OMDBList)
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
@@ -140,7 +140,7 @@ func (uc *UCInteractor) DoGetDetailMovie(ctx context.Context, reqClient *pb.GetD
 	}
 
 	//force data to struct
-	respMovie := respWrapper.(*external.OMDBDetail)
+	respMovie := respWrapper.(*omdb.OMDBDetail)
 
 	status, err := strconv.ParseBool(respMovie.Response)
 	if err != nil {
