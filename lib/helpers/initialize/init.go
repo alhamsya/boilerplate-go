@@ -15,24 +15,21 @@ import (
 
 //RestGetInteractor rest get interactor and related usecase
 func RestGetInteractor(cfg *config.ServiceConfig) *restRouters.RestInteractor {
-	generalInteractor := GeneralInteractor(cfg)
-	apiInteractor := ApiInteractor(cfg)
-
 	uc := restUC.New(&restUC.UCInteractor{
 		Cfg:             cfg,
-		DBRepo:          generalInteractor.serviceDB,
-		CallWrapperRepo: generalInteractor.wrapper,
-		CacheRepo:       generalInteractor.serviceCache,
-		UtilsRepo:       generalInteractor.utils,
-		HelpersRepo:     generalInteractor.helpers,
-		OMDBRepo:        apiInteractor.omdb,
-		SpotifyRepo:     apiInteractor.spotify,
+		HelpersRepo:     NewBaseModule().HelpersInteractor(cfg),
+		DBRepo:          NewBaseModule().DBInteractor(cfg),
+		CallWrapperRepo: NewBaseModule().CallWrapperInteractor(cfg),
+		CacheRepo:       NewBaseModule().CacheInteractor(cfg),
+		UtilsRepo:       NewBaseModule().UtilsInteractor(),
+		OMDBRepo:        NewExternalModule().OMDBInteractor(cfg),
+		SpotifyRepo:     NewExternalModule().SpotifyInteractor(cfg),
 	})
 
 	middleware := restMiddleware.New(&restMiddleware.Middleware{
 		Cfg:       cfg,
-		DBRepo:    generalInteractor.serviceDB,
-		UtilsRepo: generalInteractor.utils,
+		DBRepo:    uc.DBRepo,
+		UtilsRepo: uc.UtilsRepo,
 	})
 
 	return &restRouters.RestInteractor{
@@ -43,19 +40,16 @@ func RestGetInteractor(cfg *config.ServiceConfig) *restRouters.RestInteractor {
 
 //GrpcGetInteractor gRPC get interactor and related usecase
 func GrpcGetInteractor(cfg *config.ServiceConfig) *grpcRouters.GrpcInteractor {
-	generalInteractor := GeneralInteractor(cfg)
-	apiInteractor := ApiInteractor(cfg)
-
 	uc := grpcUC.New(
 		&grpcUC.UCInteractor{
 			Cfg:             cfg,
-			DBRepo:          generalInteractor.serviceDB,
-			CallWrapperRepo: generalInteractor.wrapper,
-			CacheRepo:       generalInteractor.serviceCache,
-			UtilsRepo:       generalInteractor.utils,
-			HelpersRepo:     generalInteractor.helpers,
-			OMDBRepo:        apiInteractor.omdb,
-			SpotifyRepo:     apiInteractor.spotify,
+			HelpersRepo:     NewBaseModule().HelpersInteractor(cfg),
+			DBRepo:          NewBaseModule().DBInteractor(cfg),
+			CallWrapperRepo: NewBaseModule().CallWrapperInteractor(cfg),
+			CacheRepo:       NewBaseModule().CacheInteractor(cfg),
+			UtilsRepo:       NewBaseModule().UtilsInteractor(),
+			OMDBRepo:        NewExternalModule().OMDBInteractor(cfg),
+			SpotifyRepo:     NewExternalModule().SpotifyInteractor(cfg),
 		},
 	)
 
@@ -66,20 +60,17 @@ func GrpcGetInteractor(cfg *config.ServiceConfig) *grpcRouters.GrpcInteractor {
 
 //CronGetInteractor job scheduler interactor and related usecase
 func CronGetInteractor(cfg *config.ServiceConfig) *cronRouters.CronInteractor {
-	generalInteractor := GeneralInteractor(cfg)
-	apiInteractor := ApiInteractor(cfg)
-
 	ucScheduler := cronUC.New(
 		&cronUC.UCInteractor{
 			Cfg:             cfg,
-			DBRepo:          generalInteractor.serviceDB,
-			Firestore:       generalInteractor.serviceFirestore,
-			CacheRepo:       generalInteractor.serviceCache,
-			CallWrapperRepo: generalInteractor.wrapper,
-			UtilsRepo:       generalInteractor.utils,
-			HelpersRepo:     generalInteractor.helpers,
-			OMDBRepo:        apiInteractor.omdb,
-			SpotifyRepo:     apiInteractor.spotify,
+			HelpersRepo:     NewBaseModule().HelpersInteractor(cfg),
+			DBRepo:          NewBaseModule().DBInteractor(cfg),
+			Firestore:       NewBaseModule().FirestoreInteractor(cfg),
+			CacheRepo:       NewBaseModule().CacheInteractor(cfg),
+			CallWrapperRepo: NewBaseModule().CallWrapperInteractor(cfg),
+			UtilsRepo:       NewBaseModule().UtilsInteractor(),
+			OMDBRepo:        NewExternalModule().OMDBInteractor(cfg),
+			SpotifyRepo:     NewExternalModule().SpotifyInteractor(cfg),
 		},
 	)
 
@@ -90,20 +81,17 @@ func CronGetInteractor(cfg *config.ServiceConfig) *cronRouters.CronInteractor {
 
 //ConsumerGetInteractor consumer interactor and related usecase
 func ConsumerGetInteractor(cfg *config.ServiceConfig) *consumerRouters.ConsumerInteractor {
-	generalInteractor := GeneralInteractor(cfg)
-	apiInteractor := ApiInteractor(cfg)
-
 	ucConsumer := consumerUC.New(
 		&consumerUC.UCInteractor{
 			Cfg:             cfg,
-			DBRepo:          generalInteractor.serviceDB,
-			Firestore:       generalInteractor.serviceFirestore,
-			CacheRepo:       generalInteractor.serviceCache,
-			CallWrapperRepo: generalInteractor.wrapper,
-			UtilsRepo:       generalInteractor.utils,
-			HelpersRepo:     generalInteractor.helpers,
-			OMDBRepo:        apiInteractor.omdb,
-			SpotifyRepo:     apiInteractor.spotify,
+			HelpersRepo:     NewBaseModule().HelpersInteractor(cfg),
+			DBRepo:          NewBaseModule().DBInteractor(cfg),
+			Firestore:       NewBaseModule().FirestoreInteractor(cfg),
+			CacheRepo:       NewBaseModule().CacheInteractor(cfg),
+			CallWrapperRepo: NewBaseModule().CallWrapperInteractor(cfg),
+			UtilsRepo:       NewBaseModule().UtilsInteractor(),
+			OMDBRepo:        NewExternalModule().OMDBInteractor(cfg),
+			SpotifyRepo:     NewExternalModule().SpotifyInteractor(cfg),
 		},
 	)
 
