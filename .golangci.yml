@@ -1,0 +1,9 @@
+linters-settings:
+
+linters:
+    disable:
+        - errcheck
+    enable:
+        - gosec
+        - misspell
+        - sqlclosecheck

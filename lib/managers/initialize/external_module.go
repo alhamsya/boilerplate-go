@@ -4,7 +4,7 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"
 	"github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
 	"github.com/alhamsya/boilerplate-go/infrastructure/external/spotify"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
+	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 )
 
 func NewExternalModule() *ExternalRepo {

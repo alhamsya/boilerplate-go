@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"cloud.google.com/go/pubsub"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_log"
 )
 
 func InterceptorPubSub(ctx context.Context, sub *pubsub.Subscription, fun func(ctx context.Context, msg *pubsub.Message) (interface{}, error)) {

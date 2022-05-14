@@ -1,7 +1,7 @@
 package wrappers
 
 import (
-	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
+	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 	"github.com/sony/gobreaker"
 )
 

@@ -3,7 +3,7 @@ package wrappers
 import (
 	"log"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/circuit_breaker"
+	"github.com/alhamsya/boilerplate-go/lib/managers/circuit_breaker"
 	"github.com/sony/gobreaker"
 )
 

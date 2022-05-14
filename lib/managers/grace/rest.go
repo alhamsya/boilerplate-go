@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_error"
 	"github.com/gofiber/fiber/v2"
 )
 

@@ -7,8 +7,8 @@ import (
 	"time"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/grace"
+	"github.com/alhamsya/boilerplate-go/lib/managers/config"
+	"github.com/alhamsya/boilerplate-go/lib/managers/grace"
 	"github.com/alhamsya/boilerplate-go/transport/rest/routers"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"

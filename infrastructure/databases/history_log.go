@@ -4,7 +4,7 @@ import (
 	"context"
 	"github.com/alhamsya/boilerplate-go/domain/models/database"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_error"
 	"github.com/jmoiron/sqlx"
 )
 

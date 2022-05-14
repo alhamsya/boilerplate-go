@@ -5,7 +5,7 @@ import (
 	"log"
 
 	"github.com/DATA-DOG/go-sqlmock"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
+	"github.com/alhamsya/boilerplate-go/lib/managers/database"
 	"github.com/jmoiron/sqlx"
 )
 

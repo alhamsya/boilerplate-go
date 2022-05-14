@@ -5,9 +5,11 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_resp"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_resp"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
+
+	constCommon "github.com/alhamsya/boilerplate-go/domain/constants"
 )
 
 func (m *Middleware) Authorize(h fiber.Handler) fiber.Handler {
@@ -38,7 +40,7 @@ func (m *Middleware) Authorize(h fiber.Handler) fiber.Handler {
 			return customResp.New(ctx).SetHttpCode(fiber.StatusUnauthorized).Send("invalid token")
 		}
 
-		ctx.SetUserContext(context.WithValue(ctx.UserContext(), "user", *claims))
+		ctx.SetUserContext(context.WithValue(ctx.UserContext(), constCommon.ContextKeySignatureData, *claims))
 		return h(ctx)
 	}
 }

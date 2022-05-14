@@ -3,8 +3,8 @@ package grpcMiddleware
 import (
 	"context"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/client"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	"github.com/alhamsya/boilerplate-go/lib/managers/client"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_log"
 	"google.golang.org/grpc"
 )
 

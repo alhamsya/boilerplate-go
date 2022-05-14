@@ -8,7 +8,6 @@ import (
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/models/database"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
 	"github.com/volatiletech/null"
 )
 
@@ -19,7 +18,6 @@ func TestDBService_CreateHistoryLog(t *testing.T) {
 	defer mockDB.Close()
 
 	type fields struct {
-		db *database.Store
 	}
 	type args struct {
 		ctx   context.Context

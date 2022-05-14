@@ -2,17 +2,17 @@ package restUC
 
 import (
 	"errors"
-	"github.com/alhamsya/boilerplate-go/domain/models/request"
-	"github.com/alhamsya/boilerplate-go/domain/models/response"
-	"github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
 	"net/http"
 	"reflect"
 	"testing"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
+	"github.com/alhamsya/boilerplate-go/domain/models/request"
+	"github.com/alhamsya/boilerplate-go/domain/models/response"
 	"github.com/alhamsya/boilerplate-go/domain/repository"
+	"github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrappers"
+	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 	"github.com/gofiber/fiber/v2"
 	"github.com/stretchr/testify/mock"
 	"github.com/valyala/fasthttp"
