@@ -1,9 +1,9 @@
-package repository
+package repositorys
 
 import (
 	"context"
 
-	"github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
+	"github.com/alhamsya/boilerplate-go/infrastructure/externals/omdb"
 )
 
 type CacheRepo interface {

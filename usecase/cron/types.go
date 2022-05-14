@@ -1,18 +1,18 @@
 package cronUC
 
 import (
-	"github.com/alhamsya/boilerplate-go/domain/repository"
+	"github.com/alhamsya/boilerplate-go/domain/repositorys"
 	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 )
 
 type UCInteractor struct {
 	Cfg             *config.ServiceConfig
-	DBRepo          repository.DBRepo
-	CacheRepo       repository.CacheRepo
-	CallWrapperRepo repository.CallWrapperRepo
-	UtilsRepo       repository.UtilsRepo
-	Firestore       repository.FirestoreRepo
-	HelpersRepo     repository.HelpersRepo
-	OMDBRepo        repository.OMDBRepo
-	SpotifyRepo     repository.SpotifyRepo
+	DBRepo          repositorys.DBRepo
+	CacheRepo       repositorys.CacheRepo
+	CallWrapperRepo repositorys.CallWrapperRepo
+	UtilsRepo       repositorys.UtilsRepo
+	Firestore       repositorys.FirestoreRepo
+	HelpersRepo     repositorys.HelpersRepo
+	OMDBRepo        repositorys.OMDBRepo
+	SpotifyRepo     repositorys.SpotifyRepo
 }

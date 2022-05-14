@@ -3,7 +3,7 @@
 package mocks
 
 import (
-	omdb "github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
+	omdb "github.com/alhamsya/boilerplate-go/infrastructure/externals/omdb"
 	mock "github.com/stretchr/testify/mock"
 )
 

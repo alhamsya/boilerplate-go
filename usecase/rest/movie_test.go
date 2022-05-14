@@ -9,8 +9,8 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/models/request"
 	"github.com/alhamsya/boilerplate-go/domain/models/response"
-	"github.com/alhamsya/boilerplate-go/domain/repository"
-	"github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
+	"github.com/alhamsya/boilerplate-go/domain/repositorys"
+	"github.com/alhamsya/boilerplate-go/infrastructure/externals/omdb"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrappers"
 	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 	"github.com/gofiber/fiber/v2"
@@ -29,11 +29,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 
 	type fields struct {
 		Cfg         *config.ServiceConfig
-		DBRepo      repository.DBRepo
-		CacheRepo   repository.CacheRepo
-		OMDBRepo    repository.OMDBRepo
-		WrapperRepo repository.CallWrapperRepo
-		UtilsRepo   repository.UtilsRepo
+		DBRepo      repositorys.DBRepo
+		CacheRepo   repositorys.CacheRepo
+		OMDBRepo    repositorys.OMDBRepo
+		WrapperRepo repositorys.CallWrapperRepo
+		UtilsRepo   repositorys.UtilsRepo
 	}
 	type args struct {
 		ctx       *fiber.Ctx

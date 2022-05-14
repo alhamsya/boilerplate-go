@@ -1,7 +1,7 @@
 package initialize
 
 import (
-	"github.com/alhamsya/boilerplate-go/domain/repository"
+	"github.com/alhamsya/boilerplate-go/domain/repositorys"
 	"github.com/alhamsya/boilerplate-go/infrastructure/caches"
 	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
 	"github.com/alhamsya/boilerplate-go/infrastructure/firestores"
@@ -16,11 +16,11 @@ func NewBaseModule() *ModuleRepo {
 	return &ModuleRepo{}
 }
 
-func (m *ModuleRepo) UtilsInteractor() repository.UtilsRepo {
+func (m *ModuleRepo) UtilsInteractor() repositorys.UtilsRepo {
 	return utils.New()
 }
 
-func (m *ModuleRepo) DBInteractor(cfg *config.ServiceConfig) repository.DBRepo {
+func (m *ModuleRepo) DBInteractor(cfg *config.ServiceConfig) repositorys.DBRepo {
 	return databases.New(
 		&databases.ServiceDB{
 			Cfg:    cfg,
@@ -30,7 +30,7 @@ func (m *ModuleRepo) DBInteractor(cfg *config.ServiceConfig) repository.DBRepo {
 	)
 }
 
-func (m *ModuleRepo) CacheInteractor(cfg *config.ServiceConfig) repository.CacheRepo {
+func (m *ModuleRepo) CacheInteractor(cfg *config.ServiceConfig) repositorys.CacheRepo {
 	return caches.New(
 		&caches.ServiceCache{
 			Cfg: cfg,
@@ -38,7 +38,7 @@ func (m *ModuleRepo) CacheInteractor(cfg *config.ServiceConfig) repository.Cache
 	)
 }
 
-func (m *ModuleRepo) CallWrapperInteractor(cfg *config.ServiceConfig) repository.CallWrapperRepo {
+func (m *ModuleRepo) CallWrapperInteractor(cfg *config.ServiceConfig) repositorys.CallWrapperRepo {
 	return wrappers.New(
 		&wrappers.Wrapper{
 			Cfg: cfg,
@@ -46,14 +46,14 @@ func (m *ModuleRepo) CallWrapperInteractor(cfg *config.ServiceConfig) repository
 	)
 }
 
-func (m *ModuleRepo) FirestoreInteractor(cfg *config.ServiceConfig) repository.FirestoreRepo {
+func (m *ModuleRepo) FirestoreInteractor(cfg *config.ServiceConfig) repositorys.FirestoreRepo {
 	return firestores.New(&firestores.ServiceFirestore{
 		Cfg:       cfg,
 		UtilsRepo: m.UtilsInteractor(),
 	})
 }
 
-func (m *ModuleRepo) HelpersInteractor(cfg *config.ServiceConfig) repository.HelpersRepo {
+func (m *ModuleRepo) HelpersInteractor(cfg *config.ServiceConfig) repositorys.HelpersRepo {
 	return helpersUC.New(&helpersUC.UCInteractor{
 		Cfg:             cfg,
 		DBRepo:          m.DBInteractor(cfg),

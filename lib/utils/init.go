@@ -1,9 +1,9 @@
 package utils
 
-import "github.com/alhamsya/boilerplate-go/domain/repository"
+import "github.com/alhamsya/boilerplate-go/domain/repositorys"
 
-type thing struct {}
+type thing struct{}
 
-func New() repository.UtilsRepo {
+func New() repositorys.UtilsRepo {
 	return &thing{}
 }
