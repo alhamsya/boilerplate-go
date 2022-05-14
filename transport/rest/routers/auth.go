@@ -7,8 +7,8 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/domain/models/request"
 	"github.com/alhamsya/boilerplate-go/domain/models/response"
+	"github.com/alhamsya/boilerplate-go/infrastructure/middlewares/rest"
 	"github.com/alhamsya/boilerplate-go/lib/managers/custom_resp"
-	"github.com/alhamsya/boilerplate-go/middleware/rest"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
 )
