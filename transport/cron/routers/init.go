@@ -1,7 +1,7 @@
 package cronRouters
 
 import (
-	"github.com/alhamsya/boilerplate-go/middleware/cron"
+	"github.com/alhamsya/boilerplate-go/infrastructure/middlewares/cron"
 )
 
 func New(this *CronServer) *CronServer {

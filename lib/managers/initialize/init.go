@@ -1,8 +1,8 @@
 package initialize
 
 import (
+	"github.com/alhamsya/boilerplate-go/infrastructure/middlewares/rest"
 	"github.com/alhamsya/boilerplate-go/lib/managers/config"
-	"github.com/alhamsya/boilerplate-go/middleware/rest"
 	"github.com/alhamsya/boilerplate-go/transport/consumer/routers"
 	"github.com/alhamsya/boilerplate-go/transport/cron/routers"
 	"github.com/alhamsya/boilerplate-go/transport/grpc/routers"

@@ -11,7 +11,7 @@ import (
 	"google.golang.org/grpc/keepalive"
 	"google.golang.org/grpc/reflection"
 
-	customMiddleware "github.com/alhamsya/boilerplate-go/middleware/grpc"
+	customMiddleware "github.com/alhamsya/boilerplate-go/infrastructure/middlewares/grpc"
 	grpcMiddleware "github.com/grpc-ecosystem/go-grpc-middleware"
 	grpcRecovery "github.com/grpc-ecosystem/go-grpc-middleware/recovery"
 	grpcOpenTracing "github.com/grpc-ecosystem/go-grpc-middleware/tracing/opentracing"

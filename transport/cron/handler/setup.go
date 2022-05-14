@@ -6,9 +6,9 @@ import (
 	"time"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
+	"github.com/alhamsya/boilerplate-go/infrastructure/middlewares/cron"
 	"github.com/alhamsya/boilerplate-go/lib/managers/custom_error"
 	"github.com/alhamsya/boilerplate-go/lib/managers/custom_log"
-	"github.com/alhamsya/boilerplate-go/middleware/cron"
 	"github.com/alhamsya/boilerplate-go/transport/cron/routers"
 	"github.com/robfig/cron/v3"
 )

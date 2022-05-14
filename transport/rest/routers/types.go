@@ -2,8 +2,8 @@ package restRouters
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repositorys"
+	"github.com/alhamsya/boilerplate-go/infrastructure/middlewares/rest"
 	"github.com/alhamsya/boilerplate-go/lib/managers/config"
-	"github.com/alhamsya/boilerplate-go/middleware/rest"
 	"github.com/gofiber/fiber/v2"
 )
 

@@ -8,11 +8,10 @@ import (
 	"github.com/alhamsya/boilerplate-go/domain/models/database"
 	"github.com/alhamsya/boilerplate-go/domain/models/request"
 	"github.com/alhamsya/boilerplate-go/domain/models/response"
+	"github.com/alhamsya/boilerplate-go/infrastructure/middlewares/rest"
 	"github.com/alhamsya/boilerplate-go/lib/managers/custom_error"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
-
-	restMiddleware "github.com/alhamsya/boilerplate-go/middleware/rest"
 )
 
 func (uc *UCInteractor) DoSignup(ctx *fiber.Ctx, reqClient *modelReq.User) (resp *modelResp.User, httpCode int, err error) {
