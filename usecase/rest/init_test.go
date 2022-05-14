@@ -1,7 +1,7 @@
 package restUC
 
 import (
-	"github.com/alhamsya/boilerplate-go/domain/repository/mocks"
+	"github.com/alhamsya/boilerplate-go/domain/repositorys/mocks"
 	"reflect"
 	"testing"
 )
@@ -12,7 +12,7 @@ var mockUtilsRepo *mocks.UtilsRepo
 var mockCallWrapperRepo *mocks.CallWrapperRepo
 var mockCacheRepo *mocks.CacheRepo
 
-func initMock()  {
+func initMock() {
 	mockServiceRepo = new(mocks.DBRepo)
 	mockOMDBRepo = new(mocks.OMDBRepo)
 	mockUtilsRepo = new(mocks.UtilsRepo)

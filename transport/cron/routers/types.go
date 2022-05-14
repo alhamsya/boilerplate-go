@@ -1,7 +1,7 @@
 package cronRouters
 
 import (
-	"github.com/alhamsya/boilerplate-go/domain/repository"
+	"github.com/alhamsya/boilerplate-go/domain/repositorys"
 	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 )
 
@@ -11,5 +11,5 @@ type CronServer struct {
 }
 
 type CronInteractor struct {
-	CronInterface repository.CronUsecase
+	CronInterface repositorys.CronUsecase
 }

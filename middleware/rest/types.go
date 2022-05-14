@@ -1,15 +1,15 @@
 package restMiddleware
 
 import (
-	"github.com/alhamsya/boilerplate-go/domain/repository"
+	"github.com/alhamsya/boilerplate-go/domain/repositorys"
 	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 	"github.com/golang-jwt/jwt/v4"
 )
 
 type Middleware struct {
 	Cfg       *config.ServiceConfig
-	DBRepo    repository.DBRepo
-	UtilsRepo repository.UtilsRepo
+	DBRepo    repositorys.DBRepo
+	UtilsRepo repositorys.UtilsRepo
 }
 
 // MyClaims Create a struct that will be encoded to a JWT.

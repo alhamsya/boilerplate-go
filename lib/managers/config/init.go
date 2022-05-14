@@ -14,7 +14,7 @@ import (
 //ReadConfig read config file .ini
 func (serviceConfig *ServiceConfig) ReadConfig(module string) {
 	environ := os.Getenv("ENV")
-	pathBase := fmt.Sprintf("etc/%s", "configuration")
+	pathBase := fmt.Sprintf("etc/%s", "configurations")
 	dir, err := os.Getwd()
 	if err != nil {
 		log.Fatalf("[INIT] [CONFIG] fail get working directory: %v", err)
@@ -22,7 +22,7 @@ func (serviceConfig *ServiceConfig) ReadConfig(module string) {
 
 	if environ == "" {
 		environ = "development"
-		pathBase = fmt.Sprintf("files/etc/%s", "configuration")
+		pathBase = fmt.Sprintf("files/etc/%s", "configurations")
 	}
 
 	filePath := fmt.Sprintf("%s/%s/%s.%s.ini", dir, pathBase, module, environ)

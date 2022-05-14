@@ -1,14 +1,14 @@
 package helpersUC
 
 import (
-	"github.com/alhamsya/boilerplate-go/domain/repository"
+	"github.com/alhamsya/boilerplate-go/domain/repositorys"
 	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 )
 
 type UCInteractor struct {
 	Cfg             *config.ServiceConfig
-	DBRepo          repository.DBRepo
-	CacheRepo       repository.CacheRepo
-	CallWrapperRepo repository.CallWrapperRepo
-	UtilsRepo       repository.UtilsRepo
+	DBRepo          repositorys.DBRepo
+	CacheRepo       repositorys.CacheRepo
+	CallWrapperRepo repositorys.CallWrapperRepo
+	UtilsRepo       repositorys.UtilsRepo
 }

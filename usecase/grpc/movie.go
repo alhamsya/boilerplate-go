@@ -8,7 +8,7 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
 	"github.com/alhamsya/boilerplate-go/domain/models/database"
-	"github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
+	"github.com/alhamsya/boilerplate-go/infrastructure/externals/omdb"
 	"github.com/alhamsya/boilerplate-go/lib/managers/client"
 	"github.com/alhamsya/boilerplate-go/lib/managers/custom_error"
 	"github.com/volatiletech/null"

@@ -1,8 +1,8 @@
-package repository
+package repositorys
 
 import (
-	"github.com/alhamsya/boilerplate-go/infrastructure/external/omdb"
-	"github.com/alhamsya/boilerplate-go/infrastructure/external/spotify"
+	"github.com/alhamsya/boilerplate-go/infrastructure/externals/omdb"
+	"github.com/alhamsya/boilerplate-go/infrastructure/externals/spotify"
 )
 
 type OMDBRepo interface {
