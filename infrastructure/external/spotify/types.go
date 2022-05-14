@@ -1,6 +1,6 @@
 package spotify
 
-import "github.com/alhamsya/boilerplate-go/lib/helpers/config"
+import "github.com/alhamsya/boilerplate-go/lib/managers/config"
 
 type Spotify struct {
 	Cfg *config.ServiceConfig

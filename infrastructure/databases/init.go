@@ -3,7 +3,7 @@ package databases
 import (
 	"log"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/database"
+	"github.com/alhamsya/boilerplate-go/lib/managers/database"
 	"github.com/rubenv/sql-migrate"
 )
 

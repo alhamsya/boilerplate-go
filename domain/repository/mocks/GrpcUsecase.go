@@ -5,7 +5,7 @@ package mocks
 import (
 	context "context"
 
-	customError "github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
+	customError "github.com/alhamsya/boilerplate-go/lib/managers/custom_error"
 	mock "github.com/stretchr/testify/mock"
 
 	service "github.com/alhamsya/boilerplate-go/protos"

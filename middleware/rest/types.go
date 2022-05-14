@@ -2,7 +2,7 @@ package restMiddleware
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
+	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 	"github.com/golang-jwt/jwt/v4"
 )
 

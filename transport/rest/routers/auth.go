@@ -7,7 +7,7 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/domain/models/request"
 	"github.com/alhamsya/boilerplate-go/domain/models/response"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_resp"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_resp"
 	"github.com/alhamsya/boilerplate-go/middleware/rest"
 	"github.com/gofiber/fiber/v2"
 	"github.com/golang-jwt/jwt/v4"
@@ -36,7 +36,7 @@ func (rest *RestServer) CreateRefreshToken(ctx *fiber.Ctx) error {
 	// We ensure that a new token is not issued until enough time has elapsed
 	// In this case, a new token will only be issued if the old token is within
 	// 1 minutes of expiry. Otherwise, return a bad request status
-	if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) > time.Duration(rest.Cfg.JWT.ElapsedDurationInMinutes)*time.Minute {
+	if time.Until(time.Now()) > time.Duration(rest.Cfg.JWT.ElapsedDurationInMinutes)*time.Minute {
 		return customResp.New(ctx).SetHttpCode(fiber.StatusBadRequest).Send("invalid time expiry")
 	}
 

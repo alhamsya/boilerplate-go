@@ -2,7 +2,7 @@ package consumerUC
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repository"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
+	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 )
 
 type UCInteractor struct {

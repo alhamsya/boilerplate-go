@@ -4,7 +4,7 @@ import (
 	"github.com/friendsofgo/errors"
 	"strings"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_log"
 	"github.com/gofiber/fiber/v2"
 )
 

@@ -4,8 +4,8 @@ import (
 	"context"
 
 	"github.com/alhamsya/boilerplate-go/domain/constants"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/grace"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_error"
+	"github.com/alhamsya/boilerplate-go/lib/managers/grace"
 )
 
 func New(this *Handler) *Handler {

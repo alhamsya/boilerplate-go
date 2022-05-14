@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_resp"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_resp"
 	"github.com/gofiber/fiber/v2"
 )
 

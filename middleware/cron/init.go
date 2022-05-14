@@ -4,12 +4,14 @@ import (
 	"context"
 	"time"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_log"
 	"github.com/robfig/cron/v3"
+
+	constCommon "github.com/alhamsya/boilerplate-go/domain/constants"
 )
 
 func Interceptor(ctx context.Context, name string, fn FuncOrigin) cron.Job {
-	ctx = context.WithValue(ctx, "cron_name", name)
+	ctx = context.WithValue(ctx, constCommon.ContextKeyCronName, name)
 	return cron.FuncJob(func() {
 		now := time.Now()
 		resp, errFn := fn(ctx)

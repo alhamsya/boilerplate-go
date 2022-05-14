@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_error"
 )
 
 const (

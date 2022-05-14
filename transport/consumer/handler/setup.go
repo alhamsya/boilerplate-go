@@ -3,7 +3,7 @@ package consumerHandler
 import (
 	"context"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_log"
 	"github.com/alhamsya/boilerplate-go/middleware/consumer"
 	"github.com/alhamsya/boilerplate-go/transport/consumer/routers"
 )

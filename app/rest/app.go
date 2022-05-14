@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/initialize"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_log"
+	"github.com/alhamsya/boilerplate-go/lib/managers/initialize"
 	"github.com/alhamsya/boilerplate-go/transport/rest/handler"
 )
 

@@ -1,7 +1,7 @@
 package caches
 
 import (
-	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
+	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 	"github.com/go-redis/redis/v8"
 )
 

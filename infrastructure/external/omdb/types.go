@@ -1,7 +1,7 @@
 package omdb
 
 import (
-	"github.com/alhamsya/boilerplate-go/lib/helpers/config"
+	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 )
 
 type OMDB struct {

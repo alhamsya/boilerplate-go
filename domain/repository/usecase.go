@@ -5,7 +5,7 @@ import (
 
 	"github.com/alhamsya/boilerplate-go/domain/models/request"
 	"github.com/alhamsya/boilerplate-go/domain/models/response"
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_error"
 	"github.com/gofiber/fiber/v2"
 
 	pb "github.com/alhamsya/boilerplate-go/protos"

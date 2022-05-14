@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_log"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_log"
 	"github.com/robfig/cron/v3"
 )
 

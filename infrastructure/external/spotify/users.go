@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/alhamsya/boilerplate-go/lib/helpers/custom_error"
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_error"
 )
 
 func (s *Spotify) GetUser() (responseObject *Profile, err error) {
