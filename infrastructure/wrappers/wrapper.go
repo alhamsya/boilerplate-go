@@ -2,7 +2,8 @@ package wrappers
 
 import (
 	"fmt"
-	"log"
+
+	"github.com/alhamsya/boilerplate-go/lib/managers/custom_log"
 )
 
 func (w *Wrapper) GetWrapper(usecase string) *Wrapper {
@@ -17,7 +18,7 @@ func (w *Wrapper) GetWrapper(usecase string) *Wrapper {
 
 func (w *Wrapper) Call(req func() (interface{}, error)) (interface{}, error) {
 	if w.Err != nil {
-		log.Println(w.Err)
+		customLog.Error(w.Err.Error())
 		return req()
 	}
 	return w.Wrapper.Execute(req)
