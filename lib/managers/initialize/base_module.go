@@ -2,9 +2,9 @@ package initialize
 
 import (
 	"github.com/alhamsya/boilerplate-go/domain/repositorys"
-	"github.com/alhamsya/boilerplate-go/infrastructure/caches"
-	"github.com/alhamsya/boilerplate-go/infrastructure/databases"
-	"github.com/alhamsya/boilerplate-go/infrastructure/firestores"
+	"github.com/alhamsya/boilerplate-go/infrastructure/internals/caches"
+	"github.com/alhamsya/boilerplate-go/infrastructure/internals/databases"
+	"github.com/alhamsya/boilerplate-go/infrastructure/internals/firestores"
 	"github.com/alhamsya/boilerplate-go/infrastructure/wrappers"
 	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 	"github.com/alhamsya/boilerplate-go/lib/managers/database"
