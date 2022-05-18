@@ -5,5 +5,6 @@ import (
 )
 
 func (uc *UCInteractor) DoCreateDummyData(ctx context.Context) error {
+	uc.HelpersRepo.Tes(ctx)
 	return nil
 }
