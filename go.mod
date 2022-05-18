@@ -2,6 +2,8 @@ module github.com/alhamsya/boilerplate-go
 
 go 1.14
 
+replace github.com/alhamsya/boilerplate-go/lib/externals/users => ./lib/externals/users
+
 require (
 	cloud.google.com/go/firestore v1.6.1
 	cloud.google.com/go/iam v0.2.0 // indirect
