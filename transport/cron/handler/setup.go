@@ -30,22 +30,24 @@ func (h *Handler) Register(ctx context.Context) (*cron.Cron, error) {
 
 	//start list scheduler
 	for name, val := range h.Cfg.Scheduler {
-		if val.IsActive {
-			for _, fn := range schedulerList[name] {
-				errSch := h.addScheduler(ctx, &scheduler{
-					cron:                cronJob,
-					name:                name,
-					isDelayStillRunning: val.IsDelayStillRunning,
-					standardSpec:        val.Schedule,
-					function:            fn,
-				})
-				if errSch != nil {
-					customLog.ErrorF("[CRON] scheduler name %s: %v", name, errSch)
-				}
-			}
-		} else {
+		if !val.IsActive {
 			customLog.InfoF("[CRON] %s: is inactive", name)
+			continue
 		}
+
+		for _, fn := range schedulerList[name] {
+			errSch := h.addScheduler(ctx, &scheduler{
+				cron:                cronJob,
+				name:                name,
+				isDelayStillRunning: val.IsDelayStillRunning,
+				standardSpec:        val.Schedule,
+				function:            fn,
+			})
+			if errSch != nil {
+				customLog.ErrorF("[CRON] scheduler name %s: %v", name, errSch)
+			}
+		}
+
 	}
 
 	return cronJob, nil
