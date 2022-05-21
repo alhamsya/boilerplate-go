@@ -1,7 +1,7 @@
 package restUC
 
 import (
-	"github.com/alhamsya/boilerplate-go/domain/repositorys/mocks"
+	"github.com/alhamsya/boilerplate-go/domain/repositories/mocks"
 	"reflect"
 	"testing"
 )

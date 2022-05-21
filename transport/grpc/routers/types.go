@@ -1,7 +1,7 @@
 package grpcRouters
 
 import (
-	"github.com/alhamsya/boilerplate-go/domain/repositorys"
+	"github.com/alhamsya/boilerplate-go/domain/repositories"
 	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 	"google.golang.org/grpc"
 )
@@ -13,5 +13,5 @@ type GrpcServer struct {
 }
 
 type GrpcInteractor struct {
-	GrpcInterface repositorys.GrpcUsecase
+	GrpcInterface repositories.GrpcUsecase
 }
