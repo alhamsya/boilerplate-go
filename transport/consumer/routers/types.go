@@ -1,7 +1,7 @@
 package consumerRouters
 
 import (
-	"github.com/alhamsya/boilerplate-go/domain/repositorys"
+	"github.com/alhamsya/boilerplate-go/domain/repositories"
 	"github.com/alhamsya/boilerplate-go/lib/managers/config"
 )
 
@@ -11,5 +11,5 @@ type ConsumerServer struct {
 }
 
 type ConsumerInteractor struct {
-	ConsumerInterface repositorys.ConsumerUsecase
+	ConsumerInterface repositories.ConsumerUsecase
 }

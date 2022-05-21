@@ -1,6 +1,6 @@
 package restRouters
 
-import "github.com/alhamsya/boilerplate-go/domain/repositorys/mocks"
+import "github.com/alhamsya/boilerplate-go/domain/repositories/mocks"
 
 var mockRestInterface *mocks.RestUsecase
 

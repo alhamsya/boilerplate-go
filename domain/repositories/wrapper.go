@@ -1,4 +1,4 @@
-package repositorys
+package repositories
 
 import "github.com/alhamsya/boilerplate-go/infrastructure/wrappers"
 

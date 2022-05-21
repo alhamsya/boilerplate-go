@@ -1,4 +1,4 @@
-package repositorys
+package repositories
 
 type UtilsRepo interface {
 	CurrentTimeF(format string) (string, error)
