@@ -60,7 +60,7 @@ build-proto:
 mocks:
 	@printf "\033[0;30m\033[42m === GENERATE MOCKS === \033[0m\n"
 	@rm -rf ./domain/repositories/mocks/
-	@mockery --disable-version-string --all --dir ./domain/repositories/ --output ./domain/repositories/mocks/
+	@mockery --disable-version-string --all --dir ./domain/repositories/ --output ./domain/repositories/mocks/ --with-expecter
 
 test:
 	@bash ./script/test.sh

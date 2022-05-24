@@ -61,13 +61,13 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
+				mockCallWrapperRepo.EXPECT().GetWrapper("omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(nil, someError).Once()
+				mockCacheRepo.EXPECT().GetListMovie(mock.Anything, "tes", int64(1)).Return(nil, someError).Once()
 
-				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(nil, someError).Once()
+				mockOMDBRepo.EXPECT().GetListMovie("tes", int64(1)).Return(nil, someError).Once()
 			},
 		},
 		{
@@ -83,11 +83,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
+				mockCallWrapperRepo.EXPECT().GetWrapper("omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(nil, nil).Once()
+				mockCacheRepo.EXPECT().GetListMovie(mock.Anything, "tes", int64(1)).Return(nil, nil).Once()
 			},
 		},
 		{
@@ -103,11 +103,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusConflict,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
+				mockCallWrapperRepo.EXPECT().GetWrapper("omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
+				mockCacheRepo.EXPECT().GetListMovie(mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
 							Title:  "One Day",
@@ -134,13 +134,13 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusBadRequest,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
+				mockCallWrapperRepo.EXPECT().GetWrapper("omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(nil, someError).Once()
+				mockCacheRepo.EXPECT().GetListMovie(mock.Anything, "tes", int64(1)).Return(nil, someError).Once()
 
-				mockOMDBRepo.On("GetListMovie", "tes", int64(1)).Return(&omdb.OMDBList{
+				mockOMDBRepo.EXPECT().GetListMovie("tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
 							Title:  "One Day",
@@ -169,11 +169,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
+				mockCallWrapperRepo.EXPECT().GetWrapper("omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
+				mockCacheRepo.EXPECT().GetListMovie(mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
 							Title:  "One Day",
@@ -201,11 +201,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
+				mockCallWrapperRepo.EXPECT().GetWrapper("omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
+				mockCacheRepo.EXPECT().GetListMovie(mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
 							Title:  "One Day",
@@ -219,7 +219,7 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 					Response:     "True",
 				}, nil).Once()
 
-				mockUtilsRepo.On("CurrentTimeF", constCommon.DateTime).Return("", someError).Once()
+				mockUtilsRepo.EXPECT().CurrentTimeF(constCommon.DateTime).Return("", someError).Once()
 			},
 		},
 		{
@@ -235,11 +235,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusInternalServerError,
 			wantErr:      true,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
+				mockCallWrapperRepo.EXPECT().GetWrapper("omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
+				mockCacheRepo.EXPECT().GetListMovie(mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
 							Title:  "One Day",
@@ -253,9 +253,9 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 					Response:     "True",
 				}, nil).Once()
 
-				mockUtilsRepo.On("CurrentTimeF", constCommon.DateTime).Return(constCommon.DateTime, nil).Once()
+				mockUtilsRepo.EXPECT().CurrentTimeF(constCommon.DateTime).Return(constCommon.DateTime, nil).Once()
 
-				mockServiceRepo.On("CreateHistoryLog", ctx.Context(), mock.Anything).Return(int64(1), someError).Once()
+				mockServiceRepo.EXPECT().CreateHistoryLog(ctx.Context(), mock.Anything).Return(int64(1), someError).Once()
 			},
 		},
 		{
@@ -282,11 +282,11 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 			wantHttpCode: http.StatusOK,
 			wantErr:      false,
 			patch: func() {
-				mockCallWrapperRepo.On("GetWrapper", "omdb").Return(&wrappers.Wrapper{
+				mockCallWrapperRepo.EXPECT().GetWrapper("omdb").Return(&wrappers.Wrapper{
 					Err: errors.New("ignore"),
 				}).Once()
 
-				mockCacheRepo.On("GetListMovie", mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
+				mockCacheRepo.EXPECT().GetListMovie(mock.Anything, "tes", int64(1)).Return(&omdb.OMDBList{
 					Search: []omdb.Search{
 						{
 							Title:  "One Day",
@@ -300,9 +300,9 @@ func TestUcInteractor_DoGetListMovie(t *testing.T) {
 					Response:     "True",
 				}, nil).Once()
 
-				mockUtilsRepo.On("CurrentTimeF", constCommon.DateTime).Return(constCommon.DateTime, nil).Once()
+				mockUtilsRepo.EXPECT().CurrentTimeF(constCommon.DateTime).Return(constCommon.DateTime, nil).Once()
 
-				mockServiceRepo.On("CreateHistoryLog", ctx.Context(), mock.Anything).Return(int64(1), nil).Once()
+				mockServiceRepo.EXPECT().CreateHistoryLog(ctx.Context(), mock.Anything).Return(int64(1), nil).Once()
 			},
 		},
 	}
