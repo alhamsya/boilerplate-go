@@ -22,3 +22,6 @@
 
 /files/etc/credentials/*.development.json
 
+/.scannerwork/
+
+*.out
