@@ -5,8 +5,6 @@ package mocks
 import (
 	mock "github.com/stretchr/testify/mock"
 
-	testing "testing"
-
 	wrappers "github.com/alhamsya/boilerplate-go/infrastructure/wrappers"
 )
 
@@ -52,7 +50,7 @@ type CallWrapperRepo_Call_Call struct {
 }
 
 // Call is a helper method to define mock.On call
-//  - req func()(interface{} , error)
+//   - req func()(interface{} , error)
 func (_e *CallWrapperRepo_Expecter) Call(req interface{}) *CallWrapperRepo_Call_Call {
 	return &CallWrapperRepo_Call_Call{Call: _e.mock.On("Call", req)}
 }
@@ -91,7 +89,7 @@ type CallWrapperRepo_GetWrapper_Call struct {
 }
 
 // GetWrapper is a helper method to define mock.On call
-//  - usecase string
+//   - usecase string
 func (_e *CallWrapperRepo_Expecter) GetWrapper(usecase interface{}) *CallWrapperRepo_GetWrapper_Call {
 	return &CallWrapperRepo_GetWrapper_Call{Call: _e.mock.On("GetWrapper", usecase)}
 }
@@ -108,8 +106,13 @@ func (_c *CallWrapperRepo_GetWrapper_Call) Return(_a0 *wrappers.Wrapper) *CallWr
 	return _c
 }
 
-// NewCallWrapperRepo creates a new instance of CallWrapperRepo. It also registers the testing.TB interface on the mock and a cleanup function to assert the mocks expectations.
-func NewCallWrapperRepo(t testing.TB) *CallWrapperRepo {
+type mockConstructorTestingTNewCallWrapperRepo interface {
+	mock.TestingT
+	Cleanup(func())
+}
+
+// NewCallWrapperRepo creates a new instance of CallWrapperRepo. It also registers a testing interface on the mock and a cleanup function to assert the mocks expectations.
+func NewCallWrapperRepo(t mockConstructorTestingTNewCallWrapperRepo) *CallWrapperRepo {
 	mock := &CallWrapperRepo{}
 	mock.Mock.Test(t)
 
