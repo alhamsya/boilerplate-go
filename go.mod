@@ -41,12 +41,12 @@ require (
 	github.com/klauspost/compress v1.15.3 // indirect
 	github.com/kr/pretty v0.3.0 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.2-0.20181231171920-c182affec369 // indirect
-	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/onsi/ginkgo v1.16.5 // indirect
 	github.com/onsi/ginkgo/v2 v2.1.1 // indirect
 	github.com/onsi/gomega v1.18.1 // indirect
 	github.com/opentracing/opentracing-go v1.2.0 // indirect
 	github.com/prometheus/client_golang v1.12.1 // indirect
+	github.com/rogpeppe/go-internal v1.8.0 // indirect
 	github.com/stretchr/objx v0.2.0 // indirect
 	github.com/volatiletech/inflect v0.0.1 // indirect
 	github.com/volatiletech/sqlboiler v3.7.1+incompatible // indirect
